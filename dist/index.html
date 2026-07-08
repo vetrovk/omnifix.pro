@@ -382,6 +382,7 @@
       }
 
       .feed-inner {
+        position: relative;
         border-top: 1px solid rgba(255, 255, 255, 0.07);
         padding-top: 1.25rem;
       }
@@ -413,6 +414,7 @@
         border-radius: 999px;
         background: var(--green);
         box-shadow: 0 0 10px rgba(119, 212, 141, 0.35);
+        animation: feed-dot-pulse 5.5s ease-in-out infinite;
       }
 
       .feed-kicker {
@@ -432,6 +434,23 @@
         min-width: 0;
         border-top: 1px solid rgba(255, 255, 255, 0.045);
         padding: 0.875rem 0;
+        animation: feed-row-settle 720ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+      }
+
+      .feed-row:nth-of-type(2) {
+        animation-delay: 80ms;
+      }
+
+      .feed-row:nth-of-type(3) {
+        animation-delay: 140ms;
+      }
+
+      .feed-row:nth-of-type(4) {
+        animation-delay: 200ms;
+      }
+
+      .feed-row:nth-of-type(5) {
+        animation-delay: 260ms;
       }
 
       .feed-row:first-child {
@@ -475,9 +494,36 @@
         color: rgba(125, 224, 164, 0.85);
       }
 
+      .feed-status.pushed {
+        color: rgba(125, 211, 252, 0.72);
+      }
+
       .feed-status.live::before {
         content: "• ";
         color: var(--green);
+      }
+
+      @keyframes feed-dot-pulse {
+        0%,
+        100% {
+          opacity: 0.62;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 1;
+          transform: scale(1.35);
+        }
+      }
+
+      @keyframes feed-row-settle {
+        from {
+          opacity: 0;
+          transform: translateY(0.375rem);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
       }
 
       @media (max-width: 1023px) {
@@ -491,7 +537,9 @@
         .orbit-rings,
         .orbit-links,
         .orbit-signal,
-        .orbit-node {
+        .orbit-node,
+        .feed-row,
+        .feed-dot {
           animation: none;
         }
       }
@@ -721,26 +769,33 @@
           </div>
 
           <div class="feed-list">
-            <article class="feed-row">
+            <!-- live-feed:start -->
+            <article class="feed-row" data-feed-type="project">
+              <a class="feed-source" href="https://github.com/vetrovk/omnifix.pro">vetrovk/omnifix.pro</a>
+              <span class="feed-copy">Static site build updated</span>
+              <a class="feed-status pushed" href="https://github.com/vetrovk/omnifix.pro/commit/b67a6211985bb40a57a9d72eb1af71cc716e4f0f">pushed</a>
+            </article>
+            <article class="feed-row" data-feed-type="open-source">
+              <a class="feed-source" href="https://github.com/kytta/share2fedi">kytta/share2fedi</a>
+              <span class="feed-copy">Show validation issue messages for invalid domains</span>
+              <a class="feed-status" href="https://github.com/kytta/share2fedi/pull/289">PR opened</a>
+            </article>
+            <article class="feed-row" data-feed-type="open-source">
               <a class="feed-source" href="https://github.com/sqlfluff/sqlfluff">sqlfluff/sqlfluff</a>
-              <span class="feed-copy">Oracle SQLPlus parsing fix</span>
-              <a class="feed-status merged" href="https://github.com/sqlfluff/sqlfluff/pulls">PR merged</a>
+              <span class="feed-copy">Oracle SQLPlus SET SCAN parsing</span>
+              <a class="feed-status merged" href="https://github.com/sqlfluff/sqlfluff/pull/8081">PR merged</a>
             </article>
-            <article class="feed-row">
-              <a class="feed-source" href="https://github.com/vetrovk">open-source</a>
-              <span class="feed-copy">review thread updated</span>
-              <span class="feed-status">2h ago</span>
+            <article class="feed-row" data-feed-type="open-source">
+              <a class="feed-source" href="https://github.com/sqlfluff/sqlfluff">sqlfluff/sqlfluff</a>
+              <span class="feed-copy">Parse Oracle SQL*Plus ACCEPT and REMARK commands</span>
+              <a class="feed-status merged" href="https://github.com/sqlfluff/sqlfluff/pull/8067">PR merged</a>
             </article>
-            <article class="feed-row">
-              <a class="feed-source" href="https://github.com/vetrovk">omnifix.pro</a>
-              <span class="feed-copy">hero system design updated</span>
-              <span class="feed-status">today</span>
+            <article class="feed-row" data-feed-type="open-source">
+              <a class="feed-source" href="https://github.com/gchq/CyberChef">gchq/CyberChef</a>
+              <span class="feed-copy">Restrict A1Z26 Magic checks to valid ranges</span>
+              <a class="feed-status" href="https://github.com/gchq/CyberChef/pull/2644">PR opened</a>
             </article>
-            <article class="feed-row">
-              <a class="feed-source" href="https://github.com/vetrovk/oracle-bot">oracle-bot</a>
-              <span class="feed-copy">production service online</span>
-              <span class="feed-status live">live</span>
-            </article>
+            <!-- live-feed:end -->
           </div>
         </div>
       </footer>

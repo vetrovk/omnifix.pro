@@ -4,7 +4,8 @@
   "version": "0.0.1",
   "type": "module",
   "scripts": {
-    "build": "vite build",
+    "generate:feed": "node scripts/generate-live-feed.mjs",
+    "build": "npm run generate:feed && vite build",
     "dev": "vite"
   },
   "dependencies": {

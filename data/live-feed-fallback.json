@@ -1,0 +1,38 @@
+[
+  {
+    "source": "vetrovk/omnifix.pro",
+    "description": "Refined static hero composition",
+    "status": "pushed",
+    "url": "https://github.com/vetrovk/omnifix.pro",
+    "statusUrl": "https://github.com/vetrovk/omnifix.pro/commit/b67a6211985bb40a57a9d72eb1af71cc716e4f0f",
+    "time": "today",
+    "type": "project"
+  },
+  {
+    "source": "sqlfluff/sqlfluff",
+    "description": "Fix Oracle SQLPlus SET SCAN parsing",
+    "status": "PR merged",
+    "url": "https://github.com/sqlfluff/sqlfluff",
+    "statusUrl": "https://github.com/sqlfluff/sqlfluff/pull/8081",
+    "time": "yesterday",
+    "type": "open-source"
+  },
+  {
+    "source": "kytta/share2fedi",
+    "description": "Validation error message fix",
+    "status": "PR opened",
+    "url": "https://github.com/kytta/share2fedi",
+    "statusUrl": "https://github.com/kytta/share2fedi/pull/289",
+    "time": "today",
+    "type": "open-source"
+  },
+  {
+    "source": "FOSSBilling/FOSSBilling",
+    "description": "Service hosting order actions default fix",
+    "status": "PR merged",
+    "url": "https://github.com/FOSSBilling/FOSSBilling",
+    "statusUrl": "https://github.com/FOSSBilling/FOSSBilling/pull/3880",
+    "time": "Jul 4",
+    "type": "open-source"
+  }
+]

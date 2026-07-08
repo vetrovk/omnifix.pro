@@ -1,0 +1,47 @@
+[
+  {
+    "source": "vetrovk/omnifix.pro",
+    "description": "Static site build updated",
+    "status": "pushed",
+    "url": "https://github.com/vetrovk/omnifix.pro",
+    "statusUrl": "https://github.com/vetrovk/omnifix.pro/commit/b67a6211985bb40a57a9d72eb1af71cc716e4f0f",
+    "time": "now",
+    "type": "project"
+  },
+  {
+    "source": "kytta/share2fedi",
+    "description": "Show validation issue messages for invalid domains",
+    "status": "PR opened",
+    "url": "https://github.com/kytta/share2fedi",
+    "statusUrl": "https://github.com/kytta/share2fedi/pull/289",
+    "time": "5h ago",
+    "type": "open-source"
+  },
+  {
+    "source": "sqlfluff/sqlfluff",
+    "description": "Oracle SQLPlus SET SCAN parsing",
+    "status": "PR merged",
+    "url": "https://github.com/sqlfluff/sqlfluff",
+    "statusUrl": "https://github.com/sqlfluff/sqlfluff/pull/8081",
+    "time": "yesterday",
+    "type": "open-source"
+  },
+  {
+    "source": "sqlfluff/sqlfluff",
+    "description": "Parse Oracle SQL*Plus ACCEPT and REMARK commands",
+    "status": "PR merged",
+    "url": "https://github.com/sqlfluff/sqlfluff",
+    "statusUrl": "https://github.com/sqlfluff/sqlfluff/pull/8067",
+    "time": "2d ago",
+    "type": "open-source"
+  },
+  {
+    "source": "gchq/CyberChef",
+    "description": "Restrict A1Z26 Magic checks to valid ranges",
+    "status": "PR opened",
+    "url": "https://github.com/gchq/CyberChef",
+    "statusUrl": "https://github.com/gchq/CyberChef/pull/2644",
+    "time": "2d ago",
+    "type": "open-source"
+  }
+]
