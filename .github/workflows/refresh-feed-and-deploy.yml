@@ -1,4 +1,4 @@
-name: Refresh feed and deploy
+name: Refresh feed
 
 on:
   schedule:
@@ -9,11 +9,11 @@ permissions:
   contents: write
 
 concurrency:
-  group: refresh-feed-and-deploy
+  group: refresh-feed
   cancel-in-progress: false
 
 jobs:
-  build-and-deploy:
+  refresh-feed:
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
@@ -77,21 +77,3 @@ jobs:
             git commit -m "chore: refresh live engineering feed"
             git push origin HEAD:main
           fi
-
-      - name: Configure SSH
-        run: |
-          set -euo pipefail
-
-          install -m 700 -d ~/.ssh
-          printf '%s\n' "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/deploy_key
-          chmod 600 ~/.ssh/deploy_key
-          printf '%s\n' "${{ secrets.SSH_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
-          chmod 644 ~/.ssh/known_hosts
-
-      - name: Deploy dist via rsync
-        run: |
-          set -euo pipefail
-
-          rsync -az --delete \
-            -e "ssh -i ~/.ssh/deploy_key -p ${{ secrets.SSH_PORT }} -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes" \
-            dist/ "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.SSH_TARGET_DIR }}/"

@@ -1,42 +1,73 @@
-# Deploy omnifix.pro to VPS/nginx
+# Deploy omnifix.pro
 
-This guide describes static deployment for `omnifix.pro`.
+This guide describes the current static deployment model for `omnifix.pro`.
 
-Hosting assumptions:
+## Primary Hosting: Cloudflare Pages
 
-- Static no-JS site.
-- Build output: `dist`.
-- nginx, or another static web server, serves the files directly.
-- Deployment can be manual via `rsync` or automated with GitHub Actions.
-- Any DNS, CDN, or proxy layer is managed outside this repository.
+The primary hosting target is Cloudflare Pages.
 
-Do not deploy from this repository unless you intentionally want to update production.
-
-## GitHub Actions Deploy
-
-The workflow in `.github/workflows/refresh-feed-and-deploy.yml` refreshes the build-time GitHub feed, verifies the no-JS output, commits feed/dist changes only when they exist, and deploys only the contents of `dist/`.
-
-It runs:
-
-- every 6 hours;
-- manually via `workflow_dispatch`.
-
-Required GitHub Actions secrets:
+Project settings:
 
 ```text
-SSH_PRIVATE_KEY
-SSH_HOST
-SSH_USER
-SSH_PORT
-SSH_TARGET_DIR
-SSH_KNOWN_HOSTS
+GitHub repository: vetrovk/omnifix.pro
+Production branch: main
+Build command: npm run build
+Build output directory: dist
+Node.js version: 24
 ```
 
-`SSH_KNOWN_HOSTS` should contain the expected SSH host key line for the target server. This is preferred over running `ssh-keyscan` inside the workflow because the workflow then verifies a pinned host key instead of trusting the network at deploy time.
+The site is intentionally static and no-JS:
+
+- `npm run build` generates the Live Engineering Feed at build time.
+- The deploy output is `dist/`.
+- The browser should not load a client-side JavaScript bundle.
+- Cloudflare Pages deploys automatically after changes are pushed to `main`.
+
+## GitHub Actions Feed Refresh
+
+The workflow in `.github/workflows/refresh-feed-and-deploy.yml` refreshes the build-time GitHub feed every 6 hours and can also be run manually with `workflow_dispatch`.
+
+The workflow:
+
+- checks out the repository;
+- uses Node.js 24;
+- runs `npm ci`;
+- runs `npm run build`;
+- verifies that `dist/` contains no client-side JavaScript bundle;
+- commits `data/live-feed.json`, `index.html`, and `dist/` only when generated output changed;
+- pushes the commit to `main`.
+
+Cloudflare Pages handles deployment after that push. The workflow does not deploy over SSH and does not call any Cloudflare API.
 
 The feed generator receives the built-in GitHub Actions token through `GITHUB_TOKEN`. No token value is stored in the repository.
 
-## 1. Build Locally
+## Create The Cloudflare Pages Project
+
+In Cloudflare dashboard:
+
+1. Open **Workers & Pages**.
+2. Choose **Create application**.
+3. Choose **Pages**.
+4. Connect the GitHub repository `vetrovk/omnifix.pro`.
+5. Select production branch `main`.
+6. Set build command to `npm run build`.
+7. Set build output directory to `dist`.
+8. Set Node.js version to `24`.
+9. Save and deploy.
+
+## DNS Cutover
+
+After the Pages project is created and the first deploy is successful:
+
+1. Add the custom domain `omnifix.pro` to the Cloudflare Pages project.
+2. Add `www.omnifix.pro` too, if the `www` host should resolve.
+3. Let Cloudflare create or suggest the Pages DNS records.
+4. Remove or replace old DNS records that point the public site to the legacy VPS origin.
+5. Keep unrelated DNS records unchanged.
+
+Do not add Cloudflare API tokens to this repository for this setup.
+
+## Local Build
 
 From the project root:
 
@@ -60,9 +91,9 @@ dist/index.html
 dist/omnifix-github-avatar-round-o.png
 ```
 
-## 2. No-JS Checks
+## No-JS Checks
 
-Before uploading, verify that no JavaScript bundle is present:
+Before considering a build deployable, verify that no JavaScript bundle is present:
 
 ```bash
 find dist -type f
@@ -74,77 +105,11 @@ grep -n "assets/index" dist/index.html
 
 Expected:
 
-- `find dist -type f` lists only the static HTML and image assets.
+- `find dist -type f` lists only static HTML and image assets.
 - `find dist -type f -name "*.js"` prints nothing.
 - All `grep` checks print nothing.
 
-## 3. Upload With rsync
-
-Upload the contents of `dist` to the server web root:
-
-```bash
-rsync -avz --delete dist/ user@server:/path/to/web-root/
-```
-
-This copies the contents of `dist`, not the `dist` directory itself.
-
-## 4. Server Permissions
-
-On the server, ensure the web server can read the files:
-
-```bash
-ssh user@server
-sudo chown -R www-data:www-data /path/to/web-root
-sudo find /path/to/web-root -type d -exec chmod 755 {} \;
-sudo find /path/to/web-root -type f -exec chmod 644 {} \;
-```
-
-If deployment is done by a non-root user and ownership needs to remain with that user, keep group/read permissions compatible with nginx.
-
-## 5. nginx Config
-
-Example nginx server block:
-
-```nginx
-server {
-    listen 80;
-    listen [::]:80;
-
-    server_name omnifix.pro www.omnifix.pro;
-
-    root /path/to/web-root;
-    index index.html;
-
-    location / {
-        try_files $uri $uri/ /index.html;
-    }
-
-    location = /omnifix-github-avatar-round-o.png {
-        try_files $uri =404;
-        add_header Cache-Control "public, max-age=86400";
-    }
-}
-```
-
-Test and reload nginx:
-
-```bash
-sudo nginx -t
-sudo systemctl reload nginx
-```
-
-If a CDN or proxy is used, keep those settings managed separately from this repository.
-
-## 6. Production Checks
-
-Check the server or origin directly, if you have access to it:
-
-```bash
-curl -I http://127.0.0.1/
-curl -s http://127.0.0.1/ | grep -n "<script"
-curl -s http://127.0.0.1/ | grep -n "type=\"module\""
-curl -s http://127.0.0.1/ | grep -n "assets/index"
-```
+## Production Checks
 
 Check the public site:
 
@@ -161,12 +126,16 @@ Expected:
 - Script/module/assets-index checks print nothing.
 - The page source contains real feed rows from GitHub activity.
 
-## 7. Rollback
+## Legacy VPS Deploy Deprecated
 
-If the new static files are bad, re-upload the previous known-good `dist` snapshot:
+The previous VPS/nginx deployment path is deprecated and should not be the primary deployment route.
+
+Keep any existing SSH secrets only if they are still needed for rollback or maintenance. They are no longer required for the primary Cloudflare Pages deployment.
+
+If a temporary rollback to a static server is ever needed, upload only the contents of `dist/` to the server web root:
 
 ```bash
-rsync -avz --delete path/to/previous-dist/ user@server:/path/to/web-root/
-sudo nginx -t
-sudo systemctl reload nginx
+rsync -avz --delete dist/ user@server:/path/to/web-root/
 ```
+
+Do not deploy `node_modules`, source files, feed data files outside `dist/`, documentation, or local/private files.
