@@ -230,7 +230,7 @@
         width: 35rem;
         height: 29rem;
         transform: translateY(-50%);
-        opacity: 0.58;
+        opacity: 0.74;
         pointer-events: none;
       }
 
@@ -326,7 +326,7 @@
           transform: scale(0.992);
         }
         50% {
-          opacity: 0.7;
+          opacity: 0.82;
           transform: scale(1.01);
         }
       }
@@ -334,26 +334,26 @@
       @keyframes signal-flow {
         from {
           stroke-dashoffset: 220;
-          opacity: 0.08;
+          opacity: 0.14;
         }
         45% {
-          opacity: 0.42;
+          opacity: 0.58;
         }
         to {
           stroke-dashoffset: -220;
-          opacity: 0.08;
+          opacity: 0.14;
         }
       }
 
       @keyframes node-pulse {
         0%,
         100% {
-          opacity: 0.38;
+          opacity: 0.5;
           transform: scale(1);
         }
         50% {
-          opacity: 0.78;
-          transform: scale(1.18);
+          opacity: 0.9;
+          transform: scale(1.2);
         }
       }
 
@@ -574,12 +574,12 @@
         <svg class="orbit" viewBox="0 0 620 520" aria-hidden="true">
           <defs>
             <radialGradient id="orbitGlow" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stop-color="rgba(56, 189, 248, 0.18)" />
-              <stop offset="48%" stop-color="rgba(56, 189, 248, 0.055)" />
+              <stop offset="0%" stop-color="rgba(56, 189, 248, 0.24)" />
+              <stop offset="48%" stop-color="rgba(56, 189, 248, 0.075)" />
               <stop offset="100%" stop-color="rgba(56, 189, 248, 0)" />
             </radialGradient>
             <filter id="softGlow" x="-50%" y="-50%" width="200%" height="200%">
-              <feGaussianBlur stdDeviation="6" result="blur" />
+              <feGaussianBlur stdDeviation="7" result="blur" />
               <feMerge>
                 <feMergeNode in="blur" />
                 <feMergeNode in="SourceGraphic" />
@@ -587,53 +587,53 @@
             </filter>
             <linearGradient id="signalBlue" x1="80" y1="120" x2="520" y2="380" gradientUnits="userSpaceOnUse">
               <stop offset="0%" stop-color="rgba(56, 189, 248, 0)" />
-              <stop offset="45%" stop-color="rgba(125, 211, 252, 0.46)" />
+              <stop offset="45%" stop-color="rgba(125, 211, 252, 0.62)" />
               <stop offset="100%" stop-color="rgba(45, 212, 191, 0)" />
             </linearGradient>
             <linearGradient id="signalTeal" x1="140" y1="360" x2="560" y2="140" gradientUnits="userSpaceOnUse">
               <stop offset="0%" stop-color="rgba(45, 212, 191, 0)" />
-              <stop offset="50%" stop-color="rgba(45, 212, 191, 0.34)" />
+              <stop offset="50%" stop-color="rgba(45, 212, 191, 0.48)" />
               <stop offset="100%" stop-color="rgba(96, 165, 250, 0)" />
             </linearGradient>
           </defs>
-          <ellipse class="orbit-glow" cx="310" cy="260" rx="260" ry="190" fill="url(#orbitGlow)" opacity="0.5" />
-          <g class="orbit-field" opacity="0.34">
-            <path d="M116 238 C174 124 344 72 505 170 C558 202 574 256 530 313 C456 410 267 421 142 312 C107 281 96 264 116 238Z" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="0.8" />
-            <path d="M156 315 C221 206 332 156 477 202 C526 218 545 259 513 302 C455 380 282 385 174 330" fill="none" stroke="rgba(56,189,248,0.075)" stroke-width="0.8" />
-            <path d="M205 170 C280 118 408 122 488 214" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="0.7" />
+          <ellipse class="orbit-glow" cx="310" cy="260" rx="260" ry="190" fill="url(#orbitGlow)" opacity="0.6" />
+          <g class="orbit-field" opacity="0.42">
+            <path d="M116 238 C174 124 344 72 505 170 C558 202 574 256 530 313 C456 410 267 421 142 312 C107 281 96 264 116 238Z" fill="none" stroke="rgba(255,255,255,0.09)" stroke-width="0.8" />
+            <path d="M156 315 C221 206 332 156 477 202 C526 218 545 259 513 302 C455 380 282 385 174 330" fill="none" stroke="rgba(56,189,248,0.105)" stroke-width="0.8" />
+            <path d="M205 170 C280 118 408 122 488 214" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="0.7" />
           </g>
           <g class="orbit-rings">
-            <ellipse cx="310" cy="260" rx="220" ry="132" fill="none" stroke="rgba(56, 189, 248, 0.105)" stroke-width="0.8" transform="rotate(-9 310 260)" />
-            <ellipse cx="322" cy="252" rx="158" ry="88" fill="none" stroke="rgba(45, 212, 191, 0.08)" stroke-width="0.8" transform="rotate(16 322 252)" />
+            <ellipse cx="310" cy="260" rx="220" ry="132" fill="none" stroke="rgba(56, 189, 248, 0.16)" stroke-width="0.85" transform="rotate(-9 310 260)" />
+            <ellipse cx="322" cy="252" rx="158" ry="88" fill="none" stroke="rgba(45, 212, 191, 0.12)" stroke-width="0.85" transform="rotate(16 322 252)" />
           </g>
           <g class="orbit-links">
-            <line x1="152" y1="236" x2="246" y2="158" stroke="rgba(255,255,255,0.075)" stroke-width="0.75" />
-            <line x1="246" y1="158" x2="366" y2="184" stroke="rgba(56,189,248,0.105)" stroke-width="0.75" />
-            <line x1="366" y1="184" x2="494" y2="242" stroke="rgba(255,255,255,0.07)" stroke-width="0.75" />
-            <line x1="152" y1="236" x2="226" y2="326" stroke="rgba(255,255,255,0.06)" stroke-width="0.75" />
-            <line x1="226" y1="326" x2="354" y2="340" stroke="rgba(56,189,248,0.09)" stroke-width="0.75" />
-            <line x1="354" y1="340" x2="494" y2="242" stroke="rgba(255,255,255,0.065)" stroke-width="0.75" />
-            <line x1="246" y1="158" x2="226" y2="326" stroke="rgba(255,255,255,0.05)" stroke-width="0.75" />
-            <line x1="366" y1="184" x2="354" y2="340" stroke="rgba(255,255,255,0.05)" stroke-width="0.75" />
+            <line x1="152" y1="236" x2="246" y2="158" stroke="rgba(255,255,255,0.095)" stroke-width="0.82" />
+            <line x1="246" y1="158" x2="366" y2="184" stroke="rgba(56,189,248,0.14)" stroke-width="0.82" />
+            <line x1="366" y1="184" x2="494" y2="242" stroke="rgba(255,255,255,0.09)" stroke-width="0.82" />
+            <line x1="152" y1="236" x2="226" y2="326" stroke="rgba(255,255,255,0.08)" stroke-width="0.82" />
+            <line x1="226" y1="326" x2="354" y2="340" stroke="rgba(56,189,248,0.125)" stroke-width="0.82" />
+            <line x1="354" y1="340" x2="494" y2="242" stroke="rgba(255,255,255,0.085)" stroke-width="0.82" />
+            <line x1="246" y1="158" x2="226" y2="326" stroke="rgba(255,255,255,0.07)" stroke-width="0.8" />
+            <line x1="366" y1="184" x2="354" y2="340" stroke="rgba(255,255,255,0.07)" stroke-width="0.8" />
           </g>
-          <g class="orbit-links depth" opacity="0.5">
-            <line x1="192" y1="198" x2="318" y2="126" stroke="rgba(255,255,255,0.045)" stroke-width="0.65" />
-            <line x1="318" y1="126" x2="440" y2="198" stroke="rgba(56,189,248,0.06)" stroke-width="0.65" />
-            <line x1="192" y1="198" x2="286" y2="290" stroke="rgba(255,255,255,0.04)" stroke-width="0.65" />
-            <line x1="286" y1="290" x2="440" y2="198" stroke="rgba(255,255,255,0.045)" stroke-width="0.65" />
+          <g class="orbit-links depth" opacity="0.62">
+            <line x1="192" y1="198" x2="318" y2="126" stroke="rgba(255,255,255,0.065)" stroke-width="0.68" />
+            <line x1="318" y1="126" x2="440" y2="198" stroke="rgba(56,189,248,0.085)" stroke-width="0.68" />
+            <line x1="192" y1="198" x2="286" y2="290" stroke="rgba(255,255,255,0.055)" stroke-width="0.68" />
+            <line x1="286" y1="290" x2="440" y2="198" stroke="rgba(255,255,255,0.065)" stroke-width="0.68" />
           </g>
-          <path class="orbit-signal" d="M152 236 C210 172 287 144 366 184 C414 208 456 221 494 242" fill="none" stroke="url(#signalBlue)" stroke-width="1" stroke-linecap="round" />
-          <path class="orbit-signal alt" d="M226 326 C298 350 397 320 494 242" fill="none" stroke="url(#signalTeal)" stroke-width="0.95" stroke-linecap="round" />
-          <path class="orbit-signal third" d="M192 198 C240 238 296 270 354 340" fill="none" stroke="rgba(147,197,253,0.22)" stroke-width="0.8" stroke-linecap="round" />
+          <path class="orbit-signal" d="M152 236 C210 172 287 144 366 184 C414 208 456 221 494 242" fill="none" stroke="url(#signalBlue)" stroke-width="1.1" stroke-linecap="round" />
+          <path class="orbit-signal alt" d="M226 326 C298 350 397 320 494 242" fill="none" stroke="url(#signalTeal)" stroke-width="1.05" stroke-linecap="round" />
+          <path class="orbit-signal third" d="M192 198 C240 238 296 270 354 340" fill="none" stroke="rgba(147,197,253,0.32)" stroke-width="0.9" stroke-linecap="round" />
           <g filter="url(#softGlow)">
-            <circle class="orbit-node soft" cx="152" cy="236" r="2.8" fill="rgba(255,255,255,0.28)" />
-            <circle class="orbit-node" cx="246" cy="158" r="3.4" fill="rgba(125,211,252,0.48)" />
-            <circle class="orbit-node soft" cx="366" cy="184" r="2.9" fill="rgba(255,255,255,0.24)" />
-            <circle class="orbit-node" cx="494" cy="242" r="3.8" fill="rgba(45,212,191,0.44)" />
-            <circle class="orbit-node soft" cx="226" cy="326" r="2.7" fill="rgba(255,255,255,0.24)" />
-            <circle class="orbit-node" cx="354" cy="340" r="3.4" fill="rgba(96,165,250,0.42)" />
-            <circle class="orbit-node soft" cx="318" cy="126" r="2.3" fill="rgba(125,211,252,0.3)" />
-            <circle class="orbit-node soft" cx="440" cy="198" r="2.4" fill="rgba(255,255,255,0.22)" />
+            <circle class="orbit-node soft" cx="152" cy="236" r="2.8" fill="rgba(255,255,255,0.34)" />
+            <circle class="orbit-node" cx="246" cy="158" r="3.4" fill="rgba(125,211,252,0.62)" />
+            <circle class="orbit-node soft" cx="366" cy="184" r="2.9" fill="rgba(255,255,255,0.3)" />
+            <circle class="orbit-node" cx="494" cy="242" r="3.8" fill="rgba(45,212,191,0.58)" />
+            <circle class="orbit-node soft" cx="226" cy="326" r="2.7" fill="rgba(255,255,255,0.3)" />
+            <circle class="orbit-node" cx="354" cy="340" r="3.4" fill="rgba(96,165,250,0.56)" />
+            <circle class="orbit-node soft" cx="318" cy="126" r="2.3" fill="rgba(125,211,252,0.42)" />
+            <circle class="orbit-node soft" cx="440" cy="198" r="2.4" fill="rgba(255,255,255,0.28)" />
           </g>
         </svg>
 
