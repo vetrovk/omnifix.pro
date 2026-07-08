@@ -10,7 +10,7 @@ The production site is intentionally static and no-JS:
 - CSS and SVG visuals are inline.
 - The right orbit/neural animation is CSS/SVG-only.
 - There is no React runtime in production.
-- There is no client-side JavaScript bundle.
+- There is no client-side JavaScript bundle and no browser-side data fetching.
 - The production output is expected to contain only `dist/index.html` and `dist/omnifix-github-avatar-round-o.png`.
 
 The Vite build is kept as a simple static build step, not as a React app runtime.
@@ -19,7 +19,7 @@ The Vite build is kept as a simple static build step, not as a React app runtime
 
 The Live Engineering Feed is generated at build time by `scripts/generate-live-feed.mjs`.
 
-The generator reads public GitHub activity for `vetrovk` and writes:
+The generator reads public GitHub activity for `vetrovk` and writes the current feed data to:
 
 ```text
 data/live-feed.json
@@ -32,11 +32,17 @@ It then updates the managed feed block in `index.html` between:
 <!-- live-feed:end -->
 ```
 
+Fallback data lives in:
+
+```text
+data/live-feed-fallback.json
+```
+
 The generated HTML is static. The browser does not fetch GitHub and does not run client-side JavaScript.
 
 ### GitHub Token
 
-`GITHUB_TOKEN` is optional.
+`GITHUB_TOKEN` is optional and is read only from the environment.
 
 If present, the generator uses it for GitHub API requests:
 
@@ -46,13 +52,7 @@ GITHUB_TOKEN=... npm run generate:feed
 
 If the token is missing, public GitHub API access is used.
 
-If GitHub API access fails, rate limits, or returns no usable activity, the generator falls back to:
-
-```text
-data/live-feed-fallback.json
-```
-
-The build should continue to pass when GitHub is unavailable.
+If GitHub API access fails, rate limits, or returns no usable activity, the generator falls back to `data/live-feed-fallback.json`. The build should continue to pass when GitHub is unavailable.
 
 ## Local Commands
 
@@ -76,7 +76,7 @@ npm run build
 
 `npm run build` runs feed generation first, then builds `dist`.
 
-Start the local Vite preview/dev server:
+Start a local Vite server for previewing the static page:
 
 ```bash
 npm run dev
@@ -88,6 +88,13 @@ The deployable static output is:
 
 ```text
 dist
+```
+
+Expected files:
+
+```text
+dist/index.html
+dist/omnifix-github-avatar-round-o.png
 ```
 
 Expected no-JS checks:
