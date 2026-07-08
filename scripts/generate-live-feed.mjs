@@ -310,7 +310,11 @@ function escapeAttr(value) {
   return escapeHtml(value).replaceAll("'", "&#39;");
 }
 
-main().catch((error) => {
-  console.error(`live-feed: ${error.message}`);
-  process.exitCode = 1;
-});
+main()
+  .then(() => {
+    process.exit(0);
+  })
+  .catch((error) => {
+    console.error(`live-feed: ${error.message}`);
+    process.exit(1);
+  });

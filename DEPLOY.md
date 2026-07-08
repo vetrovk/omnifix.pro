@@ -1,16 +1,40 @@
 # Deploy omnifix.pro to VPS/nginx
 
-This guide describes a manual static deployment for `omnifix.pro`.
+This guide describes static deployment for `omnifix.pro`.
 
 Hosting assumptions:
 
 - Static no-JS site.
 - Build output: `dist`.
 - nginx, or another static web server, serves the files directly.
-- Deployment is manual via `rsync`.
+- Deployment can be manual via `rsync` or automated with GitHub Actions.
 - Any DNS, CDN, or proxy layer is managed outside this repository.
 
 Do not deploy from this repository unless you intentionally want to update production.
+
+## GitHub Actions Deploy
+
+The workflow in `.github/workflows/refresh-feed-and-deploy.yml` refreshes the build-time GitHub feed, verifies the no-JS output, commits feed/dist changes only when they exist, and deploys only the contents of `dist/`.
+
+It runs:
+
+- every 6 hours;
+- manually via `workflow_dispatch`.
+
+Required GitHub Actions secrets:
+
+```text
+SSH_PRIVATE_KEY
+SSH_HOST
+SSH_USER
+SSH_PORT
+SSH_TARGET_DIR
+SSH_KNOWN_HOSTS
+```
+
+`SSH_KNOWN_HOSTS` should contain the expected SSH host key line for the target server. This is preferred over running `ssh-keyscan` inside the workflow because the workflow then verifies a pinned host key instead of trusting the network at deploy time.
+
+The feed generator receives the built-in GitHub Actions token through `GITHUB_TOKEN`. No token value is stored in the repository.
 
 ## 1. Build Locally
 

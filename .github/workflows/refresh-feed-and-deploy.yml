@@ -1,0 +1,97 @@
+name: Refresh feed and deploy
+
+on:
+  schedule:
+    - cron: "0 */6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh-feed-and-deploy
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build static site
+        run: npm run build
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+
+      - name: Verify no client-side JavaScript
+        run: |
+          set -euo pipefail
+
+          if find dist -type f -name "*.js" | grep -q .; then
+            echo "Unexpected JavaScript files found in dist" >&2
+            find dist -type f -name "*.js" >&2
+            exit 1
+          fi
+
+          if grep -n "<script" dist/index.html; then
+            echo "Unexpected script tag found in dist/index.html" >&2
+            exit 1
+          fi
+
+          if grep -n 'type="module"' dist/index.html; then
+            echo "Unexpected module script found in dist/index.html" >&2
+            exit 1
+          fi
+
+          if grep -n "assets/index" dist/index.html; then
+            echo "Unexpected Vite bundle reference found in dist/index.html" >&2
+            exit 1
+          fi
+
+      - name: Commit refreshed feed
+        run: |
+          set -euo pipefail
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add data/live-feed.json index.html dist/index.html dist/omnifix-github-avatar-round-o.png
+
+          if git diff --cached --quiet; then
+            echo "No feed or dist changes to commit."
+          else
+            git commit -m "chore: refresh live engineering feed"
+            git push origin HEAD:main
+          fi
+
+      - name: Configure SSH
+        run: |
+          set -euo pipefail
+
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          printf '%s\n' "${{ secrets.SSH_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
+          chmod 644 ~/.ssh/known_hosts
+
+      - name: Deploy dist via rsync
+        run: |
+          set -euo pipefail
+
+          rsync -az --delete \
+            -e "ssh -i ~/.ssh/deploy_key -p ${{ secrets.SSH_PORT }} -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes" \
+            dist/ "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.SSH_TARGET_DIR }}/"
