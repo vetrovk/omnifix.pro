@@ -1,8 +1,60 @@
 # omnifix.pro
 
-Single-page website for [omnifix.pro](https://omnifix.pro), built with Vite and React.
+Static single-page website for [omnifix.pro](https://omnifix.pro): a personal engineering hub for AI systems, automation, open source work, and production experiments.
 
-## Local Development
+## Architecture
+
+The production site is intentionally static and no-JS:
+
+- `index.html` is the main standalone page.
+- CSS and SVG visuals are inline.
+- The right orbit/neural animation is CSS/SVG-only.
+- There is no React runtime in production.
+- There is no client-side JavaScript bundle.
+- The production output is expected to contain only `dist/index.html` and `dist/omnifix-github-avatar-round-o.png`.
+
+The Vite build is kept as a simple static build step, not as a React app runtime.
+
+## Live Engineering Feed
+
+The Live Engineering Feed is generated at build time by `scripts/generate-live-feed.mjs`.
+
+The generator reads public GitHub activity for `vetrovk` and writes:
+
+```text
+data/live-feed.json
+```
+
+It then updates the managed feed block in `index.html` between:
+
+```html
+<!-- live-feed:start -->
+<!-- live-feed:end -->
+```
+
+The generated HTML is static. The browser does not fetch GitHub and does not run client-side JavaScript.
+
+### GitHub Token
+
+`GITHUB_TOKEN` is optional.
+
+If present, the generator uses it for GitHub API requests:
+
+```bash
+GITHUB_TOKEN=... npm run generate:feed
+```
+
+If the token is missing, public GitHub API access is used.
+
+If GitHub API access fails, rate limits, or returns no usable activity, the generator falls back to:
+
+```text
+data/live-feed-fallback.json
+```
+
+The build should continue to pass when GitHub is unavailable.
+
+## Local Commands
 
 Install dependencies:
 
@@ -10,32 +62,46 @@ Install dependencies:
 npm install
 ```
 
-Start the development server:
+Generate the feed only:
 
 ```bash
-npm run dev
+npm run generate:feed
 ```
 
-## Production Build
-
-Create a production build:
+Build the static output:
 
 ```bash
 npm run build
 ```
 
-## Deploy Output
+`npm run build` runs feed generation first, then builds `dist`.
 
-The static build output is written to:
+Start the local Vite preview/dev server:
+
+```bash
+npm run dev
+```
+
+## Production Output
+
+The deployable static output is:
 
 ```text
 dist
 ```
 
-The `dist` directory contains `index.html`, compiled assets, and public files ready to be served by a static web server.
+Expected no-JS checks:
 
-## Hosting Target
+```bash
+find dist -type f
+find dist -type f -name "*.js"
+grep -n "<script" dist/index.html
+grep -n "type=\"module\"" dist/index.html
+grep -n "assets/index" dist/index.html
+```
 
-This project is intended to be hosted as a static site on nginx.
+The `find ... "*.js"` and `grep` commands should return no matches.
 
-See [DEPLOY.md](./DEPLOY.md) for a manual VPS/nginx deployment guide.
+## Deployment
+
+Production hosting is a static nginx site. See [DEPLOY.md](./DEPLOY.md) for the manual VPS/nginx deployment guide.

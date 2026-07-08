@@ -1,6 +1,17 @@
 # Deploy omnifix.pro to VPS/nginx
 
-This guide describes a manual static deployment for `omnifix.pro`.
+This guide describes the manual static deployment for `omnifix.pro`.
+
+Current hosting assumptions:
+
+- Static no-JS site.
+- Build output: `dist`.
+- Server web root: `/var/www/omnifix.pro`.
+- nginx serves the files directly.
+- Cloudflare is used as a proxy in front of nginx.
+- Deployment is manual via `rsync`.
+
+Do not deploy from this repository unless you intentionally want to update production.
 
 ## 1. Build Locally
 
@@ -11,38 +22,71 @@ npm install
 npm run build
 ```
 
-The production files will be generated in:
+`npm run build` first runs:
+
+```bash
+npm run generate:feed
+```
+
+That updates the build-time GitHub activity feed. `GITHUB_TOKEN` is optional; without it, public GitHub API access is used. If the API is unavailable or rate-limited, the fallback feed is used and the build should still pass.
+
+Expected output:
 
 ```text
-dist
+dist/index.html
+dist/omnifix-github-avatar-round-o.png
 ```
 
-## 2. Upload `dist` Contents to the Server
+## 2. No-JS Checks
 
-Create the web root on the VPS:
+Before uploading, verify that no JavaScript bundle is present:
 
 ```bash
-sudo mkdir -p /var/www/omnifix.pro
-sudo chown -R "$USER":"$USER" /var/www/omnifix.pro
+find dist -type f
+find dist -type f -name "*.js"
+grep -n "<script" dist/index.html
+grep -n "type=\"module\"" dist/index.html
+grep -n "assets/index" dist/index.html
 ```
 
-Upload the contents of `dist` to the server web root:
+Expected:
+
+- `find dist -type f` lists only the static HTML and image assets.
+- `find dist -type f -name "*.js"` prints nothing.
+- All `grep` checks print nothing.
+
+## 3. Upload With rsync
+
+Upload the contents of `dist` to the nginx web root on dedirock:
 
 ```bash
-rsync -avz --delete dist/ user@server:/var/www/omnifix.pro/
+rsync -avz --delete dist/ dedirock:/var/www/omnifix.pro/
 ```
 
-Replace `user@server` with the SSH user and host for the VPS.
+This copies the contents of `dist`, not the `dist` directory itself.
 
-## 3. nginx Config Example
+## 4. Server Permissions
 
-Create an nginx server block:
+On the VPS, ensure nginx can read the files:
 
 ```bash
-sudo nano /etc/nginx/sites-available/omnifix.pro
+ssh dedirock
+sudo chown -R www-data:www-data /var/www/omnifix.pro
+sudo find /var/www/omnifix.pro -type d -exec chmod 755 {} \;
+sudo find /var/www/omnifix.pro -type f -exec chmod 644 {} \;
 ```
 
-Example config:
+If deployment is done by a non-root user and ownership needs to remain with that user, keep group/read permissions compatible with nginx.
+
+## 5. nginx Config
+
+The site should be served from:
+
+```text
+/var/www/omnifix.pro
+```
+
+Example server block:
 
 ```nginx
 server {
@@ -58,41 +102,53 @@ server {
         try_files $uri $uri/ /index.html;
     }
 
-    location /assets/ {
+    location = /omnifix-github-avatar-round-o.png {
         try_files $uri =404;
-        add_header Cache-Control "public, max-age=31536000, immutable";
+        add_header Cache-Control "public, max-age=86400";
     }
 }
 ```
 
-Enable the site and test nginx:
+Test and reload nginx:
 
 ```bash
-sudo ln -s /etc/nginx/sites-available/omnifix.pro /etc/nginx/sites-enabled/omnifix.pro
 sudo nginx -t
 sudo systemctl reload nginx
 ```
 
-## 4. certbot SSL Example
+Cloudflare can remain enabled as a proxy. No Cloudflare changes are required for a normal static file update.
 
-Install certbot if it is not already available:
+## 6. Production Checks
+
+Check the server directly from the VPS:
 
 ```bash
-sudo apt update
-sudo apt install certbot python3-certbot-nginx
+curl -I http://127.0.0.1/
+curl -s http://127.0.0.1/ | grep -n "<script"
+curl -s http://127.0.0.1/ | grep -n "assets/index"
 ```
 
-Issue and install the certificate:
+Check the public site:
 
 ```bash
-sudo certbot --nginx -d omnifix.pro -d www.omnifix.pro
+curl -I https://omnifix.pro/
+curl -s https://omnifix.pro/ | grep -n "<script"
+curl -s https://omnifix.pro/ | grep -n "type=\"module\""
+curl -s https://omnifix.pro/ | grep -n "assets/index"
 ```
 
-## 5. Reload nginx
+Expected:
 
-After future uploads or config changes:
+- HTTP status is successful.
+- Script/module/assets-index checks print nothing.
+- The page source contains real feed rows from GitHub activity.
+
+## 7. Rollback
+
+If the new static files are bad, re-upload the previous known-good `dist` snapshot:
 
 ```bash
+rsync -avz --delete path/to/previous-dist/ dedirock:/var/www/omnifix.pro/
 sudo nginx -t
 sudo systemctl reload nginx
 ```
