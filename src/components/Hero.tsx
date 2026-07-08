@@ -25,24 +25,30 @@ const actionButtonClass =
   "inline-flex items-center gap-2 px-4 py-2 text-[13px] rounded-lg border transition-colors duration-150";
 
 const actions = [
-  { label: "GitHub", href: "#", icon: <GithubIcon /> },
-  { label: "Telegram", href: "#", icon: <TelegramIcon /> },
+  { label: "GitHub", href: "https://github.com/vetrovk", icon: <GithubIcon /> },
+  { label: "Telegram", href: "https://t.me/kirillvetrov", icon: <TelegramIcon /> },
 ] as const;
 
 function HeroActions() {
   const mutedButtonClass =
-    "border-white/[0.12] text-white/50 hover:text-white/80 hover:border-white/20";
+    "border-white/[0.12] bg-white/[0.025] text-white/50 hover:border-[#38bdf8]/25 hover:bg-[#38bdf8]/[0.06] hover:text-white/80";
 
   return (
     <div className="flex flex-wrap items-center gap-2.5">
       {actions.map(({ label, href, icon }) => (
-        <a key={label} href={href} className={`${actionButtonClass} ${mutedButtonClass}`}>
+        <a
+          key={label}
+          href={href}
+          target="_blank"
+          rel="noreferrer"
+          className={`${actionButtonClass} ${mutedButtonClass}`}
+        >
           {icon} {label}
         </a>
       ))}
       <a
-        href="#"
-        className={`${actionButtonClass} border-[#38bdf8]/20 bg-[#38bdf8]/[0.07] text-[#38bdf8] hover:bg-[#38bdf8]/12 hover:border-[#38bdf8]/30`}
+        href="mailto:vetrovk@gmail.com"
+        className={`${actionButtonClass} ${mutedButtonClass}`}
       >
         <MailIcon /> Contact
       </a>
