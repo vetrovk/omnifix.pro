@@ -1,22 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>omnifix.pro - Building useful AI systems</title>
+    <meta
+      name="description"
+      content="omnifix.pro is a personal engineering hub for useful AI systems, automation, open source work, and homelab infrastructure."
+    />
+    <meta name="robots" content="index, follow" />
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #060609;
+        --text: rgba(255, 255, 255, 0.9);
+        --muted: rgba(255, 255, 255, 0.5);
+        --quiet: rgba(255, 255, 255, 0.32);
+        --line: rgba(255, 255, 255, 0.08);
+        --line-soft: rgba(255, 255, 255, 0.055);
+        --cyan: #38bdf8;
+        --green: #77d48d;
+        --mono: "JetBrains Mono", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+        --sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
 
-  <!DOCTYPE html>
-  <html lang="en">
-    <head>
-      
-      <meta charset="UTF-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title>Design Dark Hero Screens</title>
-      <meta name="description" content="Showcases a personal engineering hub highlighting real AI, automation, and open source projects with a modern, minimal dark-themed hero screen." />
-      <meta name="robots" content="noindex, nofollow" />
-      <style>html, body { height: 100%; margin: 0; } #root { height: 100%; }</style>
-      
-    </head>
+      * {
+        box-sizing: border-box;
+      }
 
-    <body>
-      
-      <div id="root"></div>
-      <script type="module" src="/src/main.tsx"></script>
-      
-    </body>
-  </html>
-  
+      html,
+      body {
+        min-height: 100%;
+        margin: 0;
+      }
+
+      body {
+        overflow-x: hidden;
+        background:
+          radial-gradient(circle at 78% 45%, rgba(56, 189, 248, 0.08), transparent 34rem),
+          radial-gradient(circle at 18% 85%, rgba(14, 165, 233, 0.045), transparent 28rem),
+          var(--bg);
+        color: var(--text);
+        font-family: var(--sans);
+        -webkit-font-smoothing: antialiased;
+        text-rendering: geometricPrecision;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .page {
+        position: relative;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+
+      .header {
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1.75rem 4rem 1.5rem;
+      }
+
+      .header-mark {
+        font-family: var(--mono);
+        font-size: 0.6875rem;
+        letter-spacing: 0.28em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.22);
+      }
+
+      .hero {
+        position: relative;
+        flex: 1;
+        display: flex;
+        min-height: 0;
+        padding: 0 4rem 1.5rem;
+        overflow: hidden;
+      }
+
+      .hero-content {
+        position: relative;
+        z-index: 2;
+        width: 100%;
+        max-width: 47.5rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      .eyebrow {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 2.25rem;
+      }
+
+      .eyebrow-line {
+        width: 1.75rem;
+        height: 1px;
+        background: rgba(56, 189, 248, 0.5);
+      }
+
+      .eyebrow-text {
+        font-family: var(--mono);
+        font-size: 0.625rem;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: rgba(56, 189, 248, 0.65);
+      }
+
+      .identity {
+        margin-bottom: 2.25rem;
+      }
+
+      .brand-row {
+        display: flex;
+        align-items: center;
+        gap: 1.25rem;
+        margin-bottom: 1.25rem;
+      }
+
+      .logo {
+        width: 5.25rem;
+        height: 5.25rem;
+        border-radius: 999px;
+        object-fit: cover;
+        opacity: 0.95;
+        mix-blend-mode: screen;
+      }
+
+      .wordmark {
+        min-width: 0;
+        margin: 0;
+        font-size: clamp(2.125rem, 4vw, 3rem);
+        font-weight: 200;
+        line-height: 1;
+        letter-spacing: -0.025em;
+        color: rgba(255, 255, 255, 0.9);
+      }
+
+      .slogan {
+        width: fit-content;
+        margin: 0;
+        font-size: clamp(1.75rem, 2.5vw, 1.875rem);
+        font-weight: 200;
+        line-height: 1.08;
+        letter-spacing: -0.015em;
+        color: var(--quiet);
+      }
+
+      .divider {
+        width: 100%;
+        max-width: 42rem;
+        height: 1px;
+        margin-bottom: 2.5rem;
+        background: var(--line-soft);
+      }
+
+      .tags {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.75rem 0;
+        margin-bottom: 3rem;
+      }
+
+      .tag {
+        display: flex;
+        align-items: center;
+        font-size: 0.875rem;
+        font-weight: 300;
+        color: var(--quiet);
+      }
+
+      .tag:not(:last-child)::after {
+        content: "·";
+        margin: 0 1.75rem;
+        color: rgba(255, 255, 255, 0.1);
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.625rem;
+      }
+
+      .button {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 0.5rem;
+        background: rgba(255, 255, 255, 0.025);
+        padding: 0.5rem 1rem;
+        color: var(--muted);
+        font-size: 0.8125rem;
+        transition:
+          color 150ms ease,
+          border-color 150ms ease,
+          background-color 150ms ease;
+      }
+
+      .button:hover {
+        border-color: rgba(56, 189, 248, 0.25);
+        background: rgba(56, 189, 248, 0.06);
+        color: rgba(255, 255, 255, 0.8);
+      }
+
+      .button.contact:hover {
+        color: rgba(191, 230, 255, 0.92);
+      }
+
+      .button svg {
+        flex: 0 0 auto;
+      }
+
+      .orbit {
+        position: absolute;
+        z-index: 1;
+        right: 4rem;
+        top: 50%;
+        width: 32.5rem;
+        height: 26.875rem;
+        transform: translateY(-50%);
+        opacity: 0.74;
+        pointer-events: none;
+      }
+
+      .orbit line,
+      .orbit path,
+      .orbit ellipse {
+        vector-effect: non-scaling-stroke;
+      }
+
+      .orbit-glow {
+        animation: orbit-breathe 11s ease-in-out infinite;
+        transform-origin: 285px 260px;
+      }
+
+      .orbit-rings {
+        animation: orbit-drift 46s linear infinite;
+        transform-origin: 285px 260px;
+      }
+
+      .orbit-links {
+        animation: orbit-breathe 13s ease-in-out infinite;
+        transform-origin: 285px 260px;
+      }
+
+      .orbit-signal {
+        stroke-dasharray: 70 190;
+        animation: signal-flow 12s linear infinite;
+      }
+
+      .orbit-signal.alt {
+        animation-delay: -4s;
+        animation-duration: 14s;
+      }
+
+      .orbit-node {
+        animation: node-pulse 10s ease-in-out infinite;
+        transform-origin: center;
+      }
+
+      .orbit-node:nth-child(2) {
+        animation-delay: -2s;
+      }
+
+      .orbit-node:nth-child(4) {
+        animation-delay: -5s;
+      }
+
+      .orbit-node:nth-child(6) {
+        animation-delay: -7s;
+      }
+
+      @keyframes orbit-drift {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      @keyframes orbit-breathe {
+        0%,
+        100% {
+          opacity: 0.58;
+          transform: scale(0.985);
+        }
+        50% {
+          opacity: 0.88;
+          transform: scale(1.015);
+        }
+      }
+
+      @keyframes signal-flow {
+        from {
+          stroke-dashoffset: 180;
+          opacity: 0.26;
+        }
+        45% {
+          opacity: 0.72;
+        }
+        to {
+          stroke-dashoffset: -180;
+          opacity: 0.26;
+        }
+      }
+
+      @keyframes node-pulse {
+        0%,
+        100% {
+          opacity: 0.55;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 0.95;
+          transform: scale(1.28);
+        }
+      }
+
+      .feed {
+        flex-shrink: 0;
+        width: 100%;
+        max-width: 47.5rem;
+        padding: 0 4rem 1.5rem;
+      }
+
+      .feed-inner {
+        border-top: 1px solid var(--line-soft);
+        padding-top: 1.375rem;
+      }
+
+      .feed-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .feed-title {
+        display: flex;
+        align-items: center;
+        gap: 0.625rem;
+        margin: 0;
+        font-family: var(--mono);
+        font-size: 0.625rem;
+        font-weight: 400;
+        letter-spacing: 0.24em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.42);
+      }
+
+      .feed-dot {
+        width: 0.3125rem;
+        height: 0.3125rem;
+        border-radius: 999px;
+        background: var(--green);
+        box-shadow: 0 0 10px rgba(119, 212, 141, 0.35);
+      }
+
+      .feed-kicker {
+        font-size: 0.75rem;
+        color: rgba(255, 255, 255, 0.34);
+      }
+
+      .feed-list {
+        display: grid;
+      }
+
+      .feed-row {
+        display: grid;
+        grid-template-columns: 12.5rem minmax(0, 1fr) 8rem;
+        gap: 1rem;
+        align-items: center;
+        min-width: 0;
+        border-top: 1px solid rgba(255, 255, 255, 0.045);
+        padding: 0.875rem 0;
+      }
+
+      .feed-row:first-child {
+        border-top-color: transparent;
+      }
+
+      .feed-source,
+      .feed-copy,
+      .feed-status {
+        min-width: 0;
+      }
+
+      .feed-source,
+      .feed-status {
+        font-family: var(--mono);
+        font-size: 0.75rem;
+      }
+
+      .feed-source {
+        color: rgba(96, 165, 250, 0.7);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .feed-copy {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        color: rgba(255, 255, 255, 0.48);
+        font-size: 0.8125rem;
+      }
+
+      .feed-status {
+        justify-self: end;
+        color: rgba(255, 255, 255, 0.38);
+      }
+
+      .feed-status.live,
+      .feed-status.merged {
+        color: rgba(125, 224, 164, 0.85);
+      }
+
+      .feed-status.live::before {
+        content: "• ";
+        color: var(--green);
+      }
+
+      @media (max-width: 1023px) {
+        .orbit {
+          display: none;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .orbit-glow,
+        .orbit-rings,
+        .orbit-links,
+        .orbit-signal,
+        .orbit-node {
+          animation: none;
+        }
+      }
+
+      @media (max-width: 767px) {
+        .page {
+          min-height: 100svh;
+        }
+
+        .header {
+          padding: 1.75rem 1.5rem 1.5rem;
+        }
+
+        .hero {
+          padding: 0 1.5rem 1.5rem;
+        }
+
+        .hero-content {
+          justify-content: center;
+        }
+
+        .brand-row {
+          gap: 1rem;
+        }
+
+        .logo {
+          width: 4.5rem;
+          height: 4.5rem;
+        }
+
+        .tag {
+          width: 50%;
+        }
+
+        .tag:not(:last-child)::after {
+          margin-left: auto;
+          margin-right: 1.65rem;
+        }
+
+        .tag:nth-child(2)::after {
+          content: "";
+        }
+
+        .feed {
+          max-width: none;
+          padding: 0 1.5rem 1.5rem;
+        }
+
+        .feed-header {
+          align-items: flex-start;
+        }
+
+        .feed-title {
+          max-width: 13rem;
+          line-height: 1.55;
+        }
+
+        .feed-row {
+          grid-template-columns: minmax(0, 1fr) 6rem;
+          gap: 0.75rem 1rem;
+          padding: 0.8125rem 0;
+        }
+
+        .feed-source {
+          grid-column: 1;
+        }
+
+        .feed-copy {
+          grid-column: 1 / -1;
+          grid-row: 2;
+        }
+
+        .feed-status {
+          grid-column: 2;
+          grid-row: 1;
+        }
+      }
+
+      @media (max-width: 420px) {
+        .wordmark {
+          font-size: 2.125rem;
+        }
+
+        .slogan {
+          font-size: 1.75rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <header class="header">
+        <span class="header-mark">Omnifix.Pro</span>
+      </header>
+
+      <main class="hero">
+        <svg class="orbit" viewBox="0 0 560 520" aria-hidden="true">
+          <defs>
+            <radialGradient id="orbitGlow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="rgba(56, 189, 248, 0.24)" />
+              <stop offset="52%" stop-color="rgba(56, 189, 248, 0.08)" />
+              <stop offset="100%" stop-color="rgba(56, 189, 248, 0)" />
+            </radialGradient>
+            <filter id="softGlow" x="-40%" y="-40%" width="180%" height="180%">
+              <feGaussianBlur stdDeviation="8" result="blur" />
+              <feMerge>
+                <feMergeNode in="blur" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+          </defs>
+          <ellipse class="orbit-glow" cx="285" cy="260" rx="230" ry="180" fill="url(#orbitGlow)" opacity="0.62" />
+          <g class="orbit-rings">
+            <ellipse cx="285" cy="260" rx="210" ry="152" fill="none" stroke="rgba(56, 189, 248, 0.18)" stroke-width="1" />
+            <ellipse cx="285" cy="260" rx="154" ry="108" fill="none" stroke="rgba(45, 212, 191, 0.13)" stroke-width="1" />
+          </g>
+          <g class="orbit-links">
+            <line x1="130" y1="198" x2="230" y2="138" stroke="rgba(255,255,255,0.11)" stroke-width="1" />
+            <line x1="230" y1="138" x2="345" y2="178" stroke="rgba(56,189,248,0.18)" stroke-width="1" />
+            <line x1="345" y1="178" x2="440" y2="244" stroke="rgba(255,255,255,0.11)" stroke-width="1" />
+            <line x1="130" y1="198" x2="206" y2="304" stroke="rgba(255,255,255,0.09)" stroke-width="1" />
+            <line x1="206" y1="304" x2="325" y2="336" stroke="rgba(56,189,248,0.16)" stroke-width="1" />
+            <line x1="325" y1="336" x2="440" y2="244" stroke="rgba(255,255,255,0.1)" stroke-width="1" />
+            <line x1="230" y1="138" x2="206" y2="304" stroke="rgba(255,255,255,0.08)" stroke-width="1" />
+            <line x1="345" y1="178" x2="325" y2="336" stroke="rgba(255,255,255,0.08)" stroke-width="1" />
+          </g>
+          <path class="orbit-signal" d="M130 198 C184 154 260 136 345 178" fill="none" stroke="rgba(56,189,248,0.52)" stroke-width="1.3" stroke-linecap="round" />
+          <path class="orbit-signal alt" d="M206 304 C258 328 330 322 440 244" fill="none" stroke="rgba(45,212,191,0.42)" stroke-width="1.2" stroke-linecap="round" />
+          <g filter="url(#softGlow)">
+            <circle class="orbit-node" cx="130" cy="198" r="4" fill="rgba(255,255,255,0.36)" />
+            <circle class="orbit-node" cx="230" cy="138" r="5" fill="rgba(56,189,248,0.62)" />
+            <circle class="orbit-node" cx="345" cy="178" r="4" fill="rgba(125,211,252,0.58)" />
+            <circle class="orbit-node" cx="440" cy="244" r="5" fill="rgba(45,212,191,0.56)" />
+            <circle class="orbit-node" cx="206" cy="304" r="4" fill="rgba(255,255,255,0.34)" />
+            <circle class="orbit-node" cx="325" cy="336" r="5" fill="rgba(56,189,248,0.54)" />
+          </g>
+        </svg>
+
+        <section class="hero-content" aria-labelledby="site-title">
+          <div class="eyebrow">
+            <span class="eyebrow-line"></span>
+            <span class="eyebrow-text">Personal Engineering Hub</span>
+          </div>
+
+          <div class="identity">
+            <div class="brand-row">
+              <img
+                class="logo"
+                src="/omnifix-github-avatar-round-o.png"
+                alt="OMNIFIX.PRO mark"
+                width="84"
+                height="84"
+              />
+              <h1 class="wordmark" id="site-title">OMNIFIX.PRO</h1>
+            </div>
+            <p class="slogan">Building useful AI systems.</p>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="tags" aria-label="Focus areas">
+            <span class="tag">Open Source</span>
+            <span class="tag">Automation</span>
+            <span class="tag">AI Engineering</span>
+            <span class="tag">Homelab</span>
+          </div>
+
+          <nav class="actions" aria-label="Primary links">
+            <a class="button" href="https://github.com/vetrovk" target="_blank" rel="noreferrer">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
+              </svg>
+              GitHub
+            </a>
+            <a class="button" href="https://t.me/kirillvetrov" target="_blank" rel="noreferrer">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z" />
+              </svg>
+              Telegram
+            </a>
+            <a class="button contact" href="mailto:vetrovk@gmail.com">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                <rect width="20" height="16" x="2" y="4" rx="2" />
+                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+              </svg>
+              Contact
+            </a>
+          </nav>
+        </section>
+      </main>
+
+      <footer class="feed" aria-label="Live Engineering Feed">
+        <div class="feed-inner">
+          <div class="feed-header">
+            <h2 class="feed-title"><span class="feed-dot"></span>Live Engineering Feed</h2>
+            <span class="feed-kicker">Latest Open Source activity</span>
+          </div>
+
+          <div class="feed-list">
+            <article class="feed-row">
+              <a class="feed-source" href="https://github.com/sqlfluff/sqlfluff">sqlfluff/sqlfluff</a>
+              <span class="feed-copy">Oracle SQLPlus parsing fix</span>
+              <a class="feed-status merged" href="https://github.com/sqlfluff/sqlfluff/pulls">PR merged</a>
+            </article>
+            <article class="feed-row">
+              <a class="feed-source" href="https://github.com/vetrovk">open-source</a>
+              <span class="feed-copy">review thread updated</span>
+              <span class="feed-status">2h ago</span>
+            </article>
+            <article class="feed-row">
+              <a class="feed-source" href="https://github.com/vetrovk">omnifix.pro</a>
+              <span class="feed-copy">hero system design updated</span>
+              <span class="feed-status">today</span>
+            </article>
+            <article class="feed-row">
+              <a class="feed-source" href="https://github.com/vetrovk/oracle-bot">oracle-bot</a>
+              <span class="feed-copy">production service online</span>
+              <span class="feed-status live">live</span>
+            </article>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>
