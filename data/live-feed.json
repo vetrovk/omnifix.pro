@@ -1,21 +1,21 @@
 [
   {
+    "source": "vetrovk/omnifix.pro",
+    "description": "Static site build updated",
+    "status": "pushed",
+    "url": "https://github.com/vetrovk/omnifix.pro",
+    "statusUrl": "https://github.com/vetrovk/omnifix.pro/commit/7b358a2086f2786e63d500fd332b51034affdb85",
+    "time": "6h ago",
+    "type": "project"
+  },
+  {
     "source": "gchq/CyberChef",
     "description": "Preserve zero input in Node API",
     "status": "review",
     "url": "https://github.com/gchq/CyberChef",
     "statusUrl": "https://github.com/gchq/CyberChef/pull/2591#issuecomment-4916862675",
-    "time": "3h ago",
+    "time": "11h ago",
     "type": "open-source"
-  },
-  {
-    "source": "vetrovk/omnifix.pro",
-    "description": "Static site build updated",
-    "status": "pushed",
-    "url": "https://github.com/vetrovk/omnifix.pro",
-    "statusUrl": "https://github.com/vetrovk/omnifix.pro/commit/762877455933f64ecf6904de3621065bfaae2d92",
-    "time": "4h ago",
-    "type": "project"
   },
   {
     "source": "kytta/share2fedi",
@@ -23,7 +23,7 @@
     "status": "PR opened",
     "url": "https://github.com/kytta/share2fedi",
     "statusUrl": "https://github.com/kytta/share2fedi/pull/289",
-    "time": "11h ago",
+    "time": "19h ago",
     "type": "open-source"
   },
   {
