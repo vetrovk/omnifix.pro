@@ -1,11 +1,20 @@
 [
   {
+    "source": "usememos/memos",
+    "description": "Allow apostrophes in tag names",
+    "status": "PR opened",
+    "url": "https://github.com/usememos/memos",
+    "statusUrl": "https://github.com/usememos/memos/pull/6080",
+    "time": "1h ago",
+    "type": "open-source"
+  },
+  {
     "source": "vetrovk/omnifix.pro",
     "description": "Static site build updated",
     "status": "pushed",
     "url": "https://github.com/vetrovk/omnifix.pro",
     "statusUrl": "https://github.com/vetrovk/omnifix.pro/commit/8cb0098e322862efed2631cd3558af9a69020828",
-    "time": "4h ago",
+    "time": "9h ago",
     "type": "project"
   },
   {
@@ -14,7 +23,7 @@
     "status": "review",
     "url": "https://github.com/gchq/CyberChef",
     "statusUrl": "https://github.com/gchq/CyberChef/pull/2591#issuecomment-4916862675",
-    "time": "17h ago",
+    "time": "22h ago",
     "type": "open-source"
   },
   {
@@ -32,15 +41,6 @@
     "status": "PR merged",
     "url": "https://github.com/sqlfluff/sqlfluff",
     "statusUrl": "https://github.com/sqlfluff/sqlfluff/pull/8081",
-    "time": "2d ago",
-    "type": "open-source"
-  },
-  {
-    "source": "sqlfluff/sqlfluff",
-    "description": "Parse Oracle SQL*Plus ACCEPT and REMARK commands",
-    "status": "PR merged",
-    "url": "https://github.com/sqlfluff/sqlfluff",
-    "statusUrl": "https://github.com/sqlfluff/sqlfluff/pull/8067",
     "time": "2d ago",
     "type": "open-source"
   }
