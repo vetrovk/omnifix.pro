@@ -26,7 +26,7 @@ const actionButtonClass =
 
 const actions = [
   { label: "GitHub", href: "https://github.com/vetrovk", icon: <GithubIcon /> },
-  { label: "Telegram", href: "https://t.me/kirillvetrov", icon: <TelegramIcon /> },
+  { label: "Telegram", href: "https://t.me/omnifixpro", icon: <TelegramIcon /> },
 ] as const;
 
 function HeroActions() {
