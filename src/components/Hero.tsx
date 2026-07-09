@@ -81,6 +81,8 @@ export function Hero() {
               <img
                 src="/omnifix-github-avatar-round-o.png"
                 alt="OMNIFIX.PRO mark"
+                decoding="async"
+                fetchPriority="high"
                 className="h-[72px] w-[72px] rounded-full object-cover opacity-95 mix-blend-screen md:h-[84px] md:w-[84px]"
               />
               <h1 className="min-w-0 text-[34px] font-[200] leading-none tracking-[-0.025em] text-white/90 sm:text-[42px] md:text-[48px]">
