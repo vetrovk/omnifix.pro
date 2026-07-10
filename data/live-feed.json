@@ -1,11 +1,20 @@
 [
   {
+    "source": "snakemake/snakemake",
+    "description": "avoid config hash crash for non-serializable values",
+    "status": "PR opened",
+    "url": "https://github.com/snakemake/snakemake",
+    "statusUrl": "https://github.com/snakemake/snakemake/pull/4241",
+    "time": "3h ago",
+    "type": "open-source"
+  },
+  {
     "source": "usememos/memos",
     "description": "Allow apostrophes in tag names",
     "status": "PR opened",
     "url": "https://github.com/usememos/memos",
     "statusUrl": "https://github.com/usememos/memos/pull/6080",
-    "time": "13h ago",
+    "time": "19h ago",
     "type": "open-source"
   },
   {
@@ -14,7 +23,7 @@
     "status": "pushed",
     "url": "https://github.com/vetrovk/omnifix.pro",
     "statusUrl": "https://github.com/vetrovk/omnifix.pro/commit/8cb0098e322862efed2631cd3558af9a69020828",
-    "time": "22h ago",
+    "time": "yesterday",
     "type": "project"
   },
   {
@@ -32,15 +41,6 @@
     "status": "PR opened",
     "url": "https://github.com/kytta/share2fedi",
     "statusUrl": "https://github.com/kytta/share2fedi/pull/289",
-    "time": "yesterday",
-    "type": "open-source"
-  },
-  {
-    "source": "sqlfluff/sqlfluff",
-    "description": "Oracle SQLPlus SET SCAN parsing",
-    "status": "PR merged",
-    "url": "https://github.com/sqlfluff/sqlfluff",
-    "statusUrl": "https://github.com/sqlfluff/sqlfluff/pull/8081",
     "time": "2d ago",
     "type": "open-source"
   }
