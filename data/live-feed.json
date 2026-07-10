@@ -2,10 +2,10 @@
   {
     "source": "snakemake/snakemake",
     "description": "avoid config hash crash for non-serializable values",
-    "status": "PR opened",
+    "status": "PR merged",
     "url": "https://github.com/snakemake/snakemake",
     "statusUrl": "https://github.com/snakemake/snakemake/pull/4241",
-    "time": "8h ago",
+    "time": "1h ago",
     "type": "open-source"
   },
   {
@@ -32,7 +32,7 @@
     "status": "review",
     "url": "https://github.com/gchq/CyberChef",
     "statusUrl": "https://github.com/gchq/CyberChef/pull/2591#issuecomment-4916862675",
-    "time": "yesterday",
+    "time": "2d ago",
     "type": "open-source"
   },
   {
