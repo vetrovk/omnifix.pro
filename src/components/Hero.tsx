@@ -65,8 +65,8 @@ export function Hero() {
         </span>
       </header>
 
-      <main className="relative flex-1 overflow-hidden px-6 pb-6 md:px-16">
-        <NeuralBuildOrbit className="absolute right-16 top-1/2 hidden h-[430px] w-[520px] -translate-y-1/2 lg:block" />
+      <main className="relative isolate flex-1 overflow-hidden px-6 pb-6 md:px-16">
+        <NeuralBuildOrbit className="absolute right-16 top-1/2 hidden h-[430px] w-[520px] -translate-y-1/2 -z-10 lg:block" />
 
         <div className="relative z-10 flex h-full max-w-[760px] flex-col justify-center">
           <div className="flex items-center gap-3 mb-9">
