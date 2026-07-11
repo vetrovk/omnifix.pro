@@ -544,6 +544,34 @@
         }
       }
 
+      /* WebKit fallback: keep the first paint independent of animated SVG compositing. */
+      @supports (-webkit-touch-callout: none) {
+        .orbit,
+        .orbit * {
+          animation: none !important;
+          filter: none !important;
+        }
+
+        .orbit {
+          display: none !important;
+          transform: none !important;
+        }
+
+        .hero-content,
+        .feed,
+        .feed-row {
+          position: relative;
+          z-index: 3;
+          opacity: 1 !important;
+          visibility: visible !important;
+          transform: none !important;
+        }
+
+        .feed-row {
+          animation: none !important;
+        }
+      }
+
       @media (max-width: 767px) {
         .page {
           min-height: 100svh;
