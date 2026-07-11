@@ -1,11 +1,20 @@
 [
   {
+    "source": "vetrovk/omnifix.pro",
+    "description": "Static site build updated",
+    "status": "pushed",
+    "url": "https://github.com/vetrovk/omnifix.pro",
+    "statusUrl": "https://github.com/vetrovk/omnifix.pro/commit/fec4288884b8c11107f79a503a07cabfd617fbd6",
+    "time": "2h ago",
+    "type": "project"
+  },
+  {
     "source": "snakemake/snakemake",
     "description": "avoid config hash crash for non-serializable values",
     "status": "PR merged",
     "url": "https://github.com/snakemake/snakemake",
     "statusUrl": "https://github.com/snakemake/snakemake/pull/4241",
-    "time": "8h ago",
+    "time": "13h ago",
     "type": "open-source"
   },
   {
@@ -18,29 +27,11 @@
     "type": "open-source"
   },
   {
-    "source": "vetrovk/omnifix.pro",
-    "description": "Static site build updated",
-    "status": "pushed",
-    "url": "https://github.com/vetrovk/omnifix.pro",
-    "statusUrl": "https://github.com/vetrovk/omnifix.pro/commit/8cb0098e322862efed2631cd3558af9a69020828",
-    "time": "yesterday",
-    "type": "project"
-  },
-  {
     "source": "gchq/CyberChef",
     "description": "Preserve zero input in Node API",
     "status": "review",
     "url": "https://github.com/gchq/CyberChef",
     "statusUrl": "https://github.com/gchq/CyberChef/pull/2591#issuecomment-4916862675",
-    "time": "2d ago",
-    "type": "open-source"
-  },
-  {
-    "source": "kytta/share2fedi",
-    "description": "Show validation issue messages for invalid domains",
-    "status": "PR opened",
-    "url": "https://github.com/kytta/share2fedi",
-    "statusUrl": "https://github.com/kytta/share2fedi/pull/289",
     "time": "2d ago",
     "type": "open-source"
   }
