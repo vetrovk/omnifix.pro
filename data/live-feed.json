@@ -5,7 +5,7 @@
     "status": "pushed",
     "url": "https://github.com/vetrovk/omnifix.pro",
     "statusUrl": "https://github.com/vetrovk/omnifix.pro/commit/a5f874926d1dceabffdff8d2509604202525a834",
-    "time": "2 h ago",
+    "time": "7 h ago",
     "type": "project"
   },
   {
@@ -14,7 +14,7 @@
     "status": "PR merged",
     "url": "https://github.com/snakemake/snakemake",
     "statusUrl": "https://github.com/snakemake/snakemake/pull/4241",
-    "time": "19 h ago",
+    "time": "yesterday",
     "type": "open-source"
   },
   {
@@ -23,7 +23,7 @@
     "status": "PR opened",
     "url": "https://github.com/usememos/memos",
     "statusUrl": "https://github.com/usememos/memos/pull/6080",
-    "time": "yesterday",
+    "time": "2 days ago",
     "type": "open-source"
   },
   {
@@ -32,7 +32,7 @@
     "status": "review",
     "url": "https://github.com/gchq/CyberChef",
     "statusUrl": "https://github.com/gchq/CyberChef/pull/2591#issuecomment-4916862675",
-    "time": "2 days ago",
+    "time": "3 days ago",
     "type": "open-source"
   }
 ]
