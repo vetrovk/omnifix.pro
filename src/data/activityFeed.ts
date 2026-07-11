@@ -20,14 +20,14 @@ export const activityFeed: ActivityFeedItem[] = [
     description: "review thread updated",
     status: "updated",
     href: "https://github.com/vetrovk",
-    time: "2h ago",
+    time: "2 h ago",
   },
   {
     source: "omnifix.pro",
     description: "hero system design updated",
     status: "updated",
     href: "https://github.com/vetrovk",
-    time: "today",
+    time: "just now",
   },
   {
     source: "oracle-bot",

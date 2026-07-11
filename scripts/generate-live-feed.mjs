@@ -200,7 +200,7 @@ function normalizeFeed(items) {
     status: item.status,
     url: item.url,
     statusUrl: item.statusUrl,
-    time: item.time,
+    time: _createdAt ? relativeDate(_createdAt) : normalizeFallbackTime(item.time),
     type: item.type,
   }));
 }
@@ -223,12 +223,13 @@ function renderFeedRow(item) {
   const statusClasses = ["feed-status", statusClass].filter(Boolean).join(" ");
   const statusHtml = item.statusUrl
     ? `<a class="${statusClasses}" href="${escapeAttr(item.statusUrl)}">${escapeHtml(item.status)}</a>`
-    : `<span class="${statusClasses}">${escapeHtml(item.time || item.status)}</span>`;
+    : `<span class="${statusClasses}">${escapeHtml(item.status)}</span>`;
+  const timeHtml = item.time ? `<span class="feed-time">${escapeHtml(item.time)}</span>` : "";
 
   return `            <article class="feed-row" data-feed-type="${escapeAttr(item.type)}">
               <a class="feed-source" href="${escapeAttr(item.url)}">${escapeHtml(item.source)}</a>
               <span class="feed-copy">${escapeHtml(item.description)}</span>
-              ${statusHtml}
+              <span class="feed-meta">${timeHtml}${statusHtml}</span>
             </article>`;
 }
 
@@ -236,7 +237,7 @@ function renderEmptyFeedRow() {
   return `            <article class="feed-row" data-feed-type="empty">
               <span class="feed-source">GitHub</span>
               <span class="feed-copy">Public activity is temporarily unavailable</span>
-              <span class="feed-status">fallback</span>
+              <span class="feed-meta"><span class="feed-status">fallback</span></span>
             </article>`;
 }
 
@@ -267,19 +268,37 @@ function titleFromBranch(ref) {
     .replace(/[-_]+/g, " ");
 }
 
-function relativeDate(value) {
+function relativeDate(value, now = new Date()) {
   const created = new Date(value);
-  const now = new Date();
-  const diffMs = now.getTime() - created.getTime();
-  const diffHours = Math.floor(diffMs / 3600000);
-  if (diffHours < 1) return "now";
-  if (diffHours < 24) return `${diffHours}h ago`;
+  if (Number.isNaN(created.getTime())) return "";
+
+  const diffMinutes = Math.floor(Math.max(0, now.getTime() - created.getTime()) / 60000);
+  if (diffMinutes < 1) return "just now";
+  if (diffMinutes < 60) return `${diffMinutes} min ago`;
+
+  const diffHours = Math.floor(diffMinutes / 60);
+  if (diffHours < 24) return `${diffHours} h ago`;
+
+  if (diffHours < 48) return "yesterday";
 
   const diffDays = Math.floor(diffHours / 24);
-  if (diffDays === 1) return "yesterday";
-  if (diffDays < 7) return `${diffDays}d ago`;
+  if (diffDays <= 7) return `${diffDays} days ago`;
 
-  return created.toLocaleDateString("en", { month: "short", day: "numeric" });
+  return created.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+}
+
+function normalizeFallbackTime(value) {
+  const time = String(value || "").trim();
+  if (!time || time === "today" || time === "now") return "just now";
+  if (time === "yesterday" || time === "just now") return time;
+
+  const hourMatch = time.match(/^(\d+)\s*h ago$/i);
+  if (hourMatch) return `${hourMatch[1]} h ago`;
+
+  const dayMatch = time.match(/^(\d+)\s*d ago$/i);
+  if (dayMatch) return `${dayMatch[1]} days ago`;
+
+  return time;
 }
 
 function isOwnRepo(repo) {

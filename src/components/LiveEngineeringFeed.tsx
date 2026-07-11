@@ -42,6 +42,11 @@ export function LiveEngineeringFeed({ items }: LiveEngineeringFeedProps) {
                 href={statusHref ?? href}
                 className="col-start-2 row-start-1 flex items-center justify-end gap-1.5 md:col-start-auto md:row-start-auto"
               >
+                {time && (
+                  <span className="text-[10px] font-['JetBrains_Mono',monospace] text-white/24">
+                    {time}
+                  </span>
+                )}
                 {status === "live" && (
                   <div className="w-[5px] h-[5px] rounded-full bg-[#22c55e] animate-pulse" />
                 )}
@@ -52,7 +57,7 @@ export function LiveEngineeringFeed({ items }: LiveEngineeringFeedProps) {
                       : "text-white/20 group-hover:text-white/35"
                   }`}
                 >
-                  {time ?? status}
+                  {status}
                 </span>
               </a>
             </div>
