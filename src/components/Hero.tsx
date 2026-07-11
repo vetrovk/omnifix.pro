@@ -1,5 +1,3 @@
-import { NeuralBuildOrbit } from "./NeuralBuildOrbit";
-
 const tags = ["Open Source", "Automation", "AI Engineering", "Homelab"];
 
 const GithubIcon = () => (
@@ -65,10 +63,8 @@ export function Hero() {
         </span>
       </header>
 
-      <main className="relative isolate flex-1 overflow-hidden px-6 pb-6 md:px-16">
-        <NeuralBuildOrbit className="absolute right-16 top-1/2 hidden h-[430px] w-[520px] -translate-y-1/2 -z-10 lg:block" />
-
-        <div className="relative z-10 flex h-full max-w-[760px] flex-col justify-center">
+      <main className="relative flex-1 overflow-hidden px-6 pb-6 md:px-16">
+        <div className="relative z-10 flex h-full max-w-[760px] flex-col justify-center opacity-100 visible transform-none">
           <div className="flex items-center gap-3 mb-9">
             <div className="h-px w-7 bg-[#38bdf8]/50" />
             <span className="text-[10px] font-['JetBrains_Mono',monospace] text-[#38bdf8]/65 tracking-[0.22em] uppercase">
