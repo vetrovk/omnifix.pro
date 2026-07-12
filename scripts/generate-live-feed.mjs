@@ -15,18 +15,23 @@ const REPO_PRIORITY = new Map([
   ["vetrovk/oracle-bot", 84],
 ]);
 const FALLBACK_PATH = "data/live-feed-fallback.json";
+const FEATURED_PROJECT_PATH = "data/featured-project.json";
 const OUTPUT_PATH = "data/live-feed.json";
 const HTML_PATH = "index.html";
 const START_MARKER = "<!-- live-feed:start -->";
 const END_MARKER = "<!-- live-feed:end -->";
+const FEATURED_PROJECT_START_MARKER = "<!-- featured-project:start -->";
+const FEATURED_PROJECT_END_MARKER = "<!-- featured-project:end -->";
 
 async function main() {
   const fallback = await readJson(FALLBACK_PATH);
-  const { items, source } = await loadFeed(fallback);
+  const featuredProject = await readJson(FEATURED_PROJECT_PATH);
+  const { items, candidates, source } = await loadFeed(fallback);
   const normalized = normalizeFeed(items, source);
+  const featured = normalizeFeaturedProject(featuredProject, candidates);
 
   await writeFile(OUTPUT_PATH, `${JSON.stringify(normalized, null, 2)}\n`);
-  await updateHtml(normalized);
+  await updateHtml(normalized, featured);
 
   console.log(`live-feed: wrote ${normalized.length} ${source} item(s)`);
   for (const item of normalized) {
@@ -43,14 +48,14 @@ async function main() {
 
 async function loadFeed(fallback) {
   try {
-    const items = await collectGitHubItems();
-    if (!items.length) {
-      return { items: fallback, source: "fallback" };
+    const feed = await collectGitHubItems();
+    if (!feed.items.length) {
+      return { items: fallback, candidates: fallback, source: "fallback" };
     }
-    return { items, source: "github" };
+    return { ...feed, source: "github" };
   } catch (error) {
     console.warn(`live-feed: using fallback (${error.message})`);
-    return { items: fallback, source: "fallback" };
+    return { items: fallback, candidates: fallback, source: "fallback" };
   }
 }
 
@@ -63,11 +68,11 @@ async function collectGitHubItems() {
 
     const selected = selectFeedItems(candidates);
     if (selected.length >= MAX_ITEMS || events.length < EVENTS_PAGE_SIZE) {
-      return selected;
+      return { items: selected, candidates };
     }
   }
 
-  return selectFeedItems(candidates);
+  return { items: selectFeedItems(candidates), candidates };
 }
 
 async function fetchGitHubJson(url) {
@@ -250,17 +255,40 @@ function normalizeFeed(items, source) {
     });
 }
 
-async function updateHtml(items) {
+function normalizeFeaturedProject(project, candidates) {
+  const latestEvent = candidates
+    .filter((item) => item.source === project.repository && item.status === "pushed")
+    .sort((a, b) => Date.parse(b.timestamp) - Date.parse(a.timestamp))[0];
+  const timestamp = validTimestamp(latestEvent?.timestamp);
+
+  return {
+    ...project,
+    lastPush: timestamp ? relativeDate(timestamp) : "—",
+  };
+}
+
+async function updateHtml(items, featured) {
   const html = await readFile(HTML_PATH, "utf8");
-  const start = html.indexOf(START_MARKER);
-  const end = html.indexOf(END_MARKER);
+  const rendered = items.length ? items.map(renderFeedRow).join("\n") : renderEmptyFeedRow();
+  const withFeed = replaceHtmlRegion(html, START_MARKER, END_MARKER, rendered, "live-feed");
+  const nextHtml = replaceHtmlRegion(
+    withFeed,
+    FEATURED_PROJECT_START_MARKER,
+    FEATURED_PROJECT_END_MARKER,
+    renderFeaturedProject(featured),
+    "featured-project",
+  );
+  await writeFile(HTML_PATH, nextHtml);
+}
+
+function replaceHtmlRegion(html, startMarker, endMarker, content, label) {
+  const start = html.indexOf(startMarker);
+  const end = html.indexOf(endMarker);
   if (start === -1 || end === -1 || end < start) {
-    throw new Error("live-feed markers not found in index.html");
+    throw new Error(`${label} markers not found in index.html`);
   }
 
-  const rendered = items.length ? items.map(renderFeedRow).join("\n") : renderEmptyFeedRow();
-  const nextHtml = `${html.slice(0, start + START_MARKER.length)}\n${rendered}\n            ${html.slice(end)}`;
-  await writeFile(HTML_PATH, nextHtml);
+  return `${html.slice(0, start + startMarker.length)}\n${content}\n            ${html.slice(end)}`;
 }
 
 function renderFeedRow(item) {
@@ -284,6 +312,19 @@ function renderEmptyFeedRow() {
               <span class="feed-copy">Public activity is temporarily unavailable</span>
               <span class="feed-meta"><span class="feed-status">fallback</span></span>
             </article>`;
+}
+
+function renderFeaturedProject(project) {
+  return `            <p class="featured-project-kicker">NOW BUILDING</p>
+            <a class="featured-project-repository" href="${escapeAttr(project.github_url)}" target="_blank" rel="noreferrer">${escapeHtml(project.repository)}</a>
+            <p class="featured-project-description">${escapeHtml(project.description)}</p>
+            <dl class="featured-project-meta">
+              <div><dt>Status</dt><dd>${escapeHtml(project.status)}</dd></div>
+              <div><dt>Language</dt><dd>${escapeHtml(project.language)}</dd></div>
+              <div><dt>License</dt><dd>${escapeHtml(project.license)}</dd></div>
+              <div><dt>Last push</dt><dd>${escapeHtml(project.lastPush)}</dd></div>
+            </dl>
+            <a class="featured-project-link" href="${escapeAttr(project.github_url)}" target="_blank" rel="noreferrer">View on GitHub <span aria-hidden="true">→</span></a>`;
 }
 
 function statusClassName(status) {
