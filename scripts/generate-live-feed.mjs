@@ -22,6 +22,8 @@ const START_MARKER = "<!-- live-feed:start -->";
 const END_MARKER = "<!-- live-feed:end -->";
 const FEATURED_PROJECT_START_MARKER = "<!-- featured-project:start -->";
 const FEATURED_PROJECT_END_MARKER = "<!-- featured-project:end -->";
+const FEATURED_PROJECT_MOBILE_START_MARKER = "<!-- featured-project-mobile:start -->";
+const FEATURED_PROJECT_MOBILE_END_MARKER = "<!-- featured-project-mobile:end -->";
 
 async function main() {
   const fallback = await readJson(FALLBACK_PATH);
@@ -271,12 +273,19 @@ async function updateHtml(items, featured) {
   const html = await readFile(HTML_PATH, "utf8");
   const rendered = items.length ? items.map(renderFeedRow).join("\n") : renderEmptyFeedRow();
   const withFeed = replaceHtmlRegion(html, START_MARKER, END_MARKER, rendered, "live-feed");
-  const nextHtml = replaceHtmlRegion(
+  const withFeaturedProject = replaceHtmlRegion(
     withFeed,
     FEATURED_PROJECT_START_MARKER,
     FEATURED_PROJECT_END_MARKER,
     renderFeaturedProject(featured),
     "featured-project",
+  );
+  const nextHtml = replaceHtmlRegion(
+    withFeaturedProject,
+    FEATURED_PROJECT_MOBILE_START_MARKER,
+    FEATURED_PROJECT_MOBILE_END_MARKER,
+    renderFeaturedProjectMobile(featured),
+    "featured-project-mobile",
   );
   await writeFile(HTML_PATH, nextHtml);
 }
@@ -325,6 +334,15 @@ function renderFeaturedProject(project) {
               <div><dt>Last push</dt><dd>${escapeHtml(project.lastPush)}</dd></div>
             </dl>
             <a class="featured-project-link" href="${escapeAttr(project.github_url)}" target="_blank" rel="noreferrer">View on GitHub <span aria-hidden="true">→</span></a>`;
+}
+
+function renderFeaturedProjectMobile(project) {
+  return `            <p class="featured-project-mobile-kicker">NOW BUILDING</p>
+            <a class="featured-project-mobile-repository" href="${escapeAttr(project.github_url)}" target="_blank" rel="noreferrer">${escapeHtml(project.repository)}</a>
+            <p class="featured-project-mobile-description">${escapeHtml(project.description)}</p>
+            <p class="featured-project-mobile-meta">${escapeHtml(project.language)} <span aria-hidden="true">·</span> ${escapeHtml(project.license)} <span aria-hidden="true">·</span> ${escapeHtml(project.status)}</p>
+            <p class="featured-project-mobile-push">Last push <span aria-hidden="true">·</span> ${escapeHtml(project.lastPush)}</p>
+            <a class="featured-project-mobile-link" href="${escapeAttr(project.github_url)}" target="_blank" rel="noreferrer">View on GitHub <span aria-hidden="true">→</span></a>`;
 }
 
 function statusClassName(status) {
