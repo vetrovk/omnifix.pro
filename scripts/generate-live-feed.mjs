@@ -3,13 +3,15 @@ import { resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 
 const USER = "vetrovk";
-const MAX_ITEMS = 5;
+const MAX_ITEMS = 4;
 const EVENTS_URL = `https://api.github.com/users/${USER}/events/public`;
+const EVENTS_PAGE_SIZE = 100;
+const MAX_EVENT_PAGES = 3;
+const EXCLUDED_REPOSITORIES = new Set(["vetrovk/omnifix.pro"]);
 const REPO_PRIORITY = new Map([
   ["sqlfluff/sqlfluff", 100],
   ["FOSSBilling/FOSSBilling", 94],
   ["gchq/CyberChef", 92],
-  ["vetrovk/omnifix.pro", 86],
   ["vetrovk/oracle-bot", 84],
 ]);
 const FALLBACK_PATH = "data/live-feed-fallback.json";
@@ -21,18 +23,27 @@ const END_MARKER = "<!-- live-feed:end -->";
 async function main() {
   const fallback = await readJson(FALLBACK_PATH);
   const { items, source } = await loadFeed(fallback);
-  const normalized = normalizeFeed(items);
+  const normalized = normalizeFeed(items, source);
 
   await writeFile(OUTPUT_PATH, `${JSON.stringify(normalized, null, 2)}\n`);
   await updateHtml(normalized);
 
   console.log(`live-feed: wrote ${normalized.length} ${source} item(s)`);
+  for (const item of normalized) {
+    console.log([
+      "live-feed: selected",
+      item.source,
+      item.eventType,
+      item.timestamp,
+      item.relativeTime,
+      item.selectionReason,
+    ].join("\t"));
+  }
 }
 
 async function loadFeed(fallback) {
   try {
-    const events = await fetchGitHubJson(EVENTS_URL);
-    const items = await buildFeed(events);
+    const items = await collectGitHubItems();
     if (!items.length) {
       return { items: fallback, source: "fallback" };
     }
@@ -41,6 +52,22 @@ async function loadFeed(fallback) {
     console.warn(`live-feed: using fallback (${error.message})`);
     return { items: fallback, source: "fallback" };
   }
+}
+
+async function collectGitHubItems() {
+  const candidates = [];
+
+  for (let page = 1; page <= MAX_EVENT_PAGES; page += 1) {
+    const events = await fetchGitHubJson(`${EVENTS_URL}?per_page=${EVENTS_PAGE_SIZE}&page=${page}`);
+    candidates.push(...await buildFeed(events));
+
+    const selected = selectFeedItems(candidates);
+    if (selected.length >= MAX_ITEMS || events.length < EVENTS_PAGE_SIZE) {
+      return selected;
+    }
+  }
+
+  return selectFeedItems(candidates);
 }
 
 async function fetchGitHubJson(url) {
@@ -65,7 +92,7 @@ async function fetchGitHubJson(url) {
 
 function buildFeed(events) {
   return Promise.all(events.map(eventToFeedItem))
-    .then((items) => selectFeedItems(items.filter(Boolean)));
+    .then((items) => items.filter(Boolean));
 }
 
 function selectFeedItems(items) {
@@ -76,13 +103,17 @@ function selectFeedItems(items) {
   const rest = unique.filter((item) => !merged.includes(item) && !projectPushes.includes(item));
 
   return uniqueBy([
-    ...merged.slice(0, 2),
-    ...projectPushes.slice(0, 1),
-    ...opened.slice(0, 1),
-    ...rest,
+    ...withSelectionReason(merged.slice(0, 2), "recent merged pull request"),
+    ...withSelectionReason(projectPushes.slice(0, 1), "recent project push"),
+    ...withSelectionReason(opened.slice(0, 1), "recent opened pull request"),
+    ...withSelectionReason(rest, "supported public activity"),
   ], feedIdentityKey)
     .sort((a, b) => Date.parse(b.timestamp) - Date.parse(a.timestamp))
     .slice(0, MAX_ITEMS);
+}
+
+function withSelectionReason(items, selectionReason) {
+  return items.map((item) => ({ ...item, selectionReason }));
 }
 
 function feedIdentityKey(item) {
@@ -100,7 +131,9 @@ function uniqueBy(items, getKey) {
 }
 
 async function eventToFeedItem(event) {
-  if (!event?.repo?.name || !event?.created_at) return null;
+  if (!event?.repo?.name || !event?.created_at || event.repo.private || isExcludedRepository(event.repo.name)) {
+    return null;
+  }
 
   if (event.type === "PullRequestEvent") {
     return pullRequestEventToItem(event);
@@ -118,6 +151,7 @@ async function eventToFeedItem(event) {
       url: repoUrl(event.repo.name),
       statusUrl: event.payload.comment?.html_url || event.payload.issue.html_url,
       timestamp: event.created_at,
+      eventType: event.type,
       type: isOwnRepo(event.repo.name) ? "project" : "open-source",
       _score: priorityFor(event.repo.name, 42),
     };
@@ -145,6 +179,7 @@ async function pullRequestEventToItem(event) {
     url: repoUrl(event.repo.name),
     statusUrl: pullRequest.html_url || prUrl(event.repo.name, pullRequest.number),
     timestamp: event.created_at,
+    eventType: event.type,
     type: isOwnRepo(event.repo.name) ? "project" : "open-source",
     _score: priorityFor(event.repo.name, merged ? 100 : 70),
   };
@@ -167,9 +202,7 @@ function pushEventToItem(event) {
   const commits = event.payload?.commits || [];
   const head = event.payload?.head;
   const message = commits.at(-1)?.message || titleFromBranch(event.payload?.ref) || "repository updated";
-  const description = event.repo.name === "vetrovk/omnifix.pro"
-    ? "Static site build updated"
-    : tidyTitle(message);
+  const description = tidyTitle(message);
 
   return {
     source: event.repo.name,
@@ -178,6 +211,7 @@ function pushEventToItem(event) {
     url: repoUrl(event.repo.name),
     statusUrl: head ? `${repoUrl(event.repo.name)}/commit/${head}` : repoUrl(event.repo.name),
     timestamp: event.created_at,
+    eventType: event.type,
     type: isOwnRepo(event.repo.name) ? "project" : "open-source",
     _score: priorityFor(event.repo.name, 58),
   };
@@ -192,23 +226,28 @@ function priorityFor(repo, base) {
   return base + (REPO_PRIORITY.get(repo) || 0);
 }
 
-function normalizeFeed(items) {
-  return items.slice(0, MAX_ITEMS).map(({ _score, ...item }) => {
-    const timestamp = validTimestamp(item.timestamp);
+function normalizeFeed(items, source) {
+  return items
+    .filter((item) => !isExcludedRepository(item.source))
+    .slice(0, MAX_ITEMS)
+    .map(({ _score, ...item }) => {
+      const timestamp = validTimestamp(item.timestamp);
 
-    return {
-      source: item.source,
-      description: item.description,
-      status: item.status,
-      url: item.url,
-      statusUrl: item.statusUrl,
-      timestamp,
-      relativeTime: timestamp
-        ? relativeDate(timestamp)
-        : normalizeFallbackTime(item.relativeTime || item.time),
-      type: item.type,
-    };
-  });
+      return {
+        source: item.source,
+        description: item.description,
+        status: item.status,
+        url: item.url,
+        statusUrl: item.statusUrl,
+        timestamp,
+        relativeTime: timestamp
+          ? relativeDate(timestamp)
+          : normalizeFallbackTime(item.relativeTime || item.time),
+        eventType: item.eventType || "fallback",
+        selectionReason: item.selectionReason || (source === "fallback" ? "saved fallback event" : "supported public event"),
+        type: item.type,
+      };
+    });
 }
 
 async function updateHtml(items) {
@@ -314,6 +353,10 @@ function validTimestamp(value) {
 
 function isOwnRepo(repo) {
   return repo.startsWith(`${USER}/`);
+}
+
+function isExcludedRepository(repo) {
+  return EXCLUDED_REPOSITORIES.has(repo);
 }
 
 function repoUrl(repo) {

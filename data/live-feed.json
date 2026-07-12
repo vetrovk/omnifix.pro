@@ -1,23 +1,15 @@
 [
   {
-    "source": "vetrovk/omnifix.pro",
-    "description": "Static site build updated",
+    "source": "vetrovk/memoryos",
+    "description": "main",
     "status": "pushed",
-    "url": "https://github.com/vetrovk/omnifix.pro",
-    "statusUrl": "https://github.com/vetrovk/omnifix.pro/commit/f65ae89b046c47fadcfd8d2ab94209600bf64ff8",
-    "timestamp": "2026-07-12T07:19:48Z",
-    "relativeTime": "1 h ago",
+    "url": "https://github.com/vetrovk/memoryos",
+    "statusUrl": "https://github.com/vetrovk/memoryos/commit/b4039e86f1809d9c2615f2c32f806655cab7494e",
+    "timestamp": "2026-07-12T10:15:13Z",
+    "relativeTime": "19 min ago",
+    "eventType": "PushEvent",
+    "selectionReason": "recent project push",
     "type": "project"
-  },
-  {
-    "source": "snakemake/snakemake",
-    "description": "avoid config hash crash for non-serializable values",
-    "status": "PR merged",
-    "url": "https://github.com/snakemake/snakemake",
-    "statusUrl": "https://github.com/snakemake/snakemake/pull/4241",
-    "timestamp": "2026-07-10T18:09:40Z",
-    "relativeTime": "yesterday",
-    "type": "open-source"
   },
   {
     "source": "usememos/memos",
@@ -27,6 +19,8 @@
     "statusUrl": "https://github.com/usememos/memos/pull/6080",
     "timestamp": "2026-07-09T13:50:09Z",
     "relativeTime": "2 days ago",
+    "eventType": "PullRequestEvent",
+    "selectionReason": "supported public activity",
     "type": "open-source"
   },
   {
@@ -37,6 +31,20 @@
     "statusUrl": "https://github.com/gchq/CyberChef/pull/2591#issuecomment-4916862675",
     "timestamp": "2026-07-08T16:16:21Z",
     "relativeTime": "3 days ago",
+    "eventType": "IssueCommentEvent",
+    "selectionReason": "supported public activity",
+    "type": "open-source"
+  },
+  {
+    "source": "kytta/share2fedi",
+    "description": "Show validation issue messages for invalid domains",
+    "status": "PR opened",
+    "url": "https://github.com/kytta/share2fedi",
+    "statusUrl": "https://github.com/kytta/share2fedi/pull/289",
+    "timestamp": "2026-07-08T07:43:22Z",
+    "relativeTime": "4 days ago",
+    "eventType": "PullRequestEvent",
+    "selectionReason": "supported public activity",
     "type": "open-source"
   }
 ]
