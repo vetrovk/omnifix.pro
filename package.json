@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "generate:feed": "node scripts/generate-live-feed.mjs",
+    "verify:feed-time": "node scripts/verify-relative-time.mjs",
     "build": "npm run generate:feed && vite build",
     "dev": "vite"
   },

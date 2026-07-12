@@ -5,7 +5,7 @@
     "status": "pushed",
     "url": "https://github.com/vetrovk/omnifix.pro",
     "statusUrl": "https://github.com/vetrovk/omnifix.pro/commit/b67a6211985bb40a57a9d72eb1af71cc716e4f0f",
-    "time": "today",
+    "timestamp": "2026-07-08T13:14:46Z",
     "type": "project"
   },
   {
@@ -14,7 +14,7 @@
     "status": "PR merged",
     "url": "https://github.com/sqlfluff/sqlfluff",
     "statusUrl": "https://github.com/sqlfluff/sqlfluff/pull/8081",
-    "time": "yesterday",
+    "timestamp": "2026-07-07T08:44:02Z",
     "type": "open-source"
   },
   {
@@ -23,7 +23,7 @@
     "status": "PR opened",
     "url": "https://github.com/kytta/share2fedi",
     "statusUrl": "https://github.com/kytta/share2fedi/pull/289",
-    "time": "today",
+    "timestamp": "2026-07-08T07:43:22Z",
     "type": "open-source"
   },
   {
@@ -32,7 +32,7 @@
     "status": "PR merged",
     "url": "https://github.com/FOSSBilling/FOSSBilling",
     "statusUrl": "https://github.com/FOSSBilling/FOSSBilling/pull/3880",
-    "time": "Jul 4",
+    "timestamp": "2026-07-04T18:27:55Z",
     "type": "open-source"
   }
 ]

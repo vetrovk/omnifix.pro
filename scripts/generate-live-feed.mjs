@@ -1,4 +1,6 @@
 import { readFile, writeFile } from "node:fs/promises";
+import { resolve } from "node:path";
+import { pathToFileURL } from "node:url";
 
 const USER = "vetrovk";
 const MAX_ITEMS = 5;
@@ -79,7 +81,7 @@ function selectFeedItems(items) {
     ...opened.slice(0, 1),
     ...rest,
   ], feedIdentityKey)
-    .sort((a, b) => Date.parse(b._createdAt) - Date.parse(a._createdAt))
+    .sort((a, b) => Date.parse(b.timestamp) - Date.parse(a.timestamp))
     .slice(0, MAX_ITEMS);
 }
 
@@ -115,9 +117,8 @@ async function eventToFeedItem(event) {
       status: "review",
       url: repoUrl(event.repo.name),
       statusUrl: event.payload.comment?.html_url || event.payload.issue.html_url,
-      time: relativeDate(event.created_at),
+      timestamp: event.created_at,
       type: isOwnRepo(event.repo.name) ? "project" : "open-source",
-      _createdAt: event.created_at,
       _score: priorityFor(event.repo.name, 42),
     };
   }
@@ -143,9 +144,8 @@ async function pullRequestEventToItem(event) {
     status,
     url: repoUrl(event.repo.name),
     statusUrl: pullRequest.html_url || prUrl(event.repo.name, pullRequest.number),
-    time: relativeDate(event.created_at),
+    timestamp: event.created_at,
     type: isOwnRepo(event.repo.name) ? "project" : "open-source",
-    _createdAt: event.created_at,
     _score: priorityFor(event.repo.name, merged ? 100 : 70),
   };
 }
@@ -177,16 +177,15 @@ function pushEventToItem(event) {
     status: "pushed",
     url: repoUrl(event.repo.name),
     statusUrl: head ? `${repoUrl(event.repo.name)}/commit/${head}` : repoUrl(event.repo.name),
-    time: relativeDate(event.created_at),
+    timestamp: event.created_at,
     type: isOwnRepo(event.repo.name) ? "project" : "open-source",
-    _createdAt: event.created_at,
     _score: priorityFor(event.repo.name, 58),
   };
 }
 
 function compareItems(a, b) {
   if (b._score !== a._score) return b._score - a._score;
-  return Date.parse(b._createdAt) - Date.parse(a._createdAt);
+  return Date.parse(b.timestamp) - Date.parse(a.timestamp);
 }
 
 function priorityFor(repo, base) {
@@ -194,15 +193,22 @@ function priorityFor(repo, base) {
 }
 
 function normalizeFeed(items) {
-  return items.slice(0, MAX_ITEMS).map(({ _createdAt, _score, ...item }) => ({
-    source: item.source,
-    description: item.description,
-    status: item.status,
-    url: item.url,
-    statusUrl: item.statusUrl,
-    time: _createdAt ? relativeDate(_createdAt) : normalizeFallbackTime(item.time),
-    type: item.type,
-  }));
+  return items.slice(0, MAX_ITEMS).map(({ _score, ...item }) => {
+    const timestamp = validTimestamp(item.timestamp);
+
+    return {
+      source: item.source,
+      description: item.description,
+      status: item.status,
+      url: item.url,
+      statusUrl: item.statusUrl,
+      timestamp,
+      relativeTime: timestamp
+        ? relativeDate(timestamp)
+        : normalizeFallbackTime(item.relativeTime || item.time),
+      type: item.type,
+    };
+  });
 }
 
 async function updateHtml(items) {
@@ -224,7 +230,7 @@ function renderFeedRow(item) {
   const statusHtml = item.statusUrl
     ? `<a class="${statusClasses}" href="${escapeAttr(item.statusUrl)}">${escapeHtml(item.status)}</a>`
     : `<span class="${statusClasses}">${escapeHtml(item.status)}</span>`;
-  const timeHtml = item.time ? `<span class="feed-time">${escapeHtml(item.time)}</span>` : "";
+  const timeHtml = item.relativeTime ? `<span class="feed-time">${escapeHtml(item.relativeTime)}</span>` : "";
 
   return `            <article class="feed-row" data-feed-type="${escapeAttr(item.type)}">
               <a class="feed-source" href="${escapeAttr(item.url)}">${escapeHtml(item.source)}</a>
@@ -268,7 +274,7 @@ function titleFromBranch(ref) {
     .replace(/[-_]+/g, " ");
 }
 
-function relativeDate(value, now = new Date()) {
+export function relativeDate(value, now = new Date()) {
   const created = new Date(value);
   if (Number.isNaN(created.getTime())) return "";
 
@@ -301,6 +307,11 @@ function normalizeFallbackTime(value) {
   return time;
 }
 
+function validTimestamp(value) {
+  const timestamp = String(value || "").trim();
+  return Number.isNaN(Date.parse(timestamp)) ? null : timestamp;
+}
+
 function isOwnRepo(repo) {
   return repo.startsWith(`${USER}/`);
 }
@@ -329,11 +340,16 @@ function escapeAttr(value) {
   return escapeHtml(value).replaceAll("'", "&#39;");
 }
 
-main()
-  .then(() => {
-    process.exit(0);
-  })
-  .catch((error) => {
-    console.error(`live-feed: ${error.message}`);
-    process.exit(1);
-  });
+const invokedDirectly = process.argv[1]
+  && import.meta.url === pathToFileURL(resolve(process.argv[1])).href;
+
+if (invokedDirectly) {
+  main()
+    .then(() => {
+      process.exit(0);
+    })
+    .catch((error) => {
+      console.error(`live-feed: ${error.message}`);
+      process.exit(1);
+    });
+}
