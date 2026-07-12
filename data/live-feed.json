@@ -6,7 +6,7 @@
     "url": "https://github.com/vetrovk/memoryos",
     "statusUrl": "https://github.com/vetrovk/memoryos/commit/b4039e86f1809d9c2615f2c32f806655cab7494e",
     "timestamp": "2026-07-12T10:15:13Z",
-    "relativeTime": "3 h ago",
+    "relativeTime": "8 h ago",
     "eventType": "PushEvent",
     "selectionReason": "recent project push",
     "type": "project"
@@ -18,7 +18,7 @@
     "url": "https://github.com/usememos/memos",
     "statusUrl": "https://github.com/usememos/memos/pull/6080",
     "timestamp": "2026-07-09T13:50:09Z",
-    "relativeTime": "2 days ago",
+    "relativeTime": "3 days ago",
     "eventType": "PullRequestEvent",
     "selectionReason": "supported public activity",
     "type": "open-source"
@@ -30,7 +30,7 @@
     "url": "https://github.com/gchq/CyberChef",
     "statusUrl": "https://github.com/gchq/CyberChef/pull/2591#issuecomment-4916862675",
     "timestamp": "2026-07-08T16:16:21Z",
-    "relativeTime": "3 days ago",
+    "relativeTime": "4 days ago",
     "eventType": "IssueCommentEvent",
     "selectionReason": "supported public activity",
     "type": "open-source"
