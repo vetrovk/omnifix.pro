@@ -1,15 +1,27 @@
 [
   {
-    "source": "vetrovk/memoryos",
-    "description": "main",
+    "source": "vetrovk/pytest",
+    "description": "doctest fixture line number",
     "status": "pushed",
-    "url": "https://github.com/vetrovk/memoryos",
-    "statusUrl": "https://github.com/vetrovk/memoryos/commit/b4039e86f1809d9c2615f2c32f806655cab7494e",
-    "timestamp": "2026-07-12T10:15:13Z",
-    "relativeTime": "16 h ago",
+    "url": "https://github.com/vetrovk/pytest",
+    "statusUrl": "https://github.com/vetrovk/pytest/commit/66d43e13db015fd0ea62e3de3bfdd15e8b52e65e",
+    "timestamp": "2026-07-13T06:24:12Z",
+    "relativeTime": "3 h ago",
     "eventType": "PushEvent",
     "selectionReason": "recent project push",
     "type": "project"
+  },
+  {
+    "source": "pytest-dev/pytest",
+    "description": "resolve doctest locations for fixture definitions",
+    "status": "PR opened",
+    "url": "https://github.com/pytest-dev/pytest",
+    "statusUrl": "https://github.com/pytest-dev/pytest/pull/14702",
+    "timestamp": "2026-07-13T05:43:52Z",
+    "relativeTime": "3 h ago",
+    "eventType": "PullRequestEvent",
+    "selectionReason": "supported public activity",
+    "type": "open-source"
   },
   {
     "source": "usememos/memos",
@@ -32,18 +44,6 @@
     "timestamp": "2026-07-08T16:16:21Z",
     "relativeTime": "4 days ago",
     "eventType": "IssueCommentEvent",
-    "selectionReason": "supported public activity",
-    "type": "open-source"
-  },
-  {
-    "source": "kytta/share2fedi",
-    "description": "Show validation issue messages for invalid domains",
-    "status": "PR opened",
-    "url": "https://github.com/kytta/share2fedi",
-    "statusUrl": "https://github.com/kytta/share2fedi/pull/289",
-    "timestamp": "2026-07-08T07:43:22Z",
-    "relativeTime": "4 days ago",
-    "eventType": "PullRequestEvent",
     "selectionReason": "supported public activity",
     "type": "open-source"
   }
