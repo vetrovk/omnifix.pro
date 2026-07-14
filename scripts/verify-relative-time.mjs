@@ -1,4 +1,4 @@
-import { relativeDate } from "./generate-live-feed.mjs";
+import { deduplicateEngineeringWork, relativeDate } from "./generate-live-feed.mjs";
 
 const now = new Date("2026-07-12T12:00:00Z");
 const cases = [
@@ -14,4 +14,33 @@ for (const [expected, timestamp] of cases) {
   }
 }
 
-console.log("relative-time verification passed");
+const relatedWork = deduplicateEngineeringWork([
+  {
+    source: "vetrovk/pytest",
+    eventType: "PushEvent",
+    workSha: "same-work",
+    timestamp: "2026-07-13T06:24:12Z",
+  },
+  {
+    source: "pytest-dev/pytest",
+    eventType: "PullRequestEvent",
+    status: "PR opened",
+    workKey: "pytest-dev/pytest#123",
+    workSha: "same-work",
+    timestamp: "2026-07-13T05:43:52Z",
+  },
+  {
+    source: "pytest-dev/pytest",
+    eventType: "PullRequestReviewEvent",
+    status: "PR review",
+    workKey: "pytest-dev/pytest#123",
+    workSha: "same-work",
+    timestamp: "2026-07-13T07:00:00Z",
+  },
+]);
+
+if (relatedWork.length !== 1 || relatedWork[0].eventType !== "PullRequestReviewEvent") {
+  throw new Error("fork push and lower-value PR activity were not deduplicated");
+}
+
+console.log("relative-time and activity deduplication verification passed");

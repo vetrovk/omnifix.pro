@@ -7,6 +7,7 @@ const MAX_ITEMS = 4;
 const EVENTS_URL = `https://api.github.com/users/${USER}/events/public`;
 const EVENTS_PAGE_SIZE = 100;
 const MAX_EVENT_PAGES = 3;
+const RELATED_FORK_PUSH_WINDOW_MS = 6 * 60 * 60 * 1000;
 const EXCLUDED_REPOSITORIES = new Set(["vetrovk/omnifix.pro"]);
 const REPO_PRIORITY = new Map([
   ["sqlfluff/sqlfluff", 100],
@@ -68,13 +69,15 @@ async function collectGitHubItems() {
     const events = await fetchGitHubJson(`${EVENTS_URL}?per_page=${EVENTS_PAGE_SIZE}&page=${page}`);
     candidates.push(...await buildFeed(events));
 
-    const selected = selectFeedItems(candidates);
+    const deduplicated = deduplicateEngineeringWork(candidates);
+    const selected = selectFeedItems(deduplicated);
     if (selected.length >= MAX_ITEMS || events.length < EVENTS_PAGE_SIZE) {
-      return { items: selected, candidates };
+      return { items: selected, candidates: deduplicated };
     }
   }
 
-  return { items: selectFeedItems(candidates), candidates };
+  const deduplicated = deduplicateEngineeringWork(candidates);
+  return { items: selectFeedItems(deduplicated), candidates: deduplicated };
 }
 
 async function fetchGitHubJson(url) {
@@ -146,6 +149,10 @@ async function eventToFeedItem(event) {
     return pullRequestEventToItem(event);
   }
 
+  if (["PullRequestReviewEvent", "PullRequestReviewCommentEvent"].includes(event.type)) {
+    return pullRequestReviewActivityToItem(event);
+  }
+
   if (event.type === "PushEvent") {
     return pushEventToItem(event);
   }
@@ -159,6 +166,7 @@ async function eventToFeedItem(event) {
       statusUrl: event.payload.comment?.html_url || event.payload.issue.html_url,
       timestamp: event.created_at,
       eventType: event.type,
+      workKey: pullRequestWorkKey(event.repo.name, event.payload.issue.number),
       type: isOwnRepo(event.repo.name) ? "project" : "open-source",
       _score: priorityFor(event.repo.name, 42),
     };
@@ -187,8 +195,31 @@ async function pullRequestEventToItem(event) {
     statusUrl: pullRequest.html_url || prUrl(event.repo.name, pullRequest.number),
     timestamp: event.created_at,
     eventType: event.type,
+    workKey: pullRequestWorkKey(event.repo.name, pullRequest.number),
+    workSha: pullRequest.head?.sha,
     type: isOwnRepo(event.repo.name) ? "project" : "open-source",
     _score: priorityFor(event.repo.name, merged ? 100 : 70),
+  };
+}
+
+async function pullRequestReviewActivityToItem(event) {
+  let pullRequest = event.payload?.pull_request;
+  if (!pullRequest) return null;
+
+  pullRequest = await hydratePullRequest(pullRequest);
+
+  return {
+    source: event.repo.name,
+    description: tidyTitle(pullRequest.title || titleFromBranch(pullRequest.head?.ref) || `PR #${pullRequest.number}`),
+    status: "PR review",
+    url: repoUrl(event.repo.name),
+    statusUrl: pullRequest.html_url || prUrl(event.repo.name, pullRequest.number),
+    timestamp: event.created_at,
+    eventType: event.type,
+    workKey: pullRequestWorkKey(event.repo.name, pullRequest.number),
+    workSha: pullRequest.head?.sha,
+    type: isOwnRepo(event.repo.name) ? "project" : "open-source",
+    _score: priorityFor(event.repo.name, 88),
   };
 }
 
@@ -219,9 +250,65 @@ function pushEventToItem(event) {
     statusUrl: head ? `${repoUrl(event.repo.name)}/commit/${head}` : repoUrl(event.repo.name),
     timestamp: event.created_at,
     eventType: event.type,
+    workSha: head,
     type: isOwnRepo(event.repo.name) ? "project" : "open-source",
     _score: priorityFor(event.repo.name, 58),
   };
+}
+
+function pullRequestWorkKey(repository, number) {
+  return number ? `${repository}#${number}` : null;
+}
+
+export function deduplicateEngineeringWork(items) {
+  const highestValueItems = keepHighestValueWorkItems(items);
+
+  return highestValueItems.filter((item) => {
+    if (item.eventType !== "PushEvent" || !isOwnRepo(item.source) || !item.workSha) {
+      return true;
+    }
+
+    return !highestValueItems.some((related) => (
+      isUpstreamPullActivity(related)
+      && related.workSha === item.workSha
+      && Math.abs(Date.parse(related.timestamp) - Date.parse(item.timestamp)) <= RELATED_FORK_PUSH_WINDOW_MS
+    ));
+  });
+}
+
+function keepHighestValueWorkItems(items) {
+  const selectedByWorkKey = new Map();
+
+  for (const item of items) {
+    if (!item.workKey) continue;
+
+    const current = selectedByWorkKey.get(item.workKey);
+    if (!current || compareWorkValue(item, current) < 0) {
+      selectedByWorkKey.set(item.workKey, item);
+    }
+  }
+
+  return items.filter((item) => !item.workKey || selectedByWorkKey.get(item.workKey) === item);
+}
+
+function isUpstreamPullActivity(item) {
+  return item.workKey && !isOwnRepo(item.source) && item.eventType !== "PushEvent";
+}
+
+function compareWorkValue(a, b) {
+  const priorityDelta = workValuePriority(b) - workValuePriority(a);
+  if (priorityDelta !== 0) return priorityDelta;
+  return Date.parse(b.timestamp) - Date.parse(a.timestamp);
+}
+
+function workValuePriority(item) {
+  if (item.status === "PR merged") return 400;
+  if (item.eventType === "PullRequestReviewEvent") return 300;
+  if (item.eventType === "PullRequestReviewCommentEvent") return 290;
+  if (item.eventType === "IssueCommentEvent") return 280;
+  if (item.eventType === "PullRequestEvent") return 200;
+  if (item.eventType === "PushEvent") return 100;
+  return 0;
 }
 
 function compareItems(a, b) {
