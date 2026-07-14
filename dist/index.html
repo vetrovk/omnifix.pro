@@ -94,7 +94,8 @@
       .hero {
         position: relative;
         flex: 1;
-        display: flex;
+        display: grid;
+        grid-template-columns: minmax(0, 44.5rem) minmax(0, 1fr) minmax(18rem, 25rem);
         min-height: 0;
         align-items: center;
         padding: 0 4rem 0.25rem;
@@ -103,6 +104,7 @@
 
       .hero-content {
         position: relative;
+        grid-column: 1;
         z-index: 10;
         width: 100%;
         max-width: 44.5rem;
@@ -121,13 +123,11 @@
 
       .hero-aside {
         position: relative;
+        grid-column: 3;
         z-index: 1;
         align-self: center;
-        width: min(100%, 25rem);
-        margin-left: auto;
-        display: flex;
-        flex-direction: column;
-        gap: 2rem;
+        width: 100%;
+        translate: 0 1.375rem;
       }
 
       .open-source-stats {
@@ -398,9 +398,14 @@
       .feed {
         flex-shrink: 0;
         width: 100%;
-        max-width: 49rem;
+        max-width: none;
         margin-top: -0.5rem;
         padding: 0 4rem 1.875rem;
+        display: grid;
+        grid-template-columns: minmax(0, 49rem) minmax(18rem, 25rem);
+        justify-content: space-between;
+        align-items: start;
+        column-gap: 4rem;
       }
 
       .feed-inner {
@@ -580,6 +585,7 @@
         }
 
         .hero {
+          display: flex;
           padding: 0 1.5rem 1.5rem;
         }
 
@@ -667,8 +673,13 @@
         }
 
         .feed {
+          display: block;
           max-width: none;
           padding: 0 1.5rem 1.5rem;
+        }
+
+        .open-source-stats {
+          display: none;
         }
 
         .feed-header {
@@ -803,18 +814,6 @@
             <!-- featured-project:end -->
           </aside>
 
-          <section class="open-source-stats" aria-label="Open source statistics">
-            <!-- open-source-stats:start -->
-            <h2 class="open-source-stats-kicker">OPEN SOURCE STATISTICS</h2>
-            <dl class="open-source-stats-list">
-              <div><dt>17</dt><dd>Merged Pull Requests</dd></div>
-              <div><dt>12</dt><dd>Repositories contributed to</dd></div>
-              <div><dt>SQLFluff</dt><dd>Most active project</dd></div>
-            </dl>
-            <p class="open-source-stats-label">Main contribution types</p>
-            <p class="open-source-stats-types">bug fixes <span aria-hidden="true">·</span> parser improvements <span aria-hidden="true">·</span> validation <span aria-hidden="true">·</span> CI <span aria-hidden="true">·</span> backend <span aria-hidden="true">·</span> runtime fixes</p>
-            <!-- open-source-stats:end -->
-          </section>
         </div>
       </main>
 
@@ -850,6 +849,19 @@
             <!-- live-feed:end -->
           </div>
         </div>
+
+        <section class="open-source-stats" aria-label="Open source statistics">
+          <!-- open-source-stats:start -->
+          <h2 class="open-source-stats-kicker">OPEN SOURCE STATISTICS</h2>
+          <dl class="open-source-stats-list">
+            <div><dt>17</dt><dd>Merged Pull Requests</dd></div>
+            <div><dt>12</dt><dd>Repositories contributed to</dd></div>
+            <div><dt>SQLFluff</dt><dd>Most active project</dd></div>
+          </dl>
+          <p class="open-source-stats-label">Main contribution types</p>
+          <p class="open-source-stats-types">bug fixes <span aria-hidden="true">·</span> parser improvements <span aria-hidden="true">·</span> validation <span aria-hidden="true">·</span> CI <span aria-hidden="true">·</span> backend <span aria-hidden="true">·</span> runtime fixes</p>
+          <!-- open-source-stats:end -->
+        </section>
       </footer>
     </div>
   </body>
