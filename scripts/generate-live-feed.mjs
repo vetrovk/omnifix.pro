@@ -17,24 +17,30 @@ const REPO_PRIORITY = new Map([
 ]);
 const FALLBACK_PATH = "data/live-feed-fallback.json";
 const FEATURED_PROJECT_PATH = "data/featured-project.json";
+const OPEN_SOURCE_STATS_PATH = "data/open-source-stats.json";
 const OUTPUT_PATH = "data/live-feed.json";
 const HTML_PATH = "index.html";
+const MERGED_PULL_REQUESTS_URL = `https://api.github.com/search/issues?q=author:${USER}+is%3Apr+is%3Amerged&per_page=100`;
 const START_MARKER = "<!-- live-feed:start -->";
 const END_MARKER = "<!-- live-feed:end -->";
 const FEATURED_PROJECT_START_MARKER = "<!-- featured-project:start -->";
 const FEATURED_PROJECT_END_MARKER = "<!-- featured-project:end -->";
 const FEATURED_PROJECT_MOBILE_START_MARKER = "<!-- featured-project-mobile:start -->";
 const FEATURED_PROJECT_MOBILE_END_MARKER = "<!-- featured-project-mobile:end -->";
+const OPEN_SOURCE_STATS_START_MARKER = "<!-- open-source-stats:start -->";
+const OPEN_SOURCE_STATS_END_MARKER = "<!-- open-source-stats:end -->";
 
 async function main() {
   const fallback = await readJson(FALLBACK_PATH);
   const featuredProject = await readJson(FEATURED_PROJECT_PATH);
+  const openSourceStatsConfig = await readJson(OPEN_SOURCE_STATS_PATH);
   const { items, candidates, source } = await loadFeed(fallback);
   const normalized = normalizeFeed(items, source);
   const featured = normalizeFeaturedProject(featuredProject, candidates);
+  const openSourceStats = await normalizeOpenSourceStats(openSourceStatsConfig);
 
   await writeFile(OUTPUT_PATH, `${JSON.stringify(normalized, null, 2)}\n`);
-  await updateHtml(normalized, featured);
+  await updateHtml(normalized, featured, openSourceStats);
 
   console.log(`live-feed: wrote ${normalized.length} ${source} item(s)`);
   for (const item of normalized) {
@@ -356,7 +362,39 @@ function normalizeFeaturedProject(project, candidates) {
   };
 }
 
-async function updateHtml(items, featured) {
+async function normalizeOpenSourceStats(stats) {
+  const normalized = {
+    ...stats,
+    mergedPullRequests: Number(stats.mergedPullRequests) || 0,
+    repositoriesContributedTo: Number(stats.repositoriesContributedTo) || 0,
+  };
+
+  try {
+    const result = await fetchGitHubJson(MERGED_PULL_REQUESTS_URL);
+    if (result.incomplete_results || !Number.isInteger(result.total_count)) {
+      throw new Error("GitHub search response is incomplete");
+    }
+
+    normalized.mergedPullRequests = Math.max(normalized.mergedPullRequests, result.total_count);
+
+    // Only a complete first page can safely establish a repository count.
+    if (result.total_count <= result.items.length) {
+      const repositories = new Set(
+        result.items.map((item) => item.repository_url).filter(Boolean),
+      );
+      normalized.repositoriesContributedTo = Math.max(
+        normalized.repositoriesContributedTo,
+        repositories.size,
+      );
+    }
+  } catch (error) {
+    console.warn(`open-source-stats: using configured all-time minimums (${error.message})`);
+  }
+
+  return normalized;
+}
+
+async function updateHtml(items, featured, openSourceStats) {
   const html = await readFile(HTML_PATH, "utf8");
   const rendered = items.length ? items.map(renderFeedRow).join("\n") : renderEmptyFeedRow();
   const withFeed = replaceHtmlRegion(html, START_MARKER, END_MARKER, rendered, "live-feed");
@@ -367,12 +405,19 @@ async function updateHtml(items, featured) {
     renderFeaturedProject(featured),
     "featured-project",
   );
-  const nextHtml = replaceHtmlRegion(
+  const withMobileFeaturedProject = replaceHtmlRegion(
     withFeaturedProject,
     FEATURED_PROJECT_MOBILE_START_MARKER,
     FEATURED_PROJECT_MOBILE_END_MARKER,
     renderFeaturedProjectMobile(featured),
     "featured-project-mobile",
+  );
+  const nextHtml = replaceHtmlRegion(
+    withMobileFeaturedProject,
+    OPEN_SOURCE_STATS_START_MARKER,
+    OPEN_SOURCE_STATS_END_MARKER,
+    renderOpenSourceStats(openSourceStats),
+    "open-source-stats",
   );
   await writeFile(HTML_PATH, nextHtml);
 }
@@ -430,6 +475,21 @@ function renderFeaturedProjectMobile(project) {
             <p class="featured-project-mobile-meta">${escapeHtml(project.language)} <span aria-hidden="true">·</span> ${escapeHtml(project.license)} <span aria-hidden="true">·</span> ${escapeHtml(project.status)}</p>
             <p class="featured-project-mobile-push">Last push <span aria-hidden="true">·</span> ${escapeHtml(project.lastPush)}</p>
             <a class="featured-project-mobile-link" href="${escapeAttr(project.github_url)}" target="_blank" rel="noreferrer">View on GitHub <span aria-hidden="true">→</span></a>`;
+}
+
+function renderOpenSourceStats(stats) {
+  const types = Array.isArray(stats.mainContributionTypes)
+    ? stats.mainContributionTypes.map(escapeHtml).join(" <span aria-hidden=\"true\">·</span> ")
+    : "";
+
+  return `            <h2 class="open-source-stats-kicker">OPEN SOURCE STATISTICS</h2>
+            <dl class="open-source-stats-list">
+              <div><dt>${escapeHtml(stats.mergedPullRequests)}</dt><dd>Merged Pull Requests</dd></div>
+              <div><dt>${escapeHtml(stats.repositoriesContributedTo)}</dt><dd>Repositories contributed to</dd></div>
+              <div><dt>${escapeHtml(stats.mostActiveProject)}</dt><dd>Most active project</dd></div>
+            </dl>
+            <p class="open-source-stats-label">Main contribution types</p>
+            <p class="open-source-stats-types">${types}</p>`;
 }
 
 function statusClassName(status) {

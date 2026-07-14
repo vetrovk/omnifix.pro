@@ -6,7 +6,7 @@
     "url": "https://github.com/pytest-dev/pytest",
     "statusUrl": "https://github.com/pytest-dev/pytest/pull/14702",
     "timestamp": "2026-07-13T05:43:52Z",
-    "relativeTime": "21 h ago",
+    "relativeTime": "yesterday",
     "eventType": "PullRequestEvent",
     "selectionReason": "supported public activity",
     "type": "open-source"

@@ -114,12 +114,84 @@
       }
 
       .featured-project {
-        position: relative;
-        z-index: 1;
-        width: min(100%, 25rem);
-        margin-left: auto;
+        width: 100%;
         padding: 0.5rem 0 0.5rem 2.5rem;
         border-left: 1px solid rgba(255, 255, 255, 0.09);
+      }
+
+      .hero-aside {
+        position: relative;
+        z-index: 1;
+        align-self: center;
+        width: min(100%, 25rem);
+        margin-left: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+      }
+
+      .open-source-stats {
+        padding: 1.125rem 0 0 2.5rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.07);
+        border-left: 1px solid rgba(255, 255, 255, 0.07);
+      }
+
+      .open-source-stats-kicker,
+      .open-source-stats-label,
+      .open-source-stats-types,
+      .open-source-stats-list dt,
+      .open-source-stats-list dd {
+        margin: 0;
+        font-family: var(--mono);
+      }
+
+      .open-source-stats-kicker {
+        margin-bottom: 1rem;
+        font-size: 0.625rem;
+        font-weight: 400;
+        letter-spacing: 0.2em;
+        color: rgba(56, 189, 248, 0.58);
+      }
+
+      .open-source-stats-list {
+        display: grid;
+        gap: 0.625rem;
+        margin: 0 0 1.125rem;
+      }
+
+      .open-source-stats-list div {
+        display: grid;
+        grid-template-columns: 5.25rem minmax(0, 1fr);
+        align-items: baseline;
+        gap: 0.75rem;
+      }
+
+      .open-source-stats-list dt {
+        overflow: hidden;
+        font-size: 0.9375rem;
+        font-weight: 400;
+        color: rgba(255, 255, 255, 0.74);
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .open-source-stats-list dd {
+        font-size: 0.625rem;
+        line-height: 1.35;
+        color: rgba(255, 255, 255, 0.34);
+      }
+
+      .open-source-stats-label {
+        margin-bottom: 0.5rem;
+        font-size: 0.625rem;
+        color: rgba(255, 255, 255, 0.32);
+      }
+
+      .open-source-stats-types {
+        max-width: 19rem;
+        font-size: 0.625rem;
+        line-height: 1.7;
+        color: rgba(255, 255, 255, 0.5);
       }
 
       .featured-project-kicker {
@@ -515,7 +587,7 @@
           justify-content: center;
         }
 
-        .featured-project {
+        .hero-aside {
           display: none;
         }
 
@@ -715,8 +787,9 @@
           </section>
         </section>
 
-        <aside class="featured-project" aria-label="Now building">
-          <!-- featured-project:start -->
+        <div class="hero-aside">
+          <aside class="featured-project" aria-label="Now building">
+            <!-- featured-project:start -->
             <p class="featured-project-kicker">NOW BUILDING</p>
             <a class="featured-project-repository" href="https://github.com/vetrovk/memoryos" target="_blank" rel="noreferrer">vetrovk/memoryos</a>
             <p class="featured-project-description">Local-first engineering memory for AI agents.</p>
@@ -728,7 +801,21 @@
             </dl>
             <a class="featured-project-link" href="https://github.com/vetrovk/memoryos" target="_blank" rel="noreferrer">View on GitHub <span aria-hidden="true">→</span></a>
             <!-- featured-project:end -->
-        </aside>
+          </aside>
+
+          <section class="open-source-stats" aria-label="Open source statistics">
+            <!-- open-source-stats:start -->
+            <h2 class="open-source-stats-kicker">OPEN SOURCE STATISTICS</h2>
+            <dl class="open-source-stats-list">
+              <div><dt>17</dt><dd>Merged Pull Requests</dd></div>
+              <div><dt>12</dt><dd>Repositories contributed to</dd></div>
+              <div><dt>SQLFluff</dt><dd>Most active project</dd></div>
+            </dl>
+            <p class="open-source-stats-label">Main contribution types</p>
+            <p class="open-source-stats-types">bug fixes <span aria-hidden="true">·</span> parser improvements <span aria-hidden="true">·</span> validation <span aria-hidden="true">·</span> CI <span aria-hidden="true">·</span> backend <span aria-hidden="true">·</span> runtime fixes</p>
+            <!-- open-source-stats:end -->
+          </section>
+        </div>
       </main>
 
       <footer class="feed" aria-label="Live Engineering Feed">
@@ -743,7 +830,7 @@
             <article class="feed-row" data-feed-type="open-source">
               <a class="feed-source" href="https://github.com/pytest-dev/pytest">pytest-dev/pytest</a>
               <span class="feed-copy">resolve doctest locations for fixture definitions</span>
-              <span class="feed-meta"><span class="feed-time">21 h ago</span><a class="feed-status" href="https://github.com/pytest-dev/pytest/pull/14702">PR opened</a></span>
+              <span class="feed-meta"><span class="feed-time">yesterday</span><a class="feed-status" href="https://github.com/pytest-dev/pytest/pull/14702">PR opened</a></span>
             </article>
             <article class="feed-row" data-feed-type="project">
               <a class="feed-source" href="https://github.com/vetrovk/memoryos">vetrovk/memoryos</a>

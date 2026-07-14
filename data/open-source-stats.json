@@ -1,0 +1,14 @@
+{
+  "mergedPullRequests": 16,
+  "repositoriesContributedTo": 12,
+  "mostActiveProject": "SQLFluff",
+  "mainContributionTypes": [
+    "bug fixes",
+    "parser improvements",
+    "validation",
+    "CI",
+    "backend",
+    "runtime fixes"
+  ],
+  "dataSource": "Manually verified public all-time minimums. Build-time GitHub data may increase values only when the API response is complete."
+}
