@@ -1,4 +1,4 @@
-import { deduplicateEngineeringWork, relativeDate } from "./generate-live-feed.mjs";
+import { deduplicateEngineeringWork, loadFeed, relativeDate } from "./generate-live-feed.mjs";
 
 const now = new Date("2026-07-12T12:00:00Z");
 const cases = [
@@ -43,4 +43,34 @@ if (relatedWork.length !== 1 || relatedWork[0].eventType !== "PullRequestReviewE
   throw new Error("fork push and lower-value PR activity were not deduplicated");
 }
 
-console.log("relative-time and activity deduplication verification passed");
+const savedFeed = [{ source: "usememos/memos", timestamp: "2026-07-14T07:22:51Z" }];
+const fallbackFeed = [{ source: "sqlfluff/sqlfluff", timestamp: "2026-07-07T08:44:02Z" }];
+
+const afterApiFailure = await loadFeed(fallbackFeed, savedFeed, async () => {
+  throw new Error("GitHub API 403; remaining=0");
+});
+if (afterApiFailure.source !== "saved" || afterApiFailure.items !== savedFeed) {
+  throw new Error("API failure replaced the last known feed");
+}
+
+const afterStaleResponse = await loadFeed(fallbackFeed, savedFeed, async () => ({
+  items: [{ source: "sqlfluff/sqlfluff", timestamp: "2026-07-07T08:44:02Z" }],
+  candidates: [],
+}));
+if (afterStaleResponse.source !== "saved" || afterStaleResponse.items !== savedFeed) {
+  throw new Error("stale GitHub activity replaced the newer saved feed");
+}
+
+const noActivity = await loadFeed(fallbackFeed, [], async () => ({ items: [], candidates: [] }));
+if (noActivity.source !== "github" || noActivity.items.length !== 0) {
+  throw new Error("successful empty GitHub response used fallback data");
+}
+
+const bootstrapFailure = await loadFeed(fallbackFeed, [], async () => {
+  throw new Error("GitHub API 403; remaining=0");
+});
+if (bootstrapFailure.source !== "fallback" || bootstrapFailure.items !== fallbackFeed) {
+  throw new Error("initial API failure did not use fallback data");
+}
+
+console.log("relative-time, activity deduplication, and feed preservation verification passed");

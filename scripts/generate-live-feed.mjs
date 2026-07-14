@@ -32,9 +32,10 @@ const OPEN_SOURCE_STATS_END_MARKER = "<!-- open-source-stats:end -->";
 
 async function main() {
   const fallback = await readJson(FALLBACK_PATH);
+  const savedFeed = await readJson(OUTPUT_PATH).catch(() => []);
   const featuredProject = await readJson(FEATURED_PROJECT_PATH);
   const openSourceStatsConfig = await readJson(OPEN_SOURCE_STATS_PATH);
-  const { items, candidates, source } = await loadFeed(fallback);
+  const { items, candidates, source } = await loadFeed(fallback, savedFeed);
   const normalized = normalizeFeed(items, source);
   const featured = normalizeFeaturedProject(featuredProject, candidates);
   const openSourceStats = await normalizeOpenSourceStats(openSourceStatsConfig);
@@ -55,17 +56,39 @@ async function main() {
   }
 }
 
-async function loadFeed(fallback) {
+export async function loadFeed(fallback, savedFeed, collectItems = collectGitHubItems) {
+  const hasSavedFeed = Array.isArray(savedFeed) && savedFeed.length > 0;
+  const preservedItems = hasSavedFeed ? savedFeed : fallback;
+  const preservedSource = hasSavedFeed ? "saved" : "fallback";
+
   try {
-    const feed = await collectGitHubItems();
+    const feed = await collectItems();
     if (!feed.items.length) {
-      return { items: fallback, candidates: fallback, source: "fallback" };
+      if (hasSavedFeed) {
+        console.warn("live-feed: keeping saved feed (no supported GitHub activity)");
+        return { items: savedFeed, candidates: savedFeed, source: "saved" };
+      }
+      return { items: [], candidates: [], source: "github" };
+    }
+    if (hasSavedFeed && isOlderThanSavedFeed(feed.items, savedFeed)) {
+      console.warn("live-feed: keeping newer saved feed (GitHub activity is older)");
+      return { items: savedFeed, candidates: savedFeed, source: "saved" };
     }
     return { ...feed, source: "github" };
   } catch (error) {
-    console.warn(`live-feed: using fallback (${error.message})`);
-    return { items: fallback, candidates: fallback, source: "fallback" };
+    console.warn(`live-feed: keeping ${preservedSource} feed (${error.message})`);
+    return { items: preservedItems, candidates: preservedItems, source: preservedSource };
   }
+}
+
+function isOlderThanSavedFeed(items, savedFeed) {
+  const latestLive = mostRecentTimestamp(items);
+  const latestSaved = mostRecentTimestamp(savedFeed);
+  return Number.isFinite(latestLive) && Number.isFinite(latestSaved) && latestLive < latestSaved;
+}
+
+function mostRecentTimestamp(items) {
+  return Math.max(...items.map((item) => Date.parse(item.timestamp)).filter(Number.isFinite));
 }
 
 async function collectGitHubItems() {
