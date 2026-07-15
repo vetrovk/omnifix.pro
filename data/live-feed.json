@@ -1,5 +1,17 @@
 [
   {
+    "source": "vetrovk/codex-first-customer-finder-skill",
+    "description": "serco custom",
+    "status": "pushed",
+    "url": "https://github.com/vetrovk/codex-first-customer-finder-skill",
+    "statusUrl": "https://github.com/vetrovk/codex-first-customer-finder-skill/commit/a5a3284bd251e9c55abf8f9b8c824faedcb4e268",
+    "timestamp": "2026-07-15T09:50:44Z",
+    "relativeTime": "3 h ago",
+    "eventType": "PushEvent",
+    "selectionReason": "recent project push",
+    "type": "project"
+  },
+  {
     "source": "usememos/memos",
     "description": "(tags): require boundaries before tags",
     "status": "PR review",
@@ -22,18 +34,6 @@
     "eventType": "PullRequestEvent",
     "selectionReason": "supported public activity",
     "type": "open-source"
-  },
-  {
-    "source": "vetrovk/memoryos",
-    "description": "main",
-    "status": "pushed",
-    "url": "https://github.com/vetrovk/memoryos",
-    "statusUrl": "https://github.com/vetrovk/memoryos/commit/b4039e86f1809d9c2615f2c32f806655cab7494e",
-    "timestamp": "2026-07-12T10:15:13Z",
-    "relativeTime": "2 days ago",
-    "eventType": "PushEvent",
-    "selectionReason": "recent project push",
-    "type": "project"
   },
   {
     "source": "usememos/memos",
