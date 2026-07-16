@@ -91,6 +91,10 @@
         color: rgba(255, 255, 255, 0.22);
       }
 
+      .header-traffic {
+        text-align: right;
+      }
+
       .hero {
         position: relative;
         flex: 1;
@@ -584,6 +588,10 @@
           padding: 1.75rem 1.5rem 1.5rem;
         }
 
+        .header-traffic {
+          display: none;
+        }
+
         .hero {
           display: flex;
           padding: 0 1.5rem 1.5rem;
@@ -730,6 +738,11 @@
     <div class="page">
       <header class="header">
         <span class="header-mark">Omnifix.Pro</span>
+        <span class="header-mark header-traffic" aria-label="Page views">
+          <!-- page-views:start -->
+          PAGE VIEWS · 0
+          <!-- page-views:end -->
+        </span>
       </header>
 
       <main class="hero">

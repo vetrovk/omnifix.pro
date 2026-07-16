@@ -5,8 +5,10 @@
   "type": "module",
   "scripts": {
     "generate:feed": "node scripts/generate-live-feed.mjs",
+    "generate:traffic": "node scripts/update-site-traffic.mjs",
     "verify:feed-time": "node scripts/verify-relative-time.mjs",
-    "build": "npm run generate:feed && vite build",
+    "verify:traffic": "node scripts/verify-site-traffic.mjs",
+    "build": "npm run generate:feed && npm run generate:traffic && vite build",
     "dev": "vite"
   },
   "dependencies": {
