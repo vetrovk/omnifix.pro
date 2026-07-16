@@ -6,7 +6,7 @@
     "url": "https://github.com/vetrovk/codex-first-customer-finder-skill",
     "statusUrl": "https://github.com/vetrovk/codex-first-customer-finder-skill/commit/a5a3284bd251e9c55abf8f9b8c824faedcb4e268",
     "timestamp": "2026-07-15T09:50:44Z",
-    "relativeTime": "22 h ago",
+    "relativeTime": "yesterday",
     "eventType": "PushEvent",
     "selectionReason": "recent project push",
     "type": "project"
@@ -42,7 +42,7 @@
     "url": "https://github.com/usememos/memos",
     "statusUrl": "https://github.com/usememos/memos/pull/6080",
     "timestamp": "2026-07-09T13:50:09Z",
-    "relativeTime": "6 days ago",
+    "relativeTime": "7 days ago",
     "eventType": "PullRequestEvent",
     "selectionReason": "supported public activity",
     "type": "open-source"
