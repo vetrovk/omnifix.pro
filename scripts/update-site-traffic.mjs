@@ -135,7 +135,7 @@ async function fetchCloudflarePageViews(period, token, zoneId) {
 
   const payload = await response.json();
   if (payload.errors?.length) {
-    throw new Error("Cloudflare analytics returned GraphQL errors");
+    throw new Error(`Cloudflare GraphQL errors: ${formatGraphQLErrors(payload.errors, [token, zoneId])}`);
   }
 
   const groups = payload.data?.viewer?.zones?.[0]?.homepage;
@@ -149,6 +149,27 @@ async function fetchCloudflarePageViews(period, token, zoneId) {
   }
 
   return count;
+}
+
+export function formatGraphQLErrors(errors, secrets = []) {
+  return errors
+    .map((error) => {
+      const code = error.extensions?.code ? ` [${String(error.extensions.code)}]` : "";
+      return `${sanitizeGraphQLErrorMessage(error.message, secrets)}${code}`;
+    })
+    .join("; ");
+}
+
+function sanitizeGraphQLErrorMessage(message, secrets) {
+  let sanitized = String(message);
+
+  for (const secret of secrets) {
+    if (secret) {
+      sanitized = sanitized.replaceAll(secret, "[redacted]");
+    }
+  }
+
+  return sanitized.replace(/\b[a-f0-9]{32}\b/gi, "[redacted-zone-id]");
 }
 
 async function updateHtml(pageViews) {

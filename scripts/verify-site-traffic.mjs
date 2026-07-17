@@ -1,4 +1,4 @@
-import { updateTrafficState } from "./update-site-traffic.mjs";
+import { formatGraphQLErrors, updateTrafficState } from "./update-site-traffic.mjs";
 
 const startedAt = "2026-07-16T00:00:00Z";
 const now = new Date("2026-07-18T12:00:00Z");
@@ -9,6 +9,17 @@ const savedState = {
   source: "cloudflare",
   countingStartedAt: startedAt,
 };
+
+const sanitizedErrors = formatGraphQLErrors([
+  {
+    message: "unknown field for zone aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa with token test-token-value",
+    extensions: { code: "validation-failed" },
+  },
+], ["test-token-value"]);
+assert(
+  sanitizedErrors === "unknown field for zone [redacted-zone-id] with token [redacted] [validation-failed]",
+  "GraphQL diagnostics must preserve the message and code without leaking secrets",
+);
 
 const initial = await updateTrafficState({ ...savedState, pageViews: 0, lastProcessedPeriod: null }, now);
 assert(initial.state.pageViews === 0 && initial.source === "initial", "missing credentials should keep the initial value");
