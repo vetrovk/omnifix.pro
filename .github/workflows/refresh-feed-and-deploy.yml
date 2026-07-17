@@ -77,5 +77,22 @@ jobs:
             echo "No feed or dist changes to commit."
           else
             git commit -m "chore: refresh live engineering feed"
-            git push origin HEAD:main
+
+            for attempt in 1 2 3; do
+              git pull --rebase origin main
+
+              if git diff --quiet origin/main...HEAD; then
+                echo "Refresh changes already match origin/main after rebase."
+                exit 0
+              fi
+
+              if git push origin HEAD:main; then
+                exit 0
+              fi
+
+              echo "Push raced with another update; retrying (${attempt}/3)."
+            done
+
+            echo "Unable to push refreshed data after three safe rebase attempts." >&2
+            exit 1
           fi
