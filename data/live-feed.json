@@ -1,12 +1,12 @@
 [
   {
-    "source": "vetrovk/codex-first-customer-finder-skill",
-    "description": "serco custom",
+    "source": "vetrovk/share2fedi",
+    "description": "validation error message",
     "status": "pushed",
-    "url": "https://github.com/vetrovk/codex-first-customer-finder-skill",
-    "statusUrl": "https://github.com/vetrovk/codex-first-customer-finder-skill/commit/a5a3284bd251e9c55abf8f9b8c824faedcb4e268",
-    "timestamp": "2026-07-15T09:50:44Z",
-    "relativeTime": "2 days ago",
+    "url": "https://github.com/vetrovk/share2fedi",
+    "statusUrl": "https://github.com/vetrovk/share2fedi/commit/7111a53a229e6103d7b34c033bfbf829da6704e5",
+    "timestamp": "2026-07-17T16:29:11Z",
+    "relativeTime": "2 h ago",
     "eventType": "PushEvent",
     "selectionReason": "recent project push",
     "type": "project"
@@ -42,7 +42,7 @@
     "url": "https://github.com/usememos/memos",
     "statusUrl": "https://github.com/usememos/memos/pull/6080",
     "timestamp": "2026-07-09T13:50:09Z",
-    "relativeTime": "7 days ago",
+    "relativeTime": "Jul 9",
     "eventType": "PullRequestEvent",
     "selectionReason": "supported public activity",
     "type": "open-source"
