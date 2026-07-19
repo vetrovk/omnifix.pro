@@ -1,7 +1,7 @@
 {
   "repository": "vetrovk/memoryos",
-  "description": "Local-first engineering memory for AI agents.",
-  "status": "Active",
+  "description": "Local-first engineering memory built for daily work with OpenAI Codex.",
+  "status": "Beta",
   "language": "Python",
   "license": "MIT",
   "github_url": "https://github.com/vetrovk/memoryos"
