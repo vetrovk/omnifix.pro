@@ -6,7 +6,7 @@
     "url": "https://github.com/python/mypy",
     "statusUrl": "https://github.com/python/mypy/pull/21749",
     "timestamp": "2026-07-19T05:41:32Z",
-    "relativeTime": "2 h ago",
+    "relativeTime": "7 h ago",
     "eventType": "PullRequestEvent",
     "selectionReason": "supported public activity",
     "type": "open-source"
@@ -18,7 +18,7 @@
     "url": "https://github.com/vetrovk/memoryos",
     "statusUrl": "https://github.com/vetrovk/memoryos/commit/78e64953e6b4f470d00a769d15f157d6e415e159",
     "timestamp": "2026-07-18T18:51:47Z",
-    "relativeTime": "13 h ago",
+    "relativeTime": "18 h ago",
     "eventType": "PushEvent",
     "selectionReason": "recent project push",
     "type": "project"
