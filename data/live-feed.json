@@ -6,7 +6,7 @@
     "url": "https://github.com/python/mypy",
     "statusUrl": "https://github.com/python/mypy/pull/21749",
     "timestamp": "2026-07-19T05:41:32Z",
-    "relativeTime": "21 h ago",
+    "relativeTime": "yesterday",
     "eventType": "PullRequestEvent",
     "selectionReason": "supported public activity",
     "type": "open-source"
@@ -30,7 +30,7 @@
     "url": "https://github.com/usememos/memos",
     "statusUrl": "https://github.com/usememos/memos/pull/6092",
     "timestamp": "2026-07-14T07:22:51Z",
-    "relativeTime": "5 days ago",
+    "relativeTime": "6 days ago",
     "eventType": "PullRequestReviewEvent",
     "selectionReason": "supported public activity",
     "type": "open-source"
@@ -42,7 +42,7 @@
     "url": "https://github.com/pytest-dev/pytest",
     "statusUrl": "https://github.com/pytest-dev/pytest/pull/14702",
     "timestamp": "2026-07-13T05:43:52Z",
-    "relativeTime": "6 days ago",
+    "relativeTime": "7 days ago",
     "eventType": "PullRequestEvent",
     "selectionReason": "supported public activity",
     "type": "open-source"
