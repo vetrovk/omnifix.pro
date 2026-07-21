@@ -6,7 +6,7 @@
     "url": "https://github.com/python/mypy",
     "statusUrl": "https://github.com/python/mypy/pull/21749#issuecomment-5025212368",
     "timestamp": "2026-07-20T17:34:23Z",
-    "relativeTime": "14 h ago",
+    "relativeTime": "20 h ago",
     "eventType": "IssueCommentEvent",
     "selectionReason": "supported public activity",
     "type": "open-source"
@@ -18,7 +18,7 @@
     "url": "https://github.com/vetrovk/mypy",
     "statusUrl": "https://github.com/vetrovk/mypy/commit/26e5da374a5050f94fac371a8c821f5e7714db24",
     "timestamp": "2026-07-20T17:28:17Z",
-    "relativeTime": "15 h ago",
+    "relativeTime": "20 h ago",
     "eventType": "PushEvent",
     "selectionReason": "recent project push",
     "type": "project"
@@ -36,13 +36,13 @@
     "type": "open-source"
   },
   {
-    "source": "pytest-dev/pytest",
-    "description": "resolve doctest locations for fixture definitions",
+    "source": "usememos/memos",
+    "description": "Allow apostrophes in tag names",
     "status": "PR opened",
-    "url": "https://github.com/pytest-dev/pytest",
-    "statusUrl": "https://github.com/pytest-dev/pytest/pull/14702",
-    "timestamp": "2026-07-13T05:43:52Z",
-    "relativeTime": "Jul 13",
+    "url": "https://github.com/usememos/memos",
+    "statusUrl": "https://github.com/usememos/memos/pull/6080",
+    "timestamp": "2026-07-09T13:50:09Z",
+    "relativeTime": "Jul 9",
     "eventType": "PullRequestEvent",
     "selectionReason": "supported public activity",
     "type": "open-source"
