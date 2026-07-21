@@ -1,4 +1,11 @@
-import { deduplicateEngineeringWork, loadFeed, relativeDate } from "./generate-live-feed.mjs";
+import {
+  authoredMergedPullRequestToItem,
+  deduplicateEngineeringWork,
+  isRecentAuthoredMerge,
+  loadFeed,
+  relativeDate,
+  selectFeedItems,
+} from "./generate-live-feed.mjs";
 
 const now = new Date("2026-07-12T12:00:00Z");
 const cases = [
@@ -78,6 +85,63 @@ if (
   || !mypyForkContribution.some((item) => item.source === "vetrovk/memoryos")
 ) {
   throw new Error("mypy fork push was not replaced by the related upstream review");
+}
+
+const pytestMergedPullRequest = {
+  number: 14702,
+  title: "fix: resolve doctest locations for fixture definitions",
+  html_url: "https://github.com/pytest-dev/pytest/pull/14702",
+  user: { login: "vetrovk" },
+  base: { repo: { full_name: "pytest-dev/pytest" } },
+  head: { sha: "fork-push-sha" },
+  merge_commit_sha: "e7355d70771b5f34f78d7012f73bdc8eb79574d6",
+  merged_at: "2026-07-21T12:46:11Z",
+};
+const pytestAuthoredMerge = authoredMergedPullRequestToItem(pytestMergedPullRequest);
+const pytestMergeTimeline = deduplicateEngineeringWork([
+  {
+    source: "vetrovk/pytest",
+    description: "resolve doctest locations fixture definitions",
+    eventType: "PushEvent",
+    forkUpstream: "pytest-dev/pytest",
+    timestamp: "2026-07-21T12:45:00Z",
+  },
+  {
+    source: "pytest-dev/pytest",
+    description: "resolve doctest locations for fixture definitions",
+    eventType: "PullRequestEvent",
+    status: "PR opened",
+    workKey: "pytest-dev/pytest#14702",
+    timestamp: "2026-07-13T05:43:52Z",
+  },
+  pytestAuthoredMerge,
+]);
+
+if (
+  pytestMergeTimeline.length !== 1
+  || pytestMergeTimeline[0].status !== "PR merged"
+  || pytestMergeTimeline[0].timestamp !== "2026-07-21T12:46:11Z"
+  || pytestMergeTimeline[0].statusUrl !== pytestMergedPullRequest.html_url
+  || !isRecentAuthoredMerge(pytestMergedPullRequest, Date.parse("2026-07-21T12:47:00Z"))
+) {
+  throw new Error("authored pytest merge did not replace related fork and opened PR activity");
+}
+
+const chronologicalMergeSelection = selectFeedItems([
+  ...pytestMergeTimeline,
+  {
+    source: "sqlfluff/sqlfluff",
+    description: "older merged contribution",
+    status: "PR merged",
+    eventType: "AuthoredPullRequestMerge",
+    workKey: "sqlfluff/sqlfluff#1",
+    timestamp: "2026-07-07T08:44:02Z",
+    _score: 204,
+  },
+]);
+
+if (chronologicalMergeSelection[0]?.workKey !== "pytest-dev/pytest#14702") {
+  throw new Error("newest authored merge was displaced by repository priority");
 }
 
 const distinctMemosActivities = deduplicateEngineeringWork([

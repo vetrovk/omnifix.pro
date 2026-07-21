@@ -3,7 +3,8 @@ import { resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 
 const USER = "vetrovk";
-const OWN_REPOSITORY_OWNERS = new Set(["vetrovk", "kirillvetrov"]);
+const AUTHOR_ALIASES = ["vetrovk", "kirillvetrov"];
+const OWN_REPOSITORY_OWNERS = new Set(AUTHOR_ALIASES);
 const MAX_ITEMS = 4;
 const EVENTS_URL = `https://api.github.com/users/${USER}/events/public`;
 const EVENTS_PAGE_SIZE = 100;
@@ -21,7 +22,8 @@ const FEATURED_PROJECT_PATH = "data/featured-project.json";
 const OPEN_SOURCE_STATS_PATH = "data/open-source-stats.json";
 const OUTPUT_PATH = "data/live-feed.json";
 const HTML_PATH = "index.html";
-const MERGED_PULL_REQUESTS_URL = `https://api.github.com/search/issues?q=author:${USER}+is%3Apr+is%3Amerged&per_page=100`;
+const SEARCH_PAGE_SIZE = 100;
+const RECENT_AUTHORED_MERGE_WINDOW_MS = 30 * 24 * 60 * 60 * 1000;
 const START_MARKER = "<!-- live-feed:start -->";
 const END_MARKER = "<!-- live-feed:end -->";
 const FEATURED_PROJECT_START_MARKER = "<!-- featured-project:start -->";
@@ -38,10 +40,15 @@ async function main() {
   const savedFeed = await readJson(OUTPUT_PATH).catch(() => []);
   const featuredProject = await readJson(FEATURED_PROJECT_PATH);
   const openSourceStatsConfig = await readJson(OPEN_SOURCE_STATS_PATH);
-  const { items, candidates, source } = await loadFeed(fallback, savedFeed);
+  const authoredMergedPullRequests = await loadAuthoredMergedPullRequests();
+  const { items, candidates, source } = await loadFeed(
+    fallback,
+    savedFeed,
+    () => collectGitHubItems(authoredMergedPullRequests),
+  );
   const normalized = normalizeFeed(items, source);
   const featured = normalizeFeaturedProject(featuredProject, candidates);
-  const openSourceStats = await normalizeOpenSourceStats(openSourceStatsConfig);
+  const openSourceStats = normalizeOpenSourceStats(openSourceStatsConfig, authoredMergedPullRequests);
 
   await writeFile(OUTPUT_PATH, `${JSON.stringify(normalized, null, 2)}\n`);
   await updateHtml(normalized, featured, openSourceStats);
@@ -94,8 +101,10 @@ function mostRecentTimestamp(items) {
   return Math.max(...items.map((item) => Date.parse(item.timestamp)).filter(Number.isFinite));
 }
 
-async function collectGitHubItems() {
-  const candidates = [];
+async function collectGitHubItems(authoredMergedPullRequests = []) {
+  const candidates = authoredMergedPullRequests
+    .filter((pullRequest) => isRecentAuthoredMerge(pullRequest))
+    .map(authoredMergedPullRequestToItem);
 
   for (let page = 1; page <= MAX_EVENT_PAGES; page += 1) {
     const events = await fetchGitHubJson(`${EVENTS_URL}?per_page=${EVENTS_PAGE_SIZE}&page=${page}`);
@@ -132,14 +141,65 @@ async function fetchGitHubJson(url) {
   return response.json();
 }
 
+async function loadAuthoredMergedPullRequests() {
+  try {
+    return await collectAuthoredMergedPullRequests();
+  } catch (error) {
+    console.warn(`live-feed: authored merged PR lookup unavailable (${error.message})`);
+    return [];
+  }
+}
+
+async function collectAuthoredMergedPullRequests() {
+  const pullRequests = [];
+
+  for (const alias of AUTHOR_ALIASES) {
+    for (let page = 1; ; page += 1) {
+      const result = await fetchGitHubJson(authoredMergedPullRequestsUrl(alias, page));
+      if (result.incomplete_results || !Array.isArray(result.items)) {
+        throw new Error("GitHub authored PR search response is incomplete");
+      }
+
+      const detailed = await Promise.all(result.items.map(async (item) => {
+        const url = item.pull_request?.url;
+        return url ? fetchGitHubJson(url) : null;
+      }));
+      pullRequests.push(...detailed.filter((pullRequest) => (
+        pullRequest
+        && AUTHOR_ALIASES.includes(pullRequest.user?.login)
+        && pullRequest.merged_at
+      )));
+
+      if (result.items.length < SEARCH_PAGE_SIZE) break;
+    }
+  }
+
+  return uniqueBy(pullRequests, (pullRequest) => (
+    `${pullRequest.base?.repo?.full_name || pullRequest.base?.repo?.url || "unknown"}#${pullRequest.number}`
+  ));
+}
+
+function authoredMergedPullRequestsUrl(alias, page) {
+  const query = new URLSearchParams({
+    q: `author:${alias} is:pr is:merged`,
+    per_page: String(SEARCH_PAGE_SIZE),
+    page: String(page),
+    sort: "updated",
+    order: "desc",
+  });
+  return `https://api.github.com/search/issues?${query}`;
+}
+
 function buildFeed(events) {
   return Promise.all(events.map(eventToFeedItem))
     .then((items) => items.filter(Boolean));
 }
 
-function selectFeedItems(items) {
+export function selectFeedItems(items) {
   const unique = uniqueBy(items.sort(compareItems), feedIdentityKey);
-  const merged = unique.filter((item) => item.status === "PR merged" && !isOwnRepo(item.source));
+  const merged = unique
+    .filter((item) => item.status === "PR merged" && !isOwnRepo(item.source))
+    .sort((a, b) => Date.parse(b.timestamp) - Date.parse(a.timestamp));
   const opened = unique.filter((item) => item.status === "PR opened" && !isOwnRepo(item.source));
   const projectPushes = unique.filter((item) => item.status === "pushed" && isOwnRepo(item.source));
   const rest = unique.filter((item) => !merged.includes(item) && !projectPushes.includes(item));
@@ -218,6 +278,7 @@ async function pullRequestEventToItem(event) {
 
   const merged = action === "merged" || Boolean(pullRequest.merged_at);
   const status = merged ? "PR merged" : "PR opened";
+  const mergedAt = merged ? pullRequest.merged_at || event.created_at : null;
 
   return {
     source: event.repo.name,
@@ -225,13 +286,38 @@ async function pullRequestEventToItem(event) {
     status,
     url: repoUrl(event.repo.name),
     statusUrl: pullRequest.html_url || prUrl(event.repo.name, pullRequest.number),
-    timestamp: event.created_at,
+    timestamp: mergedAt || event.created_at,
     eventType: event.type,
     workKey: pullRequestWorkKey(event.repo.name, pullRequest.number),
     workSha: pullRequest.head?.sha,
+    mergedAt,
     type: isOwnRepo(event.repo.name) ? "project" : "open-source",
     _score: priorityFor(event.repo.name, merged ? 100 : 70),
   };
+}
+
+export function authoredMergedPullRequestToItem(pullRequest) {
+  const repository = pullRequest.base?.repo?.full_name;
+
+  return {
+    source: repository,
+    description: tidyTitle(pullRequest.title || `PR #${pullRequest.number}`),
+    status: "PR merged",
+    url: repoUrl(repository),
+    statusUrl: pullRequest.html_url || prUrl(repository, pullRequest.number),
+    timestamp: pullRequest.merged_at,
+    eventType: "AuthoredPullRequestMerge",
+    workKey: pullRequestWorkKey(repository, pullRequest.number),
+    workSha: pullRequest.merge_commit_sha || pullRequest.head?.sha,
+    mergedAt: pullRequest.merged_at,
+    type: isOwnRepo(repository) ? "project" : "open-source",
+    _score: priorityFor(repository, 104),
+  };
+}
+
+export function isRecentAuthoredMerge(pullRequest, now = Date.now()) {
+  const mergedAt = Date.parse(pullRequest.merged_at);
+  return Number.isFinite(mergedAt) && now - mergedAt <= RECENT_AUTHORED_MERGE_WINDOW_MS;
 }
 
 async function pullRequestReviewActivityToItem(event) {
@@ -333,6 +419,7 @@ function isUpstreamPullActivity(item) {
       "PullRequestReviewEvent",
       "PullRequestReviewCommentEvent",
       "IssueCommentEvent",
+      "AuthoredPullRequestMerge",
     ].includes(item.eventType);
 }
 
@@ -410,6 +497,8 @@ function normalizeFeed(items, source) {
         eventType: item.eventType || "fallback",
         selectionReason: item.selectionReason || (source === "fallback" ? "saved fallback event" : "supported public event"),
         forkUpstream: item.forkUpstream || undefined,
+        workKey: item.workKey || undefined,
+        mergedAt: item.mergedAt || undefined,
         type: item.type,
       };
     });
@@ -427,34 +516,25 @@ function normalizeFeaturedProject(project, candidates) {
   };
 }
 
-async function normalizeOpenSourceStats(stats) {
+function normalizeOpenSourceStats(stats, authoredMergedPullRequests) {
   const normalized = {
     ...stats,
     mergedPullRequests: Number(stats.mergedPullRequests) || 0,
     repositoriesContributedTo: Number(stats.repositoriesContributedTo) || 0,
   };
 
-  try {
-    const result = await fetchGitHubJson(MERGED_PULL_REQUESTS_URL);
-    if (result.incomplete_results || !Number.isInteger(result.total_count)) {
-      throw new Error("GitHub search response is incomplete");
-    }
+  normalized.mergedPullRequests = Math.max(
+    normalized.mergedPullRequests,
+    authoredMergedPullRequests.length,
+  );
 
-    normalized.mergedPullRequests = Math.max(normalized.mergedPullRequests, result.total_count);
-
-    // Only a complete first page can safely establish a repository count.
-    if (result.total_count <= result.items.length) {
-      const repositories = new Set(
-        result.items.map((item) => item.repository_url).filter(Boolean),
-      );
-      normalized.repositoriesContributedTo = Math.max(
-        normalized.repositoriesContributedTo,
-        repositories.size,
-      );
-    }
-  } catch (error) {
-    console.warn(`open-source-stats: using configured all-time minimums (${error.message})`);
-  }
+  const repositories = new Set(
+    authoredMergedPullRequests.map((pullRequest) => pullRequest.base?.repo?.full_name).filter(Boolean),
+  );
+  normalized.repositoriesContributedTo = Math.max(
+    normalized.repositoriesContributedTo,
+    repositories.size,
+  );
 
   return normalized;
 }

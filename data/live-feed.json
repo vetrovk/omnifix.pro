@@ -1,14 +1,29 @@
 [
   {
+    "source": "pytest-dev/pytest",
+    "description": "resolve doctest locations for fixture definitions",
+    "status": "PR merged",
+    "url": "https://github.com/pytest-dev/pytest",
+    "statusUrl": "https://github.com/pytest-dev/pytest/pull/14702",
+    "timestamp": "2026-07-21T12:46:11Z",
+    "relativeTime": "3 h ago",
+    "eventType": "AuthoredPullRequestMerge",
+    "selectionReason": "recent merged pull request",
+    "workKey": "pytest-dev/pytest#14702",
+    "mergedAt": "2026-07-21T12:46:11Z",
+    "type": "open-source"
+  },
+  {
     "source": "python/mypy",
     "description": "TypedDict closed argument version check",
     "status": "review",
     "url": "https://github.com/python/mypy",
     "statusUrl": "https://github.com/python/mypy/pull/21749#issuecomment-5025212368",
     "timestamp": "2026-07-20T17:34:23Z",
-    "relativeTime": "21 h ago",
+    "relativeTime": "22 h ago",
     "eventType": "IssueCommentEvent",
     "selectionReason": "supported public activity",
+    "workKey": "python/mypy#21749",
     "type": "open-source"
   },
   {
@@ -33,18 +48,7 @@
     "relativeTime": "7 days ago",
     "eventType": "PullRequestReviewEvent",
     "selectionReason": "supported public activity",
-    "type": "open-source"
-  },
-  {
-    "source": "usememos/memos",
-    "description": "Allow apostrophes in tag names",
-    "status": "PR opened",
-    "url": "https://github.com/usememos/memos",
-    "statusUrl": "https://github.com/usememos/memos/pull/6080",
-    "timestamp": "2026-07-09T13:50:09Z",
-    "relativeTime": "Jul 9",
-    "eventType": "PullRequestEvent",
-    "selectionReason": "supported public activity",
+    "workKey": "usememos/memos#6092",
     "type": "open-source"
   }
 ]
