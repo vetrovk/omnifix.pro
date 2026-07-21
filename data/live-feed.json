@@ -6,7 +6,7 @@
     "url": "https://github.com/python/mypy",
     "statusUrl": "https://github.com/python/mypy/pull/21749#issuecomment-5025212368",
     "timestamp": "2026-07-20T17:34:23Z",
-    "relativeTime": "9 h ago",
+    "relativeTime": "14 h ago",
     "eventType": "IssueCommentEvent",
     "selectionReason": "supported public activity",
     "type": "open-source"
@@ -18,7 +18,7 @@
     "url": "https://github.com/vetrovk/mypy",
     "statusUrl": "https://github.com/vetrovk/mypy/commit/26e5da374a5050f94fac371a8c821f5e7714db24",
     "timestamp": "2026-07-20T17:28:17Z",
-    "relativeTime": "9 h ago",
+    "relativeTime": "15 h ago",
     "eventType": "PushEvent",
     "selectionReason": "recent project push",
     "type": "project"
@@ -30,7 +30,7 @@
     "url": "https://github.com/usememos/memos",
     "statusUrl": "https://github.com/usememos/memos/pull/6092",
     "timestamp": "2026-07-14T07:22:51Z",
-    "relativeTime": "6 days ago",
+    "relativeTime": "7 days ago",
     "eventType": "PullRequestReviewEvent",
     "selectionReason": "supported public activity",
     "type": "open-source"
@@ -42,7 +42,7 @@
     "url": "https://github.com/pytest-dev/pytest",
     "statusUrl": "https://github.com/pytest-dev/pytest/pull/14702",
     "timestamp": "2026-07-13T05:43:52Z",
-    "relativeTime": "7 days ago",
+    "relativeTime": "Jul 13",
     "eventType": "PullRequestEvent",
     "selectionReason": "supported public activity",
     "type": "open-source"
