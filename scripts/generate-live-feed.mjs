@@ -3,11 +3,12 @@ import { resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 
 const USER = "vetrovk";
+const OWN_REPOSITORY_OWNERS = new Set(["vetrovk", "kirillvetrov"]);
 const MAX_ITEMS = 4;
 const EVENTS_URL = `https://api.github.com/users/${USER}/events/public`;
 const EVENTS_PAGE_SIZE = 100;
 const MAX_EVENT_PAGES = 3;
-const RELATED_FORK_PUSH_WINDOW_MS = 6 * 60 * 60 * 1000;
+const RELATED_FORK_PUSH_WINDOW_MS = 72 * 60 * 60 * 1000;
 const EXCLUDED_REPOSITORIES = new Set(["vetrovk/omnifix.pro"]);
 const REPO_PRIORITY = new Map([
   ["sqlfluff/sqlfluff", 100],
@@ -29,6 +30,8 @@ const FEATURED_PROJECT_MOBILE_START_MARKER = "<!-- featured-project-mobile:start
 const FEATURED_PROJECT_MOBILE_END_MARKER = "<!-- featured-project-mobile:end -->";
 const OPEN_SOURCE_STATS_START_MARKER = "<!-- open-source-stats:start -->";
 const OPEN_SOURCE_STATS_END_MARKER = "<!-- open-source-stats:end -->";
+const GENERIC_TITLE_WORDS = new Set(["fix", "update", "version", "check", "support", "change"]);
+const forkUpstreamCache = new Map();
 
 async function main() {
   const fallback = await readJson(FALLBACK_PATH);
@@ -265,11 +268,12 @@ async function hydratePullRequest(pullRequest) {
   }
 }
 
-function pushEventToItem(event) {
+async function pushEventToItem(event) {
   const commits = event.payload?.commits || [];
   const head = event.payload?.head;
   const message = commits.at(-1)?.message || titleFromBranch(event.payload?.ref) || "repository updated";
   const description = tidyTitle(message);
+  const forkUpstream = await forkUpstreamFor(event.repo.name);
 
   return {
     source: event.repo.name,
@@ -280,6 +284,7 @@ function pushEventToItem(event) {
     timestamp: event.created_at,
     eventType: event.type,
     workSha: head,
+    forkUpstream,
     type: isOwnRepo(event.repo.name) ? "project" : "open-source",
     _score: priorityFor(event.repo.name, 58),
   };
@@ -293,14 +298,15 @@ export function deduplicateEngineeringWork(items) {
   const highestValueItems = keepHighestValueWorkItems(items);
 
   return highestValueItems.filter((item) => {
-    if (item.eventType !== "PushEvent" || !isOwnRepo(item.source) || !item.workSha) {
+    if (item.eventType !== "PushEvent" || !isOwnRepo(item.source) || !item.forkUpstream) {
       return true;
     }
 
     return !highestValueItems.some((related) => (
       isUpstreamPullActivity(related)
-      && related.workSha === item.workSha
-      && Math.abs(Date.parse(related.timestamp) - Date.parse(item.timestamp)) <= RELATED_FORK_PUSH_WINDOW_MS
+      && related.source === item.forkUpstream
+      && timestampsAreRelated(related.timestamp, item.timestamp)
+      && titlesDescribeSameWork(related.description, item.description)
     ));
   });
 }
@@ -321,7 +327,42 @@ function keepHighestValueWorkItems(items) {
 }
 
 function isUpstreamPullActivity(item) {
-  return item.workKey && !isOwnRepo(item.source) && item.eventType !== "PushEvent";
+  return !isOwnRepo(item.source)
+    && [
+      "PullRequestEvent",
+      "PullRequestReviewEvent",
+      "PullRequestReviewCommentEvent",
+      "IssueCommentEvent",
+    ].includes(item.eventType);
+}
+
+function timestampsAreRelated(left, right) {
+  const leftTime = Date.parse(left);
+  const rightTime = Date.parse(right);
+  return Number.isFinite(leftTime)
+    && Number.isFinite(rightTime)
+    && Math.abs(leftTime - rightTime) <= RELATED_FORK_PUSH_WINDOW_MS;
+}
+
+function titlesDescribeSameWork(left, right) {
+  const leftTokens = meaningfulTitleTokens(left);
+  const rightTokens = meaningfulTitleTokens(right);
+  if (!leftTokens.length || !rightTokens.length) return false;
+
+  const rightTokenSet = new Set(rightTokens);
+  const sharedTokenCount = leftTokens.filter((token) => rightTokenSet.has(token)).length;
+  return sharedTokenCount >= Math.min(2, leftTokens.length, rightTokens.length);
+}
+
+function meaningfulTitleTokens(value) {
+  return [...new Set(
+    String(value || "")
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, " ")
+      .trim()
+      .split(/\s+/)
+      .filter((token) => token && !GENERIC_TITLE_WORDS.has(token)),
+  )];
 }
 
 function compareWorkValue(a, b) {
@@ -368,6 +409,7 @@ function normalizeFeed(items, source) {
           : normalizeFallbackTime(item.relativeTime || item.time),
         eventType: item.eventType || "fallback",
         selectionReason: item.selectionReason || (source === "fallback" ? "saved fallback event" : "supported public event"),
+        forkUpstream: item.forkUpstream || undefined,
         type: item.type,
       };
     });
@@ -581,7 +623,25 @@ function validTimestamp(value) {
 }
 
 function isOwnRepo(repo) {
-  return repo.startsWith(`${USER}/`);
+  const [owner] = String(repo || "").split("/");
+  return OWN_REPOSITORY_OWNERS.has(owner);
+}
+
+async function forkUpstreamFor(repo) {
+  if (!isOwnRepo(repo)) return null;
+  if (forkUpstreamCache.has(repo)) return forkUpstreamCache.get(repo);
+
+  try {
+    const metadata = await fetchGitHubJson(`https://api.github.com/repos/${repo}`);
+    const upstream = metadata.fork
+      ? metadata.parent?.full_name || metadata.source?.full_name || null
+      : null;
+    forkUpstreamCache.set(repo, upstream);
+    return upstream;
+  } catch {
+    forkUpstreamCache.set(repo, null);
+    return null;
+  }
 }
 
 function isExcludedRepository(repo) {

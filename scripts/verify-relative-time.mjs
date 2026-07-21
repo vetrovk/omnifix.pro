@@ -17,12 +17,15 @@ for (const [expected, timestamp] of cases) {
 const relatedWork = deduplicateEngineeringWork([
   {
     source: "vetrovk/pytest",
+    description: "pytest doctest collection fix",
     eventType: "PushEvent",
+    forkUpstream: "pytest-dev/pytest",
     workSha: "same-work",
     timestamp: "2026-07-13T06:24:12Z",
   },
   {
     source: "pytest-dev/pytest",
+    description: "pytest doctest collection fix",
     eventType: "PullRequestEvent",
     status: "PR opened",
     workKey: "pytest-dev/pytest#123",
@@ -31,6 +34,7 @@ const relatedWork = deduplicateEngineeringWork([
   },
   {
     source: "pytest-dev/pytest",
+    description: "pytest doctest collection fix",
     eventType: "PullRequestReviewEvent",
     status: "PR review",
     workKey: "pytest-dev/pytest#123",
@@ -41,6 +45,60 @@ const relatedWork = deduplicateEngineeringWork([
 
 if (relatedWork.length !== 1 || relatedWork[0].eventType !== "PullRequestReviewEvent") {
   throw new Error("fork push and lower-value PR activity were not deduplicated");
+}
+
+const mypyForkContribution = deduplicateEngineeringWork([
+  {
+    source: "vetrovk/mypy",
+    description: "typeddict closed version",
+    eventType: "PushEvent",
+    forkUpstream: "python/mypy",
+    timestamp: "2026-07-20T17:28:17Z",
+  },
+  {
+    source: "python/mypy",
+    description: "TypedDict closed argument version check",
+    eventType: "IssueCommentEvent",
+    status: "review",
+    workKey: "python/mypy#21749",
+    timestamp: "2026-07-20T17:34:23Z",
+  },
+  {
+    source: "vetrovk/memoryos",
+    description: "local memory update",
+    eventType: "PushEvent",
+    timestamp: "2026-07-20T17:30:00Z",
+  },
+]);
+
+if (
+  mypyForkContribution.length !== 2
+  || mypyForkContribution.some((item) => item.source === "vetrovk/mypy")
+  || !mypyForkContribution.some((item) => item.source === "python/mypy")
+  || !mypyForkContribution.some((item) => item.source === "vetrovk/memoryos")
+) {
+  throw new Error("mypy fork push was not replaced by the related upstream review");
+}
+
+const distinctMemosActivities = deduplicateEngineeringWork([
+  {
+    source: "usememos/memos",
+    description: "require boundaries before tags",
+    eventType: "PullRequestReviewEvent",
+    workKey: "usememos/memos#6092",
+    timestamp: "2026-07-14T07:22:51Z",
+  },
+  {
+    source: "usememos/memos",
+    description: "Allow apostrophes in tag names",
+    eventType: "PullRequestEvent",
+    workKey: "usememos/memos#6080",
+    timestamp: "2026-07-09T13:50:09Z",
+  },
+]);
+
+if (distinctMemosActivities.length !== 2) {
+  throw new Error("distinct Memos pull requests were incorrectly deduplicated");
 }
 
 const savedFeed = [{ source: "usememos/memos", timestamp: "2026-07-14T07:22:51Z" }];
