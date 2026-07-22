@@ -1,12 +1,24 @@
 [
   {
+    "source": "vetrovk/memoryos",
+    "description": "main",
+    "status": "pushed",
+    "url": "https://github.com/vetrovk/memoryos",
+    "statusUrl": "https://github.com/vetrovk/memoryos/commit/077946d596550fb4b0edba522497c60b16e7999a",
+    "timestamp": "2026-07-22T02:39:02Z",
+    "relativeTime": "4 min ago",
+    "eventType": "PushEvent",
+    "selectionReason": "recent project push",
+    "type": "project"
+  },
+  {
     "source": "pytest-dev/pytest",
     "description": "resolve doctest locations for fixture definitions",
     "status": "PR merged",
     "url": "https://github.com/pytest-dev/pytest",
     "statusUrl": "https://github.com/pytest-dev/pytest/pull/14702",
     "timestamp": "2026-07-21T12:46:11Z",
-    "relativeTime": "6 h ago",
+    "relativeTime": "13 h ago",
     "eventType": "AuthoredPullRequestMerge",
     "selectionReason": "recent merged pull request",
     "workKey": "pytest-dev/pytest#14702",
@@ -25,18 +37,6 @@
     "selectionReason": "supported public activity",
     "workKey": "python/mypy#21749",
     "type": "open-source"
-  },
-  {
-    "source": "vetrovk/memoryos",
-    "description": "main",
-    "status": "pushed",
-    "url": "https://github.com/vetrovk/memoryos",
-    "statusUrl": "https://github.com/vetrovk/memoryos/commit/67fd31e98037e4ffd5210872d4a3aa12917a7fc7",
-    "timestamp": "2026-07-20T17:12:33Z",
-    "relativeTime": "yesterday",
-    "eventType": "PushEvent",
-    "selectionReason": "recent project push",
-    "type": "project"
   },
   {
     "source": "usememos/memos",
