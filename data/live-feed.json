@@ -1,5 +1,18 @@
 [
   {
+    "source": "python/mypy",
+    "description": "dmypy suggest crash after flushed diagnostics",
+    "status": "PR opened",
+    "url": "https://github.com/python/mypy",
+    "statusUrl": "https://github.com/python/mypy/pull/21767",
+    "timestamp": "2026-07-23T06:30:25Z",
+    "relativeTime": "2 h ago",
+    "eventType": "PullRequestEvent",
+    "selectionReason": "recent opened pull request",
+    "workKey": "python/mypy#21767",
+    "type": "open-source"
+  },
+  {
     "source": "vetrovk/memoryos",
     "description": "main",
     "status": "pushed",
@@ -36,19 +49,6 @@
     "eventType": "IssueCommentEvent",
     "selectionReason": "supported public activity",
     "workKey": "python/mypy#21749",
-    "type": "open-source"
-  },
-  {
-    "source": "usememos/memos",
-    "description": "(tags): require boundaries before tags",
-    "status": "PR review",
-    "url": "https://github.com/usememos/memos",
-    "statusUrl": "https://github.com/usememos/memos/pull/6092",
-    "timestamp": "2026-07-14T07:22:51Z",
-    "relativeTime": "Jul 14",
-    "eventType": "PullRequestReviewEvent",
-    "selectionReason": "supported public activity",
-    "workKey": "usememos/memos#6092",
     "type": "open-source"
   }
 ]
