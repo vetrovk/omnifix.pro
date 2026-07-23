@@ -1,28 +1,28 @@
 [
   {
+    "source": "vetrovk/memoryos",
+    "description": "main",
+    "status": "pushed",
+    "url": "https://github.com/vetrovk/memoryos",
+    "statusUrl": "https://github.com/vetrovk/memoryos/commit/7bc62d9fe613dec55aa60be696c2564163a47294",
+    "timestamp": "2026-07-23T12:31:09Z",
+    "relativeTime": "1 h ago",
+    "eventType": "PushEvent",
+    "selectionReason": "recent project push",
+    "type": "project"
+  },
+  {
     "source": "python/mypy",
     "description": "dmypy suggest crash after flushed diagnostics",
     "status": "PR opened",
     "url": "https://github.com/python/mypy",
     "statusUrl": "https://github.com/python/mypy/pull/21767",
     "timestamp": "2026-07-23T06:30:25Z",
-    "relativeTime": "2 h ago",
+    "relativeTime": "7 h ago",
     "eventType": "PullRequestEvent",
     "selectionReason": "recent opened pull request",
     "workKey": "python/mypy#21767",
     "type": "open-source"
-  },
-  {
-    "source": "vetrovk/memoryos",
-    "description": "main",
-    "status": "pushed",
-    "url": "https://github.com/vetrovk/memoryos",
-    "statusUrl": "https://github.com/vetrovk/memoryos/commit/077946d596550fb4b0edba522497c60b16e7999a",
-    "timestamp": "2026-07-22T02:39:02Z",
-    "relativeTime": "yesterday",
-    "eventType": "PushEvent",
-    "selectionReason": "recent project push",
-    "type": "project"
   },
   {
     "source": "pytest-dev/pytest",
@@ -31,7 +31,7 @@
     "url": "https://github.com/pytest-dev/pytest",
     "statusUrl": "https://github.com/pytest-dev/pytest/pull/14702",
     "timestamp": "2026-07-21T12:46:11Z",
-    "relativeTime": "yesterday",
+    "relativeTime": "2 days ago",
     "eventType": "AuthoredPullRequestMerge",
     "selectionReason": "recent merged pull request",
     "workKey": "pytest-dev/pytest#14702",
