@@ -1,12 +1,25 @@
 [
   {
+    "source": "sqlfluff/sqlfluff",
+    "description": "Databricks materialized view expectation constraints",
+    "status": "PR opened",
+    "url": "https://github.com/sqlfluff/sqlfluff",
+    "statusUrl": "https://github.com/sqlfluff/sqlfluff/pull/8212",
+    "timestamp": "2026-07-24T07:27:08Z",
+    "relativeTime": "1 h ago",
+    "eventType": "PullRequestEvent",
+    "selectionReason": "recent opened pull request",
+    "workKey": "sqlfluff/sqlfluff#8212",
+    "type": "open-source"
+  },
+  {
     "source": "vetrovk/memoryos",
     "description": "main",
     "status": "pushed",
     "url": "https://github.com/vetrovk/memoryos",
     "statusUrl": "https://github.com/vetrovk/memoryos/commit/7bc62d9fe613dec55aa60be696c2564163a47294",
     "timestamp": "2026-07-23T12:31:09Z",
-    "relativeTime": "14 h ago",
+    "relativeTime": "19 h ago",
     "eventType": "PushEvent",
     "selectionReason": "recent project push",
     "type": "project"
@@ -18,9 +31,9 @@
     "url": "https://github.com/python/mypy",
     "statusUrl": "https://github.com/python/mypy/pull/21767",
     "timestamp": "2026-07-23T06:30:25Z",
-    "relativeTime": "20 h ago",
+    "relativeTime": "yesterday",
     "eventType": "PullRequestEvent",
-    "selectionReason": "recent opened pull request",
+    "selectionReason": "supported public activity",
     "workKey": "python/mypy#21767",
     "type": "open-source"
   },
@@ -36,19 +49,6 @@
     "selectionReason": "recent merged pull request",
     "workKey": "pytest-dev/pytest#14702",
     "mergedAt": "2026-07-21T12:46:11Z",
-    "type": "open-source"
-  },
-  {
-    "source": "python/mypy",
-    "description": "TypedDict closed argument version check",
-    "status": "review",
-    "url": "https://github.com/python/mypy",
-    "statusUrl": "https://github.com/python/mypy/pull/21749#issuecomment-5025212368",
-    "timestamp": "2026-07-20T17:34:23Z",
-    "relativeTime": "3 days ago",
-    "eventType": "IssueCommentEvent",
-    "selectionReason": "supported public activity",
-    "workKey": "python/mypy#21749",
     "type": "open-source"
   }
 ]
