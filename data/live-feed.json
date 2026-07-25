@@ -1,29 +1,30 @@
 [
   {
+    "source": "sqlfluff/sqlfluff",
+    "description": "Databricks materialized view expectation constraints",
+    "status": "PR merged",
+    "url": "https://github.com/sqlfluff/sqlfluff",
+    "statusUrl": "https://github.com/sqlfluff/sqlfluff/pull/8212",
+    "timestamp": "2026-07-25T12:16:02Z",
+    "relativeTime": "1 h ago",
+    "eventType": "AuthoredPullRequestMerge",
+    "selectionReason": "recent merged pull request",
+    "workKey": "sqlfluff/sqlfluff#8212",
+    "mergedAt": "2026-07-25T12:16:02Z",
+    "type": "open-source"
+  },
+  {
     "source": "gchq/CyberChef",
     "description": "Restrict A1Z26 Magic checks to valid ranges",
     "status": "PR merged",
     "url": "https://github.com/gchq/CyberChef",
     "statusUrl": "https://github.com/gchq/CyberChef/pull/2644",
     "timestamp": "2026-07-25T07:39:11Z",
-    "relativeTime": "28 min ago",
+    "relativeTime": "5 h ago",
     "eventType": "AuthoredPullRequestMerge",
     "selectionReason": "recent merged pull request",
     "workKey": "gchq/CyberChef#2644",
     "mergedAt": "2026-07-25T07:39:11Z",
-    "type": "open-source"
-  },
-  {
-    "source": "sqlfluff/sqlfluff",
-    "description": "Databricks materialized view expectation constraints",
-    "status": "PR opened",
-    "url": "https://github.com/sqlfluff/sqlfluff",
-    "statusUrl": "https://github.com/sqlfluff/sqlfluff/pull/8212",
-    "timestamp": "2026-07-24T07:27:08Z",
-    "relativeTime": "yesterday",
-    "eventType": "PullRequestEvent",
-    "selectionReason": "recent opened pull request",
-    "workKey": "sqlfluff/sqlfluff#8212",
     "type": "open-source"
   },
   {
@@ -33,7 +34,7 @@
     "url": "https://github.com/vetrovk/memoryos",
     "statusUrl": "https://github.com/vetrovk/memoryos/commit/7bc62d9fe613dec55aa60be696c2564163a47294",
     "timestamp": "2026-07-23T12:31:09Z",
-    "relativeTime": "yesterday",
+    "relativeTime": "2 days ago",
     "eventType": "PushEvent",
     "selectionReason": "recent project push",
     "type": "project"
@@ -47,7 +48,7 @@
     "timestamp": "2026-07-23T06:30:25Z",
     "relativeTime": "2 days ago",
     "eventType": "PullRequestEvent",
-    "selectionReason": "supported public activity",
+    "selectionReason": "recent opened pull request",
     "workKey": "python/mypy#21767",
     "type": "open-source"
   }
