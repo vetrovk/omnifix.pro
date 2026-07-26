@@ -6,7 +6,7 @@
     "url": "https://github.com/sqlfluff/sqlfluff",
     "statusUrl": "https://github.com/sqlfluff/sqlfluff/pull/8212",
     "timestamp": "2026-07-25T12:16:02Z",
-    "relativeTime": "20 h ago",
+    "relativeTime": "yesterday",
     "eventType": "AuthoredPullRequestMerge",
     "selectionReason": "recent merged pull request",
     "workKey": "sqlfluff/sqlfluff#8212",
@@ -34,7 +34,7 @@
     "url": "https://github.com/vetrovk/memoryos",
     "statusUrl": "https://github.com/vetrovk/memoryos/commit/7bc62d9fe613dec55aa60be696c2564163a47294",
     "timestamp": "2026-07-23T12:31:09Z",
-    "relativeTime": "2 days ago",
+    "relativeTime": "3 days ago",
     "eventType": "PushEvent",
     "selectionReason": "recent project push",
     "type": "project"
