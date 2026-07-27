@@ -1,5 +1,30 @@
 [
   {
+    "source": "vetrovk/memoryos",
+    "description": "main",
+    "status": "pushed",
+    "url": "https://github.com/vetrovk/memoryos",
+    "statusUrl": "https://github.com/vetrovk/memoryos/commit/fd1a6db762b9f480d8feb34aa92be734e02c952c",
+    "timestamp": "2026-07-27T09:52:27Z",
+    "relativeTime": "1 min ago",
+    "eventType": "PushEvent",
+    "selectionReason": "recent project push",
+    "type": "project"
+  },
+  {
+    "source": "vitest-dev/vitest",
+    "description": "match force rerun triggers in dot directories (fix #10835)",
+    "status": "review",
+    "url": "https://github.com/vitest-dev/vitest",
+    "statusUrl": "https://github.com/vitest-dev/vitest/pull/10837#issuecomment-5088104122",
+    "timestamp": "2026-07-27T06:40:02Z",
+    "relativeTime": "3 h ago",
+    "eventType": "IssueCommentEvent",
+    "selectionReason": "supported public activity",
+    "workKey": "vitest-dev/vitest#10837",
+    "type": "open-source"
+  },
+  {
     "source": "sqlfluff/sqlfluff",
     "description": "Databricks materialized view expectation constraints",
     "status": "PR merged",
@@ -20,36 +45,11 @@
     "url": "https://github.com/gchq/CyberChef",
     "statusUrl": "https://github.com/gchq/CyberChef/pull/2644",
     "timestamp": "2026-07-25T07:39:11Z",
-    "relativeTime": "yesterday",
+    "relativeTime": "2 days ago",
     "eventType": "AuthoredPullRequestMerge",
     "selectionReason": "recent merged pull request",
     "workKey": "gchq/CyberChef#2644",
     "mergedAt": "2026-07-25T07:39:11Z",
-    "type": "open-source"
-  },
-  {
-    "source": "vetrovk/memoryos",
-    "description": "main",
-    "status": "pushed",
-    "url": "https://github.com/vetrovk/memoryos",
-    "statusUrl": "https://github.com/vetrovk/memoryos/commit/7bc62d9fe613dec55aa60be696c2564163a47294",
-    "timestamp": "2026-07-23T12:31:09Z",
-    "relativeTime": "3 days ago",
-    "eventType": "PushEvent",
-    "selectionReason": "recent project push",
-    "type": "project"
-  },
-  {
-    "source": "python/mypy",
-    "description": "dmypy suggest crash after flushed diagnostics",
-    "status": "PR opened",
-    "url": "https://github.com/python/mypy",
-    "statusUrl": "https://github.com/python/mypy/pull/21767",
-    "timestamp": "2026-07-23T06:30:25Z",
-    "relativeTime": "3 days ago",
-    "eventType": "PullRequestEvent",
-    "selectionReason": "recent opened pull request",
-    "workKey": "python/mypy#21767",
     "type": "open-source"
   }
 ]
