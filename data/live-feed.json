@@ -1,14 +1,15 @@
 [
   {
-    "source": "vetrovk/memoryos",
-    "description": "main",
+    "source": "vetrovk/share2fedi",
+    "description": "validation error message",
     "status": "pushed",
-    "url": "https://github.com/vetrovk/memoryos",
-    "statusUrl": "https://github.com/vetrovk/memoryos/commit/646dd7333fd7d19b3f38d7c5e761b7773eeb3b68",
-    "timestamp": "2026-07-28T06:22:28Z",
-    "relativeTime": "7 h ago",
+    "url": "https://github.com/vetrovk/share2fedi",
+    "statusUrl": "https://github.com/vetrovk/share2fedi/commit/7ddc2cb68c0059b01434729d73c21cf410758b34",
+    "timestamp": "2026-07-28T17:06:17Z",
+    "relativeTime": "2 h ago",
     "eventType": "PushEvent",
     "selectionReason": "recent project push",
+    "forkUpstream": "kytta/share2fedi",
     "type": "project"
   },
   {
