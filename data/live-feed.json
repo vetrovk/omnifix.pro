@@ -31,7 +31,7 @@
     "url": "https://github.com/sqlfluff/sqlfluff",
     "statusUrl": "https://github.com/sqlfluff/sqlfluff/pull/8212",
     "timestamp": "2026-07-25T12:16:02Z",
-    "relativeTime": "5 days ago",
+    "relativeTime": "6 days ago",
     "eventType": "AuthoredPullRequestMerge",
     "selectionReason": "recent merged pull request",
     "workKey": "sqlfluff/sqlfluff#8212",
