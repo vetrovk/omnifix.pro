@@ -1,6 +1,6 @@
 {
-  "mergedPullRequests": 16,
-  "repositoriesContributedTo": 12,
+  "mergedPullRequests": 21,
+  "repositoriesContributedTo": 14,
   "mostActiveProject": "SQLFluff",
   "mainContributionTypes": [
     "bug fixes",
@@ -10,5 +10,5 @@
     "backend",
     "runtime fixes"
   ],
-  "dataSource": "Manually verified public all-time minimums. Build-time GitHub data may increase values only when the API response is complete."
+  "dataSource": "Persisted build-time GitHub snapshot with manually verified minimums. API failures retain the last successful values and never decrease them."
 }

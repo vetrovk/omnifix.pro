@@ -40,7 +40,8 @@ async function main() {
   const savedFeed = await readJson(OUTPUT_PATH).catch(() => []);
   const featuredProject = await readJson(FEATURED_PROJECT_PATH);
   const openSourceStatsConfig = await readJson(OPEN_SOURCE_STATS_PATH);
-  const authoredMergedPullRequests = await loadAuthoredMergedPullRequests();
+  const authoredResult = await loadAuthoredMergedPullRequests();
+  const authoredMergedPullRequests = authoredResult.items;
   const { items, candidates, source } = await loadFeed(
     fallback,
     savedFeed,
@@ -49,6 +50,10 @@ async function main() {
   const normalized = normalizeFeed(items, source);
   const featured = normalizeFeaturedProject(featuredProject, candidates);
   const openSourceStats = normalizeOpenSourceStats(openSourceStatsConfig, authoredMergedPullRequests);
+
+  if (authoredResult.fresh) {
+    await writeFile(OPEN_SOURCE_STATS_PATH, `${JSON.stringify(openSourceStats, null, 2)}\n`);
+  }
 
   await writeFile(OUTPUT_PATH, `${JSON.stringify(normalized, null, 2)}\n`);
   await updateHtml(normalized, featured, openSourceStats);
@@ -143,10 +148,10 @@ async function fetchGitHubJson(url) {
 
 async function loadAuthoredMergedPullRequests() {
   try {
-    return await collectAuthoredMergedPullRequests();
+    return { items: await collectAuthoredMergedPullRequests(), fresh: true };
   } catch (error) {
     console.warn(`live-feed: authored merged PR lookup unavailable (${error.message})`);
-    return [];
+    return { items: [], fresh: false };
   }
 }
 
@@ -516,7 +521,7 @@ function normalizeFeaturedProject(project, candidates) {
   };
 }
 
-function normalizeOpenSourceStats(stats, authoredMergedPullRequests) {
+export function normalizeOpenSourceStats(stats, authoredMergedPullRequests) {
   const normalized = {
     ...stats,
     mergedPullRequests: Number(stats.mergedPullRequests) || 0,

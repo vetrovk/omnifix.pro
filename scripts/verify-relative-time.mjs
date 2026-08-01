@@ -3,6 +3,7 @@ import {
   deduplicateEngineeringWork,
   isRecentAuthoredMerge,
   loadFeed,
+  normalizeOpenSourceStats,
   relativeDate,
   selectFeedItems,
 } from "./generate-live-feed.mjs";
@@ -163,6 +164,24 @@ const distinctMemosActivities = deduplicateEngineeringWork([
 
 if (distinctMemosActivities.length !== 2) {
   throw new Error("distinct Memos pull requests were incorrectly deduplicated");
+}
+
+const persistedStats = normalizeOpenSourceStats(
+  { mergedPullRequests: 21, repositoriesContributedTo: 14 },
+  [],
+);
+if (persistedStats.mergedPullRequests !== 21 || persistedStats.repositoriesContributedTo !== 14) {
+  throw new Error("open-source stats fell back below the last persisted snapshot");
+}
+
+const refreshedStats = normalizeOpenSourceStats(
+  { mergedPullRequests: 21, repositoriesContributedTo: 14 },
+  Array.from({ length: 22 }, (_, index) => ({
+    base: { repo: { full_name: `example/project-${index}` } },
+  })),
+);
+if (refreshedStats.mergedPullRequests !== 22 || refreshedStats.repositoriesContributedTo !== 22) {
+  throw new Error("open-source stats did not increase from a complete authored PR snapshot");
 }
 
 const savedFeed = [{ source: "usememos/memos", timestamp: "2026-07-14T07:22:51Z" }];
