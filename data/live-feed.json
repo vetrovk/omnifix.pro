@@ -6,7 +6,7 @@
     "url": "https://github.com/kytta/share2fedi",
     "statusUrl": "https://github.com/kytta/share2fedi/pull/289",
     "timestamp": "2026-08-01T11:34:26Z",
-    "relativeTime": "1 h ago",
+    "relativeTime": "7 h ago",
     "eventType": "AuthoredPullRequestMerge",
     "selectionReason": "recent merged pull request",
     "workKey": "kytta/share2fedi#289",
@@ -20,7 +20,7 @@
     "url": "https://github.com/vetrovk/memoryos",
     "statusUrl": "https://github.com/vetrovk/memoryos/commit/648e50029666bc14a45df2044fd9c2a97833b9d3",
     "timestamp": "2026-07-29T14:41:18Z",
-    "relativeTime": "2 days ago",
+    "relativeTime": "3 days ago",
     "eventType": "PushEvent",
     "selectionReason": "recent project push",
     "type": "project"
