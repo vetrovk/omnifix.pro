@@ -1,12 +1,25 @@
 [
   {
     "source": "microsoft/pyright",
+    "description": "Support enum assignment to complete literal unions",
+    "status": "PR opened",
+    "url": "https://github.com/microsoft/pyright",
+    "statusUrl": "https://github.com/microsoft/pyright/pull/11584",
+    "timestamp": "2026-08-04T07:05:21Z",
+    "relativeTime": "1 h ago",
+    "eventType": "PullRequestEvent",
+    "selectionReason": "recent opened pull request",
+    "workKey": "microsoft/pyright#11584",
+    "type": "open-source"
+  },
+  {
+    "source": "microsoft/pyright",
     "description": "instance __dict__ lookup with custom metaclasses",
     "status": "review",
     "url": "https://github.com/microsoft/pyright",
     "statusUrl": "https://github.com/microsoft/pyright/pull/11582#issuecomment-5165850250",
     "timestamp": "2026-08-03T11:41:29Z",
-    "relativeTime": "14 h ago",
+    "relativeTime": "20 h ago",
     "eventType": "IssueCommentEvent",
     "selectionReason": "supported public activity",
     "workKey": "microsoft/pyright#11582",
@@ -37,18 +50,5 @@
     "eventType": "PushEvent",
     "selectionReason": "recent project push",
     "type": "project"
-  },
-  {
-    "source": "vitest-dev/vitest",
-    "description": "match force rerun triggers in dot directories (fix #10835)",
-    "status": "review",
-    "url": "https://github.com/vitest-dev/vitest",
-    "statusUrl": "https://github.com/vitest-dev/vitest/pull/10837#issuecomment-5088104122",
-    "timestamp": "2026-07-27T06:40:02Z",
-    "relativeTime": "7 days ago",
-    "eventType": "IssueCommentEvent",
-    "selectionReason": "supported public activity",
-    "workKey": "vitest-dev/vitest#10837",
-    "type": "open-source"
   }
 ]
