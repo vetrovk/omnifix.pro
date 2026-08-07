@@ -1,14 +1,39 @@
 [
   {
+    "source": "vetrovk/memoryos",
+    "description": "main",
+    "status": "pushed",
+    "url": "https://github.com/vetrovk/memoryos",
+    "statusUrl": "https://github.com/vetrovk/memoryos/commit/99dd0f4b1b1af6cfbd84293a2f77ea74136cdfbc",
+    "timestamp": "2026-08-07T06:16:34Z",
+    "relativeTime": "1 h ago",
+    "eventType": "PushEvent",
+    "selectionReason": "recent project push",
+    "type": "project"
+  },
+  {
+    "source": "npm/cli",
+    "description": "(ci): ignore inert nodes during lockfile validation",
+    "status": "PR opened",
+    "url": "https://github.com/npm/cli",
+    "statusUrl": "https://github.com/npm/cli/pull/9850",
+    "timestamp": "2026-08-07T05:42:40Z",
+    "relativeTime": "1 h ago",
+    "eventType": "PullRequestEvent",
+    "selectionReason": "recent opened pull request",
+    "workKey": "npm/cli#9850",
+    "type": "open-source"
+  },
+  {
     "source": "microsoft/pyright",
     "description": "Support enum assignment to complete literal unions",
     "status": "PR opened",
     "url": "https://github.com/microsoft/pyright",
     "statusUrl": "https://github.com/microsoft/pyright/pull/11584",
     "timestamp": "2026-08-04T07:05:21Z",
-    "relativeTime": "2 days ago",
+    "relativeTime": "3 days ago",
     "eventType": "PullRequestEvent",
-    "selectionReason": "recent opened pull request",
+    "selectionReason": "supported public activity",
     "workKey": "microsoft/pyright#11584",
     "type": "open-source"
   },
@@ -24,31 +49,5 @@
     "selectionReason": "supported public activity",
     "workKey": "microsoft/pyright#11582",
     "type": "open-source"
-  },
-  {
-    "source": "kytta/share2fedi",
-    "description": "Show validation issue messages for invalid domains",
-    "status": "PR merged",
-    "url": "https://github.com/kytta/share2fedi",
-    "statusUrl": "https://github.com/kytta/share2fedi/pull/289",
-    "timestamp": "2026-08-01T11:34:26Z",
-    "relativeTime": "5 days ago",
-    "eventType": "AuthoredPullRequestMerge",
-    "selectionReason": "recent merged pull request",
-    "workKey": "kytta/share2fedi#289",
-    "mergedAt": "2026-08-01T11:34:26Z",
-    "type": "open-source"
-  },
-  {
-    "source": "vetrovk/memoryos",
-    "description": "main",
-    "status": "pushed",
-    "url": "https://github.com/vetrovk/memoryos",
-    "statusUrl": "https://github.com/vetrovk/memoryos/commit/648e50029666bc14a45df2044fd9c2a97833b9d3",
-    "timestamp": "2026-07-29T14:41:18Z",
-    "relativeTime": "Jul 29",
-    "eventType": "PushEvent",
-    "selectionReason": "recent project push",
-    "type": "project"
   }
 ]
