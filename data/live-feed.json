@@ -6,7 +6,7 @@
     "url": "https://github.com/vetrovk/memoryos",
     "statusUrl": "https://github.com/vetrovk/memoryos/commit/99dd0f4b1b1af6cfbd84293a2f77ea74136cdfbc",
     "timestamp": "2026-08-07T06:16:34Z",
-    "relativeTime": "19 h ago",
+    "relativeTime": "yesterday",
     "eventType": "PushEvent",
     "selectionReason": "recent project push",
     "type": "project"
@@ -18,7 +18,7 @@
     "url": "https://github.com/npm/cli",
     "statusUrl": "https://github.com/npm/cli/pull/9850",
     "timestamp": "2026-08-07T05:42:40Z",
-    "relativeTime": "19 h ago",
+    "relativeTime": "yesterday",
     "eventType": "PullRequestEvent",
     "selectionReason": "recent opened pull request",
     "workKey": "npm/cli#9850",
