@@ -1,5 +1,18 @@
 [
   {
+    "source": "microsoft/pyright",
+    "description": "lambda contextual typing with keyword-only callables",
+    "status": "PR opened",
+    "url": "https://github.com/microsoft/pyright",
+    "statusUrl": "https://github.com/microsoft/pyright/pull/11609",
+    "timestamp": "2026-08-09T09:05:18Z",
+    "relativeTime": "3 h ago",
+    "eventType": "PullRequestEvent",
+    "selectionReason": "recent opened pull request",
+    "workKey": "microsoft/pyright#11609",
+    "type": "open-source"
+  },
+  {
     "source": "vetrovk/memoryos",
     "description": "main",
     "status": "pushed",
@@ -20,7 +33,7 @@
     "timestamp": "2026-08-07T05:42:40Z",
     "relativeTime": "2 days ago",
     "eventType": "PullRequestEvent",
-    "selectionReason": "recent opened pull request",
+    "selectionReason": "supported public activity",
     "workKey": "npm/cli#9850",
     "type": "open-source"
   },
@@ -31,23 +44,10 @@
     "url": "https://github.com/microsoft/pyright",
     "statusUrl": "https://github.com/microsoft/pyright/pull/11584",
     "timestamp": "2026-08-04T07:05:21Z",
-    "relativeTime": "4 days ago",
+    "relativeTime": "5 days ago",
     "eventType": "PullRequestEvent",
     "selectionReason": "supported public activity",
     "workKey": "microsoft/pyright#11584",
-    "type": "open-source"
-  },
-  {
-    "source": "microsoft/pyright",
-    "description": "instance __dict__ lookup with custom metaclasses",
-    "status": "review",
-    "url": "https://github.com/microsoft/pyright",
-    "statusUrl": "https://github.com/microsoft/pyright/pull/11582#issuecomment-5165850250",
-    "timestamp": "2026-08-03T11:41:29Z",
-    "relativeTime": "5 days ago",
-    "eventType": "IssueCommentEvent",
-    "selectionReason": "supported public activity",
-    "workKey": "microsoft/pyright#11582",
     "type": "open-source"
   }
 ]
