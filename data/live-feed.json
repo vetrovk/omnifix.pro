@@ -1,14 +1,27 @@
 [
   {
+    "source": "pre-commit/pre-commit",
+    "description": "(node): install git hooks as real directories",
+    "status": "PR opened",
+    "url": "https://github.com/pre-commit/pre-commit",
+    "statusUrl": "https://github.com/pre-commit/pre-commit/pull/3741",
+    "timestamp": "2026-08-10T06:25:00Z",
+    "relativeTime": "1 h ago",
+    "eventType": "PullRequestEvent",
+    "selectionReason": "recent opened pull request",
+    "workKey": "pre-commit/pre-commit#3741",
+    "type": "open-source"
+  },
+  {
     "source": "microsoft/pyright",
     "description": "lambda contextual typing with keyword-only callables",
     "status": "PR opened",
     "url": "https://github.com/microsoft/pyright",
     "statusUrl": "https://github.com/microsoft/pyright/pull/11609",
     "timestamp": "2026-08-09T09:05:18Z",
-    "relativeTime": "16 h ago",
+    "relativeTime": "22 h ago",
     "eventType": "PullRequestEvent",
-    "selectionReason": "recent opened pull request",
+    "selectionReason": "supported public activity",
     "workKey": "microsoft/pyright#11609",
     "type": "open-source"
   },
@@ -19,7 +32,7 @@
     "url": "https://github.com/vetrovk/memoryos",
     "statusUrl": "https://github.com/vetrovk/memoryos/commit/99dd0f4b1b1af6cfbd84293a2f77ea74136cdfbc",
     "timestamp": "2026-08-07T06:16:34Z",
-    "relativeTime": "2 days ago",
+    "relativeTime": "3 days ago",
     "eventType": "PushEvent",
     "selectionReason": "recent project push",
     "type": "project"
@@ -31,23 +44,10 @@
     "url": "https://github.com/npm/cli",
     "statusUrl": "https://github.com/npm/cli/pull/9850",
     "timestamp": "2026-08-07T05:42:40Z",
-    "relativeTime": "2 days ago",
+    "relativeTime": "3 days ago",
     "eventType": "PullRequestEvent",
     "selectionReason": "supported public activity",
     "workKey": "npm/cli#9850",
-    "type": "open-source"
-  },
-  {
-    "source": "microsoft/pyright",
-    "description": "Support enum assignment to complete literal unions",
-    "status": "PR opened",
-    "url": "https://github.com/microsoft/pyright",
-    "statusUrl": "https://github.com/microsoft/pyright/pull/11584",
-    "timestamp": "2026-08-04T07:05:21Z",
-    "relativeTime": "5 days ago",
-    "eventType": "PullRequestEvent",
-    "selectionReason": "supported public activity",
-    "workKey": "microsoft/pyright#11584",
     "type": "open-source"
   }
 ]
