@@ -1,12 +1,25 @@
 [
   {
+    "source": "microsoft/pyright",
+    "description": "Support enum assignment to complete literal unions",
+    "status": "review",
+    "url": "https://github.com/microsoft/pyright",
+    "statusUrl": "https://github.com/microsoft/pyright/pull/11584#issuecomment-5262828157",
+    "timestamp": "2026-08-12T05:39:49Z",
+    "relativeTime": "1 h ago",
+    "eventType": "IssueCommentEvent",
+    "selectionReason": "supported public activity",
+    "workKey": "microsoft/pyright#11584",
+    "type": "open-source"
+  },
+  {
     "source": "pandas-dev/pandas",
     "description": "BUG: honor tolerances for mixed integer-float assertions",
     "status": "PR opened",
     "url": "https://github.com/pandas-dev/pandas",
     "statusUrl": "https://github.com/pandas-dev/pandas/pull/66722",
     "timestamp": "2026-08-11T07:07:09Z",
-    "relativeTime": "18 h ago",
+    "relativeTime": "yesterday",
     "eventType": "PullRequestEvent",
     "selectionReason": "recent opened pull request",
     "workKey": "pandas-dev/pandas#66722",
@@ -19,7 +32,7 @@
     "url": "https://github.com/pre-commit/pre-commit",
     "statusUrl": "https://github.com/pre-commit/pre-commit/pull/3741",
     "timestamp": "2026-08-10T06:25:00Z",
-    "relativeTime": "yesterday",
+    "relativeTime": "2 days ago",
     "eventType": "PullRequestEvent",
     "selectionReason": "supported public activity",
     "workKey": "pre-commit/pre-commit#3741",
@@ -37,17 +50,5 @@
     "selectionReason": "supported public activity",
     "workKey": "microsoft/pyright#11609",
     "type": "open-source"
-  },
-  {
-    "source": "vetrovk/memoryos",
-    "description": "main",
-    "status": "pushed",
-    "url": "https://github.com/vetrovk/memoryos",
-    "statusUrl": "https://github.com/vetrovk/memoryos/commit/99dd0f4b1b1af6cfbd84293a2f77ea74136cdfbc",
-    "timestamp": "2026-08-07T06:16:34Z",
-    "relativeTime": "4 days ago",
-    "eventType": "PushEvent",
-    "selectionReason": "recent project push",
-    "type": "project"
   }
 ]
