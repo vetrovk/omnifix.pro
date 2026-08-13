@@ -3,6 +3,7 @@ import {
   deduplicateEngineeringWork,
   isRecentAuthoredMerge,
   loadFeed,
+  normalizeFeaturedProject,
   normalizeOpenSourceStats,
   relativeDate,
   selectFeedItems,
@@ -212,6 +213,57 @@ const bootstrapFailure = await loadFeed(fallbackFeed, [], async () => {
 });
 if (bootstrapFailure.source !== "fallback" || bootstrapFailure.items !== fallbackFeed) {
   throw new Error("initial API failure did not use fallback data");
+}
+
+const featuredProject = {
+  repository: "vetrovk/memoryos",
+  description: "Local-first engineering memory built for daily work with OpenAI Codex.",
+  status: "Beta",
+  language: "Python",
+  license: "MIT",
+  github_url: "https://github.com/vetrovk/memoryos",
+  lastPushTimestamp: "2026-07-12T10:15:13Z",
+};
+const savedFeedWithoutFeaturedPush = [{
+  source: "usememos/memos",
+  status: "PR review",
+  timestamp: "2026-07-14T07:22:51Z",
+}];
+const preservedFeaturedState = await loadFeed(
+  [{
+    source: "vetrovk/memoryos",
+    status: "pushed",
+    timestamp: "2026-07-12T10:15:13Z",
+  }],
+  savedFeedWithoutFeaturedPush,
+  async () => {
+    throw new Error("GitHub API unavailable");
+  },
+);
+const featuredAfterApiFailure = normalizeFeaturedProject(
+  featuredProject,
+  preservedFeaturedState.candidates,
+  now,
+);
+
+if (
+  featuredAfterApiFailure.lastPush !== "1 h ago"
+  || featuredAfterApiFailure.lastPushTimestamp !== featuredProject.lastPushTimestamp
+) {
+  throw new Error("featured project lost its last known push timestamp after API failure");
+}
+
+const featuredAfterOlderLiveEvent = normalizeFeaturedProject(
+  featuredProject,
+  [{
+    source: "vetrovk/memoryos",
+    status: "pushed",
+    timestamp: "2026-07-11T10:15:13Z",
+  }],
+  now,
+);
+if (featuredAfterOlderLiveEvent.lastPushTimestamp !== featuredProject.lastPushTimestamp) {
+  throw new Error("an older live event regressed the featured project push timestamp");
 }
 
 console.log("relative-time, activity deduplication, and feed preservation verification passed");

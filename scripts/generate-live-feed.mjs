@@ -51,6 +51,13 @@ async function main() {
   const featured = normalizeFeaturedProject(featuredProject, candidates);
   const openSourceStats = normalizeOpenSourceStats(openSourceStatsConfig, authoredMergedPullRequests);
 
+  if (featured.lastPushTimestamp && featured.lastPushTimestamp !== featuredProject.lastPushTimestamp) {
+    await writeFile(
+      FEATURED_PROJECT_PATH,
+      `${JSON.stringify({ ...featuredProject, lastPushTimestamp: featured.lastPushTimestamp }, null, 2)}\n`,
+    );
+  }
+
   if (authoredResult.fresh) {
     await writeFile(OPEN_SOURCE_STATS_PATH, `${JSON.stringify(openSourceStats, null, 2)}\n`);
   }
@@ -509,15 +516,19 @@ function normalizeFeed(items, source) {
     });
 }
 
-function normalizeFeaturedProject(project, candidates) {
-  const latestEvent = candidates
+export function normalizeFeaturedProject(project, candidates, now = new Date()) {
+  const candidateTimestamps = candidates
     .filter((item) => item.source === project.repository && item.status === "pushed")
-    .sort((a, b) => Date.parse(b.timestamp) - Date.parse(a.timestamp))[0];
-  const timestamp = validTimestamp(latestEvent?.timestamp);
+    .map((item) => item.timestamp);
+  const timestamp = [project.lastPushTimestamp, ...candidateTimestamps]
+    .map(validTimestamp)
+    .filter(Boolean)
+    .sort((a, b) => Date.parse(b) - Date.parse(a))[0] || null;
 
   return {
     ...project,
-    lastPush: timestamp ? relativeDate(timestamp) : "—",
+    lastPushTimestamp: timestamp,
+    lastPush: timestamp ? relativeDate(timestamp, now) : "—",
   };
 }
 
