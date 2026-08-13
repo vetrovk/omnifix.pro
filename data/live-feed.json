@@ -45,7 +45,7 @@
     "url": "https://github.com/microsoft/pyright",
     "statusUrl": "https://github.com/microsoft/pyright/pull/11609",
     "timestamp": "2026-08-09T09:05:18Z",
-    "relativeTime": "3 days ago",
+    "relativeTime": "4 days ago",
     "eventType": "PullRequestEvent",
     "selectionReason": "supported public activity",
     "workKey": "microsoft/pyright#11609",
