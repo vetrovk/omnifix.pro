@@ -302,6 +302,8 @@ async function pullRequestEventToItem(event) {
     eventType: event.type,
     workKey: pullRequestWorkKey(event.repo.name, pullRequest.number),
     workSha: pullRequest.head?.sha,
+    workRepository: pullRequest.head?.repo?.full_name,
+    workBranch: pullRequest.head?.ref,
     mergedAt,
     type: isOwnRepo(event.repo.name) ? "project" : "open-source",
     _score: priorityFor(event.repo.name, merged ? 100 : 70),
@@ -321,6 +323,8 @@ export function authoredMergedPullRequestToItem(pullRequest) {
     eventType: "AuthoredPullRequestMerge",
     workKey: pullRequestWorkKey(repository, pullRequest.number),
     workSha: pullRequest.merge_commit_sha || pullRequest.head?.sha,
+    workRepository: pullRequest.head?.repo?.full_name,
+    workBranch: pullRequest.head?.ref,
     mergedAt: pullRequest.merged_at,
     type: isOwnRepo(repository) ? "project" : "open-source",
     _score: priorityFor(repository, 104),
@@ -348,6 +352,8 @@ async function pullRequestReviewActivityToItem(event) {
     eventType: event.type,
     workKey: pullRequestWorkKey(event.repo.name, pullRequest.number),
     workSha: pullRequest.head?.sha,
+    workRepository: pullRequest.head?.repo?.full_name,
+    workBranch: pullRequest.head?.ref,
     type: isOwnRepo(event.repo.name) ? "project" : "open-source",
     _score: priorityFor(event.repo.name, 88),
   };
@@ -382,6 +388,8 @@ async function pushEventToItem(event) {
     timestamp: event.created_at,
     eventType: event.type,
     workSha: head,
+    workRepository: event.repo.name,
+    workBranch: branchFromRef(event.payload?.ref),
     forkUpstream,
     type: isOwnRepo(event.repo.name) ? "project" : "open-source",
     _score: priorityFor(event.repo.name, 58),
@@ -403,8 +411,13 @@ export function deduplicateEngineeringWork(items) {
     return !highestValueItems.some((related) => (
       isUpstreamPullActivity(related)
       && related.source === item.forkUpstream
-      && timestampsAreRelated(related.timestamp, item.timestamp)
-      && titlesDescribeSameWork(related.description, item.description)
+      && (
+        workItemsShareIdentity(item, related)
+        || (
+          timestampsAreRelated(related.timestamp, item.timestamp)
+          && titlesDescribeSameWork(related.description, item.description)
+        )
+      )
     ));
   });
 }
@@ -441,6 +454,26 @@ function timestampsAreRelated(left, right) {
   return Number.isFinite(leftTime)
     && Number.isFinite(rightTime)
     && Math.abs(leftTime - rightTime) <= RELATED_FORK_PUSH_WINDOW_MS;
+}
+
+function workItemsShareIdentity(forkPush, upstreamActivity) {
+  const sameHead = Boolean(
+    forkPush.workSha
+    && upstreamActivity.workSha
+    && forkPush.workSha === upstreamActivity.workSha,
+  );
+  const sameForkBranch = Boolean(
+    forkPush.source
+    && upstreamActivity.workRepository === forkPush.source
+    && forkPush.workBranch
+    && forkPush.workBranch === upstreamActivity.workBranch,
+  );
+  return sameHead || sameForkBranch;
+}
+
+function branchFromRef(ref) {
+  const value = String(ref || "");
+  return value.replace(/^refs\/heads\//, "") || null;
 }
 
 function titlesDescribeSameWork(left, right) {

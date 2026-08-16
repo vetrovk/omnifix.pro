@@ -56,6 +56,62 @@ if (relatedWork.length !== 1 || relatedWork[0].eventType !== "PullRequestReviewE
   throw new Error("fork push and lower-value PR activity were not deduplicated");
 }
 
+const pandasForkContribution = deduplicateEngineeringWork([
+  {
+    source: "vetrovk/pandas",
+    description: "assert almost equal mixed int float",
+    eventType: "PushEvent",
+    forkUpstream: "pandas-dev/pandas",
+    workRepository: "vetrovk/pandas",
+    workBranch: "fix/assert-almost-equal-mixed-int-float",
+    workSha: "849260c7c6e858cf1e3b9725ecc9bc0a2ed26fdc",
+    timestamp: "2026-08-15T07:05:13Z",
+  },
+  {
+    source: "pandas-dev/pandas",
+    description: "BUG: honor tolerances for mixed integer-float assertions",
+    eventType: "PullRequestEvent",
+    status: "PR opened",
+    workKey: "pandas-dev/pandas#66722",
+    workRepository: "vetrovk/pandas",
+    workBranch: "fix/assert-almost-equal-mixed-int-float",
+    workSha: "849260c7c6e858cf1e3b9725ecc9bc0a2ed26fdc",
+    timestamp: "2026-08-11T07:07:09Z",
+  },
+]);
+
+if (pandasForkContribution.length !== 1 || pandasForkContribution[0].eventType !== "PullRequestEvent") {
+  throw new Error("late pandas fork push was not replaced by the related upstream PR");
+}
+
+const branchMatchedContribution = deduplicateEngineeringWork([
+  {
+    source: "vetrovk/pandas",
+    description: "late branch update",
+    eventType: "PushEvent",
+    forkUpstream: "pandas-dev/pandas",
+    workRepository: "vetrovk/pandas",
+    workBranch: "fix/assert-almost-equal-mixed-int-float",
+    workSha: "new-head-sha",
+    timestamp: "2026-08-15T07:05:13Z",
+  },
+  {
+    source: "pandas-dev/pandas",
+    description: "different wording for the same pull request",
+    eventType: "PullRequestEvent",
+    status: "PR opened",
+    workKey: "pandas-dev/pandas#66722",
+    workRepository: "vetrovk/pandas",
+    workBranch: "fix/assert-almost-equal-mixed-int-float",
+    workSha: "old-head-sha",
+    timestamp: "2026-08-11T07:07:09Z",
+  },
+]);
+
+if (branchMatchedContribution.length !== 1 || branchMatchedContribution[0].eventType !== "PullRequestEvent") {
+  throw new Error("fork branch identity did not replace a late push with the upstream PR");
+}
+
 const mypyForkContribution = deduplicateEngineeringWork([
   {
     source: "vetrovk/mypy",
