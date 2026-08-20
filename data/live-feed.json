@@ -1,5 +1,19 @@
 [
   {
+    "source": "pandas-dev/pandas",
+    "description": "BUG: honor tolerances for mixed integer-float assertions",
+    "status": "PR merged",
+    "url": "https://github.com/pandas-dev/pandas",
+    "statusUrl": "https://github.com/pandas-dev/pandas/pull/66722",
+    "timestamp": "2026-08-19T18:58:50Z",
+    "relativeTime": "6 h ago",
+    "eventType": "AuthoredPullRequestMerge",
+    "selectionReason": "recent merged pull request",
+    "workKey": "pandas-dev/pandas#66722",
+    "mergedAt": "2026-08-19T18:58:50Z",
+    "type": "open-source"
+  },
+  {
     "source": "vetrovk/memoryos",
     "description": "main",
     "status": "pushed",
@@ -35,19 +49,6 @@
     "eventType": "IssueCommentEvent",
     "selectionReason": "supported public activity",
     "workKey": "microsoft/pyright#11584",
-    "type": "open-source"
-  },
-  {
-    "source": "pandas-dev/pandas",
-    "description": "BUG: honor tolerances for mixed integer-float assertions",
-    "status": "PR opened",
-    "url": "https://github.com/pandas-dev/pandas",
-    "statusUrl": "https://github.com/pandas-dev/pandas/pull/66722",
-    "timestamp": "2026-08-11T07:07:09Z",
-    "relativeTime": "Aug 11",
-    "eventType": "PullRequestEvent",
-    "selectionReason": "supported public activity",
-    "workKey": "pandas-dev/pandas#66722",
     "type": "open-source"
   }
 ]
