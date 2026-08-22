@@ -32,7 +32,7 @@
     "url": "https://github.com/numpy/numpy",
     "statusUrl": "https://github.com/numpy/numpy/pull/32300",
     "timestamp": "2026-08-15T06:48:01Z",
-    "relativeTime": "6 days ago",
+    "relativeTime": "7 days ago",
     "eventType": "PullRequestEvent",
     "selectionReason": "recent opened pull request",
     "workKey": "numpy/numpy#32300",
