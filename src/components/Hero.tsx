@@ -45,7 +45,7 @@ function HeroActions() {
         </a>
       ))}
       <a
-        href="mailto:vetrovk@gmail.com"
+        href="mailto:hello@omnifix.pro"
         className={`${actionButtonClass} ${mutedButtonClass}`}
       >
         <MailIcon /> Contact
