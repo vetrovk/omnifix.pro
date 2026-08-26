@@ -6,7 +6,7 @@
     "url": "https://github.com/vetrovk/memoryos",
     "statusUrl": "https://github.com/vetrovk/memoryos/commit/c742af86921c1ac716431bc6a3d22f72e5832752",
     "timestamp": "2026-08-26T12:28:05Z",
-    "relativeTime": "25 min ago",
+    "relativeTime": "7 h ago",
     "eventType": "PushEvent",
     "selectionReason": "recent project push",
     "type": "project"
@@ -18,7 +18,7 @@
     "url": "https://github.com/pandas-dev/pandas",
     "statusUrl": "https://github.com/pandas-dev/pandas/pull/66722",
     "timestamp": "2026-08-19T18:58:50Z",
-    "relativeTime": "6 days ago",
+    "relativeTime": "7 days ago",
     "eventType": "AuthoredPullRequestMerge",
     "selectionReason": "recent merged pull request",
     "workKey": "pandas-dev/pandas#66722",
