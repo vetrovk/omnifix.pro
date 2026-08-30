@@ -1,5 +1,19 @@
 [
   {
+    "source": "XiaoDuoYa/codex-with-chatgpt",
+    "description": "(search): match root files for recursive globs in Node fallback",
+    "status": "PR merged",
+    "url": "https://github.com/XiaoDuoYa/codex-with-chatgpt",
+    "statusUrl": "https://github.com/XiaoDuoYa/codex-with-chatgpt/pull/20",
+    "timestamp": "2026-08-30T01:38:49Z",
+    "relativeTime": "2 h ago",
+    "eventType": "AuthoredPullRequestMerge",
+    "selectionReason": "recent merged pull request",
+    "workKey": "XiaoDuoYa/codex-with-chatgpt#20",
+    "mergedAt": "2026-08-30T01:38:49Z",
+    "type": "open-source"
+  },
+  {
     "source": "vetrovk/memoryos",
     "description": "main",
     "status": "pushed",
@@ -36,19 +50,6 @@
     "eventType": "PullRequestEvent",
     "selectionReason": "recent opened pull request",
     "workKey": "numpy/numpy#32300",
-    "type": "open-source"
-  },
-  {
-    "source": "microsoft/pyright",
-    "description": "Support enum assignment to complete literal unions",
-    "status": "review",
-    "url": "https://github.com/microsoft/pyright",
-    "statusUrl": "https://github.com/microsoft/pyright/pull/11584#issuecomment-5262828157",
-    "timestamp": "2026-08-12T05:39:49Z",
-    "relativeTime": "Aug 12",
-    "eventType": "IssueCommentEvent",
-    "selectionReason": "supported public activity",
-    "workKey": "microsoft/pyright#11584",
     "type": "open-source"
   }
 ]
