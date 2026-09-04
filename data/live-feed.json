@@ -1,5 +1,18 @@
 [
   {
+    "source": "pandas-dev/pandas",
+    "description": "BUG: group bars correctly in list-valued subplots",
+    "status": "review",
+    "url": "https://github.com/pandas-dev/pandas",
+    "statusUrl": "https://github.com/pandas-dev/pandas/pull/68003#issuecomment-5537050929",
+    "timestamp": "2026-09-04T07:12:49Z",
+    "relativeTime": "3 h ago",
+    "eventType": "IssueCommentEvent",
+    "selectionReason": "supported public activity",
+    "workKey": "pandas-dev/pandas#68003",
+    "type": "open-source"
+  },
+  {
     "source": "XiaoDuoYa/codex-with-chatgpt",
     "description": "(search): match root files for recursive globs in Node fallback",
     "status": "PR merged",
@@ -37,19 +50,6 @@
     "selectionReason": "recent merged pull request",
     "workKey": "pandas-dev/pandas#66722",
     "mergedAt": "2026-08-19T18:58:50Z",
-    "type": "open-source"
-  },
-  {
-    "source": "numpy/numpy",
-    "description": "BUG: restore RandomState multinomial stream compatibility",
-    "status": "PR opened",
-    "url": "https://github.com/numpy/numpy",
-    "statusUrl": "https://github.com/numpy/numpy/pull/32300",
-    "timestamp": "2026-08-15T06:48:01Z",
-    "relativeTime": "Aug 15",
-    "eventType": "PullRequestEvent",
-    "selectionReason": "recent opened pull request",
-    "workKey": "numpy/numpy#32300",
     "type": "open-source"
   }
 ]
