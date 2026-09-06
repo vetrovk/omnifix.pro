@@ -1,5 +1,18 @@
 [
   {
+    "source": "vetrovk/pandas",
+    "description": "grouped bar subplots",
+    "status": "pushed",
+    "url": "https://github.com/vetrovk/pandas",
+    "statusUrl": "https://github.com/vetrovk/pandas/commit/c1f4d7e97a658c84361506b2f8143011db5dacf0",
+    "timestamp": "2026-09-05T21:32:06Z",
+    "relativeTime": "5 h ago",
+    "eventType": "PushEvent",
+    "selectionReason": "recent project push",
+    "forkUpstream": "pandas-dev/pandas",
+    "type": "project"
+  },
+  {
     "source": "pandas-dev/pandas",
     "description": "BUG: group bars correctly in list-valued subplots",
     "status": "review",
@@ -19,24 +32,12 @@
     "url": "https://github.com/XiaoDuoYa/codex-with-chatgpt",
     "statusUrl": "https://github.com/XiaoDuoYa/codex-with-chatgpt/pull/20",
     "timestamp": "2026-08-30T01:38:49Z",
-    "relativeTime": "6 days ago",
+    "relativeTime": "7 days ago",
     "eventType": "AuthoredPullRequestMerge",
     "selectionReason": "recent merged pull request",
     "workKey": "XiaoDuoYa/codex-with-chatgpt#20",
     "mergedAt": "2026-08-30T01:38:49Z",
     "type": "open-source"
-  },
-  {
-    "source": "vetrovk/memoryos",
-    "description": "main",
-    "status": "pushed",
-    "url": "https://github.com/vetrovk/memoryos",
-    "statusUrl": "https://github.com/vetrovk/memoryos/commit/c742af86921c1ac716431bc6a3d22f72e5832752",
-    "timestamp": "2026-08-26T12:28:05Z",
-    "relativeTime": "Aug 26",
-    "eventType": "PushEvent",
-    "selectionReason": "recent project push",
-    "type": "project"
   },
   {
     "source": "pandas-dev/pandas",
