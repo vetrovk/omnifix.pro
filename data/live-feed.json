@@ -1,28 +1,16 @@
 [
   {
-    "source": "vetrovk/pandas",
-    "description": "grouped bar subplots",
-    "status": "pushed",
-    "url": "https://github.com/vetrovk/pandas",
-    "statusUrl": "https://github.com/vetrovk/pandas/commit/ca914796a9f67a828cc3084a1876118b0a54b609",
-    "timestamp": "2026-09-10T07:25:00Z",
-    "relativeTime": "yesterday",
-    "eventType": "PushEvent",
-    "selectionReason": "recent project push",
-    "forkUpstream": "pandas-dev/pandas",
-    "type": "project"
-  },
-  {
     "source": "pandas-dev/pandas",
     "description": "BUG: group bars correctly in list-valued subplots",
-    "status": "review",
+    "status": "PR merged",
     "url": "https://github.com/pandas-dev/pandas",
-    "statusUrl": "https://github.com/pandas-dev/pandas/pull/68003#issuecomment-5537050929",
-    "timestamp": "2026-09-04T07:12:49Z",
-    "relativeTime": "7 days ago",
-    "eventType": "IssueCommentEvent",
-    "selectionReason": "supported public activity",
+    "statusUrl": "https://github.com/pandas-dev/pandas/pull/68003",
+    "timestamp": "2026-09-11T15:15:47Z",
+    "relativeTime": "44 min ago",
+    "eventType": "AuthoredPullRequestMerge",
+    "selectionReason": "recent merged pull request",
     "workKey": "pandas-dev/pandas#68003",
+    "mergedAt": "2026-09-11T15:15:47Z",
     "type": "open-source"
   },
   {
@@ -40,17 +28,28 @@
     "type": "open-source"
   },
   {
-    "source": "pandas-dev/pandas",
-    "description": "BUG: honor tolerances for mixed integer-float assertions",
-    "status": "PR merged",
-    "url": "https://github.com/pandas-dev/pandas",
-    "statusUrl": "https://github.com/pandas-dev/pandas/pull/66722",
-    "timestamp": "2026-08-19T18:58:50Z",
-    "relativeTime": "Aug 19",
-    "eventType": "AuthoredPullRequestMerge",
-    "selectionReason": "recent merged pull request",
-    "workKey": "pandas-dev/pandas#66722",
-    "mergedAt": "2026-08-19T18:58:50Z",
+    "source": "vetrovk/memoryos",
+    "description": "main",
+    "status": "pushed",
+    "url": "https://github.com/vetrovk/memoryos",
+    "statusUrl": "https://github.com/vetrovk/memoryos/commit/c742af86921c1ac716431bc6a3d22f72e5832752",
+    "timestamp": "2026-08-26T12:28:05Z",
+    "relativeTime": "Aug 26",
+    "eventType": "PushEvent",
+    "selectionReason": "recent project push",
+    "type": "project"
+  },
+  {
+    "source": "numpy/numpy",
+    "description": "BUG: restore RandomState multinomial stream compatibility",
+    "status": "PR opened",
+    "url": "https://github.com/numpy/numpy",
+    "statusUrl": "https://github.com/numpy/numpy/pull/32300",
+    "timestamp": "2026-08-15T06:48:01Z",
+    "relativeTime": "Aug 15",
+    "eventType": "PullRequestEvent",
+    "selectionReason": "recent opened pull request",
+    "workKey": "numpy/numpy#32300",
     "type": "open-source"
   }
 ]
