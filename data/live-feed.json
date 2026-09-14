@@ -6,7 +6,7 @@
     "url": "https://github.com/pandas-dev/pandas",
     "statusUrl": "https://github.com/pandas-dev/pandas/pull/68003",
     "timestamp": "2026-09-11T15:15:47Z",
-    "relativeTime": "2 days ago",
+    "relativeTime": "3 days ago",
     "eventType": "AuthoredPullRequestMerge",
     "selectionReason": "recent merged pull request",
     "workKey": "pandas-dev/pandas#68003",
@@ -38,18 +38,5 @@
     "eventType": "PushEvent",
     "selectionReason": "recent project push",
     "type": "project"
-  },
-  {
-    "source": "numpy/numpy",
-    "description": "BUG: restore RandomState multinomial stream compatibility",
-    "status": "PR opened",
-    "url": "https://github.com/numpy/numpy",
-    "statusUrl": "https://github.com/numpy/numpy/pull/32300",
-    "timestamp": "2026-08-15T06:48:01Z",
-    "relativeTime": "Aug 15",
-    "eventType": "PullRequestEvent",
-    "selectionReason": "recent opened pull request",
-    "workKey": "numpy/numpy#32300",
-    "type": "open-source"
   }
 ]
