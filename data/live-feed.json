@@ -12,19 +12,5 @@
     "workKey": "pandas-dev/pandas#68003",
     "mergedAt": "2026-09-11T15:15:47Z",
     "type": "open-source"
-  },
-  {
-    "source": "XiaoDuoYa/codex-with-chatgpt",
-    "description": "(search): match root files for recursive globs in Node fallback",
-    "status": "PR merged",
-    "url": "https://github.com/XiaoDuoYa/codex-with-chatgpt",
-    "statusUrl": "https://github.com/XiaoDuoYa/codex-with-chatgpt/pull/20",
-    "timestamp": "2026-08-30T01:38:49Z",
-    "relativeTime": "Aug 30",
-    "eventType": "PullRequestEvent",
-    "selectionReason": "recent merged pull request",
-    "workKey": "XiaoDuoYa/codex-with-chatgpt#20",
-    "mergedAt": "2026-08-30T01:38:49Z",
-    "type": "open-source"
   }
 ]
