@@ -1,5 +1,32 @@
 [
   {
+    "source": "microsoft/pyright",
+    "description": "instance __dict__ lookup with custom metaclasses",
+    "status": "PR merged",
+    "url": "https://github.com/microsoft/pyright",
+    "statusUrl": "https://github.com/microsoft/pyright/pull/11582",
+    "timestamp": "2026-10-02T23:06:51Z",
+    "relativeTime": "5 h ago",
+    "eventType": "AuthoredPullRequestMerge",
+    "selectionReason": "recent merged pull request",
+    "workKey": "microsoft/pyright#11582",
+    "mergedAt": "2026-10-02T23:06:51Z",
+    "type": "open-source"
+  },
+  {
+    "source": "vetrovk/pyright",
+    "description": "lambda context keyword only",
+    "status": "pushed",
+    "url": "https://github.com/vetrovk/pyright",
+    "statusUrl": "https://github.com/vetrovk/pyright/commit/aaedba560f92e4e47e0935d44eec6ffc9b6f6109",
+    "timestamp": "2026-10-02T22:20:45Z",
+    "relativeTime": "5 h ago",
+    "eventType": "PushEvent",
+    "selectionReason": "recent project push",
+    "forkUpstream": "microsoft/pyright",
+    "type": "project"
+  },
+  {
     "source": "pandas-dev/pandas",
     "description": "BUG: group bars correctly in list-valued subplots",
     "status": "PR merged",
