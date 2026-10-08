@@ -1,6 +1,20 @@
 [
   {
     "source": "microsoft/pyright",
+    "description": "lambda contextual typing with keyword-only callables",
+    "status": "PR merged",
+    "url": "https://github.com/microsoft/pyright",
+    "statusUrl": "https://github.com/microsoft/pyright/pull/11609",
+    "timestamp": "2026-10-08T20:45:56Z",
+    "relativeTime": "2 h ago",
+    "eventType": "AuthoredPullRequestMerge",
+    "selectionReason": "recent merged pull request",
+    "workKey": "microsoft/pyright#11609",
+    "mergedAt": "2026-10-08T20:45:56Z",
+    "type": "open-source"
+  },
+  {
+    "source": "microsoft/pyright",
     "description": "instance __dict__ lookup with custom metaclasses",
     "status": "PR merged",
     "url": "https://github.com/microsoft/pyright",
@@ -11,33 +25,6 @@
     "selectionReason": "recent merged pull request",
     "workKey": "microsoft/pyright#11582",
     "mergedAt": "2026-10-02T23:06:51Z",
-    "type": "open-source"
-  },
-  {
-    "source": "vetrovk/pyright",
-    "description": "lambda context keyword only",
-    "status": "pushed",
-    "url": "https://github.com/vetrovk/pyright",
-    "statusUrl": "https://github.com/vetrovk/pyright/commit/aaedba560f92e4e47e0935d44eec6ffc9b6f6109",
-    "timestamp": "2026-10-02T22:20:45Z",
-    "relativeTime": "5 days ago",
-    "eventType": "PushEvent",
-    "selectionReason": "recent project push",
-    "forkUpstream": "microsoft/pyright",
-    "type": "project"
-  },
-  {
-    "source": "pandas-dev/pandas",
-    "description": "BUG: group bars correctly in list-valued subplots",
-    "status": "PR merged",
-    "url": "https://github.com/pandas-dev/pandas",
-    "statusUrl": "https://github.com/pandas-dev/pandas/pull/68003",
-    "timestamp": "2026-09-11T15:15:47Z",
-    "relativeTime": "Sep 11",
-    "eventType": "AuthoredPullRequestMerge",
-    "selectionReason": "recent merged pull request",
-    "workKey": "pandas-dev/pandas#68003",
-    "mergedAt": "2026-09-11T15:15:47Z",
     "type": "open-source"
   }
 ]
