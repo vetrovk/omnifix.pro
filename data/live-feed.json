@@ -1,12 +1,25 @@
 [
   {
+    "source": "python/cpython",
+    "description": "gh-159012: Document socket byte-order conversion errors in Python 3.14",
+    "status": "PR opened",
+    "url": "https://github.com/python/cpython",
+    "statusUrl": "https://github.com/python/cpython/pull/159047",
+    "timestamp": "2026-10-09T06:24:20Z",
+    "relativeTime": "6 h ago",
+    "eventType": "PullRequestEvent",
+    "selectionReason": "recent opened pull request",
+    "workKey": "python/cpython#159047",
+    "type": "open-source"
+  },
+  {
     "source": "microsoft/pyright",
     "description": "lambda contextual typing with keyword-only callables",
     "status": "PR merged",
     "url": "https://github.com/microsoft/pyright",
     "statusUrl": "https://github.com/microsoft/pyright/pull/11609",
     "timestamp": "2026-10-08T20:45:56Z",
-    "relativeTime": "8 h ago",
+    "relativeTime": "15 h ago",
     "eventType": "AuthoredPullRequestMerge",
     "selectionReason": "recent merged pull request",
     "workKey": "microsoft/pyright#11609",
