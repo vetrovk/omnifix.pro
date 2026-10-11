@@ -33,7 +33,7 @@
     "url": "https://github.com/microsoft/pyright",
     "statusUrl": "https://github.com/microsoft/pyright/pull/11582",
     "timestamp": "2026-10-02T23:06:51Z",
-    "relativeTime": "7 days ago",
+    "relativeTime": "Oct 2",
     "eventType": "AuthoredPullRequestMerge",
     "selectionReason": "recent merged pull request",
     "workKey": "microsoft/pyright#11582",
