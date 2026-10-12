@@ -6,7 +6,7 @@
     "url": "https://github.com/python/cpython",
     "statusUrl": "https://github.com/python/cpython/pull/159047",
     "timestamp": "2026-10-09T06:24:20Z",
-    "relativeTime": "2 days ago",
+    "relativeTime": "3 days ago",
     "eventType": "PullRequestEvent",
     "selectionReason": "recent opened pull request",
     "workKey": "python/cpython#159047",
@@ -39,18 +39,5 @@
     "workKey": "microsoft/pyright#11582",
     "mergedAt": "2026-10-02T23:06:51Z",
     "type": "open-source"
-  },
-  {
-    "source": "vetrovk/pandas",
-    "description": "grouped bar subplots",
-    "status": "pushed",
-    "url": "https://github.com/vetrovk/pandas",
-    "statusUrl": "https://github.com/vetrovk/pandas/commit/904c96260d2d46841ca2dc7edcd0fad7ec7ca2dc",
-    "timestamp": "2026-09-10T05:02:31Z",
-    "relativeTime": "Sep 10",
-    "eventType": "PushEvent",
-    "selectionReason": "recent project push",
-    "forkUpstream": "pandas-dev/pandas",
-    "type": "project"
   }
 ]
