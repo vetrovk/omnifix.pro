@@ -39,5 +39,18 @@
     "workKey": "microsoft/pyright#11582",
     "mergedAt": "2026-10-02T23:06:51Z",
     "type": "open-source"
+  },
+  {
+    "source": "vetrovk/pandas",
+    "description": "grouped bar subplots",
+    "status": "pushed",
+    "url": "https://github.com/vetrovk/pandas",
+    "statusUrl": "https://github.com/vetrovk/pandas/commit/904c96260d2d46841ca2dc7edcd0fad7ec7ca2dc",
+    "timestamp": "2026-09-10T05:02:31Z",
+    "relativeTime": "Sep 10",
+    "eventType": "PushEvent",
+    "selectionReason": "recent project push",
+    "forkUpstream": "pandas-dev/pandas",
+    "type": "project"
   }
 ]
