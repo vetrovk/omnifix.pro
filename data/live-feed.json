@@ -25,19 +25,5 @@
     "workKey": "microsoft/pyright#11609",
     "mergedAt": "2026-10-08T20:45:56Z",
     "type": "open-source"
-  },
-  {
-    "source": "microsoft/pyright",
-    "description": "instance __dict__ lookup with custom metaclasses",
-    "status": "PR merged",
-    "url": "https://github.com/microsoft/pyright",
-    "statusUrl": "https://github.com/microsoft/pyright/pull/11582",
-    "timestamp": "2026-10-02T23:06:51Z",
-    "relativeTime": "Oct 2",
-    "eventType": "PullRequestEvent",
-    "selectionReason": "recent merged pull request",
-    "workKey": "microsoft/pyright#11582",
-    "mergedAt": "2026-10-02T23:06:51Z",
-    "type": "open-source"
   }
 ]
