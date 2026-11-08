@@ -24,19 +24,5 @@
     "selectionReason": "recent opened pull request",
     "workKey": "python/cpython#159047",
     "type": "open-source"
-  },
-  {
-    "source": "microsoft/pyright",
-    "description": "lambda contextual typing with keyword-only callables",
-    "status": "PR merged",
-    "url": "https://github.com/microsoft/pyright",
-    "statusUrl": "https://github.com/microsoft/pyright/pull/11609",
-    "timestamp": "2026-10-08T20:45:56Z",
-    "relativeTime": "Oct 8",
-    "eventType": "PullRequestEvent",
-    "selectionReason": "recent merged pull request",
-    "workKey": "microsoft/pyright#11609",
-    "mergedAt": "2026-10-08T20:45:56Z",
-    "type": "open-source"
   }
 ]
