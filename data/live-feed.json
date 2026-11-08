@@ -11,18 +11,5 @@
     "selectionReason": "supported public activity",
     "workKey": "jazzband/django-push-notifications#826",
     "type": "open-source"
-  },
-  {
-    "source": "python/cpython",
-    "description": "gh-159012: Document socket byte-order conversion errors in Python 3.14",
-    "status": "PR opened",
-    "url": "https://github.com/python/cpython",
-    "statusUrl": "https://github.com/python/cpython/pull/159047",
-    "timestamp": "2026-10-09T06:24:20Z",
-    "relativeTime": "Oct 9",
-    "eventType": "PullRequestEvent",
-    "selectionReason": "recent opened pull request",
-    "workKey": "python/cpython#159047",
-    "type": "open-source"
   }
 ]
