@@ -1,15 +1,15 @@
 [
   {
-    "source": "jazzband/django-push-notifications",
+    "source": "django-commons/django-push-notifications",
     "description": "Preserve database alias and hints in device managers",
     "status": "PR merged",
-    "url": "https://github.com/jazzband/django-push-notifications",
-    "statusUrl": "https://github.com/jazzband/django-push-notifications/pull/826",
+    "url": "https://github.com/django-commons/django-push-notifications",
+    "statusUrl": "https://github.com/django-commons/django-push-notifications/pull/826",
     "timestamp": "2026-11-09T02:22:21Z",
     "relativeTime": "2 days ago",
     "eventType": "AuthoredPullRequestMerge",
     "selectionReason": "recent merged pull request",
-    "workKey": "jazzband/django-push-notifications#826",
+    "workKey": "django-commons/django-push-notifications#826",
     "mergedAt": "2026-11-09T02:22:21Z",
     "type": "open-source"
   }
