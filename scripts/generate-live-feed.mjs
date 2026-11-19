@@ -18,7 +18,7 @@ const REPO_PRIORITY = new Map([
   ["vetrovk/oracle-bot", 84],
 ]);
 const FALLBACK_PATH = "data/live-feed-fallback.json";
-const FEATURED_PROJECT_PATH = "data/featured-project.json";
+const ACTIVE_PROJECTS_PATH = "data/active-projects.json";
 const OPEN_SOURCE_STATS_PATH = "data/open-source-stats.json";
 const OUTPUT_PATH = "data/live-feed.json";
 const HTML_PATH = "index.html";
@@ -38,32 +38,24 @@ const forkUpstreamCache = new Map();
 async function main() {
   const fallback = await readJson(FALLBACK_PATH);
   const savedFeed = await readJson(OUTPUT_PATH).catch(() => []);
-  const featuredProject = await readJson(FEATURED_PROJECT_PATH);
+  const activeProjects = await readJson(ACTIVE_PROJECTS_PATH);
   const openSourceStatsConfig = await readJson(OPEN_SOURCE_STATS_PATH);
   const authoredResult = await loadAuthoredMergedPullRequests();
   const authoredMergedPullRequests = authoredResult.items;
-  const { items, candidates, source } = await loadFeed(
+  const { items, source } = await loadFeed(
     fallback,
     savedFeed,
     () => collectGitHubItems(authoredMergedPullRequests),
   );
   const normalized = normalizeFeed(items, source);
-  const featured = normalizeFeaturedProject(featuredProject, candidates);
   const openSourceStats = normalizeOpenSourceStats(openSourceStatsConfig, authoredMergedPullRequests);
-
-  if (featured.lastPushTimestamp && featured.lastPushTimestamp !== featuredProject.lastPushTimestamp) {
-    await writeFile(
-      FEATURED_PROJECT_PATH,
-      `${JSON.stringify({ ...featuredProject, lastPushTimestamp: featured.lastPushTimestamp }, null, 2)}\n`,
-    );
-  }
 
   if (authoredResult.fresh) {
     await writeFile(OPEN_SOURCE_STATS_PATH, `${JSON.stringify(openSourceStats, null, 2)}\n`);
   }
 
   await writeFile(OUTPUT_PATH, `${JSON.stringify(normalized, null, 2)}\n`);
-  await updateHtml(normalized, featured, openSourceStats);
+  await updateHtml(normalized, activeProjects, openSourceStats);
 
   console.log(`live-feed: wrote ${normalized.length} ${source} item(s)`);
   for (const item of normalized) {
@@ -588,7 +580,7 @@ export function normalizeOpenSourceStats(stats, authoredMergedPullRequests) {
   return normalized;
 }
 
-async function updateHtml(items, featured, openSourceStats) {
+async function updateHtml(items, activeProjects, openSourceStats) {
   const html = await readFile(HTML_PATH, "utf8");
   const rendered = items.length ? items.map(renderFeedRow).join("\n") : renderEmptyFeedRow();
   const withFeed = replaceHtmlRegion(html, START_MARKER, END_MARKER, rendered, "live-feed");
@@ -596,14 +588,14 @@ async function updateHtml(items, featured, openSourceStats) {
     withFeed,
     FEATURED_PROJECT_START_MARKER,
     FEATURED_PROJECT_END_MARKER,
-    renderFeaturedProject(featured),
+    renderActiveProjects(activeProjects),
     "featured-project",
   );
   const withMobileFeaturedProject = replaceHtmlRegion(
     withFeaturedProject,
     FEATURED_PROJECT_MOBILE_START_MARKER,
     FEATURED_PROJECT_MOBILE_END_MARKER,
-    renderFeaturedProjectMobile(featured),
+    renderActiveProjects(activeProjects),
     "featured-project-mobile",
   );
   const nextHtml = replaceHtmlRegion(
@@ -649,26 +641,18 @@ function renderEmptyFeedRow() {
             </article>`;
 }
 
-function renderFeaturedProject(project) {
-  return `            <p class="featured-project-kicker">NOW BUILDING</p>
-            <a class="featured-project-repository" href="${escapeAttr(project.github_url)}" target="_blank" rel="noreferrer">${escapeHtml(project.repository)}</a>
-            <p class="featured-project-description">${escapeHtml(project.description)}</p>
-            <dl class="featured-project-meta">
-              <div><dt>Status</dt><dd>${escapeHtml(project.status)}</dd></div>
-              <div><dt>Language</dt><dd>${escapeHtml(project.language)}</dd></div>
-              <div><dt>License</dt><dd>${escapeHtml(project.license)}</dd></div>
-              <div><dt>Last push</dt><dd>${escapeHtml(project.lastPush)}</dd></div>
-            </dl>
-            <a class="featured-project-link" href="${escapeAttr(project.github_url)}" target="_blank" rel="noreferrer">View on GitHub <span aria-hidden="true">→</span></a>`;
-}
+function renderActiveProjects(projects) {
+  const projectMarkup = projects.map((project) => `              <article class="active-project">
+                <p class="active-project-category">${escapeHtml(project.category)}</p>
+                <a class="active-project-name" href="${escapeAttr(project.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(project.name)}</a>
+                <p class="active-project-description">${escapeHtml(project.description)}</p>
+                <a class="active-project-link" href="${escapeAttr(project.url)}" target="_blank" rel="noopener noreferrer">Open project <span aria-hidden="true">→</span></a>
+              </article>`).join("\n");
 
-function renderFeaturedProjectMobile(project) {
-  return `            <p class="featured-project-mobile-kicker">NOW BUILDING</p>
-            <a class="featured-project-mobile-repository" href="${escapeAttr(project.github_url)}" target="_blank" rel="noreferrer">${escapeHtml(project.repository)}</a>
-            <p class="featured-project-mobile-description">${escapeHtml(project.description)}</p>
-            <p class="featured-project-mobile-meta">${escapeHtml(project.language)} <span aria-hidden="true">·</span> ${escapeHtml(project.license)} <span aria-hidden="true">·</span> ${escapeHtml(project.status)}</p>
-            <p class="featured-project-mobile-push">Last push <span aria-hidden="true">·</span> ${escapeHtml(project.lastPush)}</p>
-            <a class="featured-project-mobile-link" href="${escapeAttr(project.github_url)}" target="_blank" rel="noreferrer">View on GitHub <span aria-hidden="true">→</span></a>`;
+  return `            <p class="featured-project-kicker">ACTIVE PROJECTS</p>
+            <div class="active-project-list">
+${projectMarkup}
+            </div>`;
 }
 
 function renderOpenSourceStats(stats) {

@@ -205,71 +205,56 @@
       }
 
       .featured-project-kicker {
-        margin: 0 0 1.5rem;
+        margin: 0 0 1.25rem;
         font-family: var(--mono);
         font-size: 0.625rem;
         letter-spacing: 0.22em;
         color: rgba(56, 189, 248, 0.7);
       }
 
-      .featured-project-repository {
+      .active-project-list {
+        display: grid;
+        gap: 1.25rem;
+      }
+
+      .active-project + .active-project {
+        padding-top: 1.25rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.07);
+      }
+
+      .active-project-category {
+        margin: 0 0 0.5rem;
+        font-family: var(--mono);
+        font-size: 0.625rem;
+        letter-spacing: 0.16em;
+        color: rgba(56, 189, 248, 0.66);
+      }
+
+      .active-project-name {
         display: inline-block;
-        margin-bottom: 0.75rem;
+        margin-bottom: 0.5rem;
         font-family: var(--mono);
         font-size: 1rem;
         color: rgba(255, 255, 255, 0.78);
       }
 
-      .featured-project-description {
+      .active-project-description {
         max-width: 19rem;
-        margin: 0 0 2rem;
-        font-size: 1rem;
+        margin: 0 0 0.875rem;
+        font-size: 0.9375rem;
         font-weight: 300;
-        line-height: 1.55;
+        line-height: 1.5;
         color: rgba(255, 255, 255, 0.46);
       }
 
-      .featured-project-meta {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 0.75rem 1.5rem;
-        margin: 0 0 2rem;
-        padding: 1rem 0;
-        border-top: 1px solid rgba(255, 255, 255, 0.07);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-      }
-
-      .featured-project-meta div {
-        min-width: 0;
-      }
-
-      .featured-project-meta dt,
-      .featured-project-meta dd {
-        margin: 0;
-        font-family: var(--mono);
-        font-size: 0.6875rem;
-      }
-
-      .featured-project-meta dt {
-        margin-bottom: 0.3125rem;
-        color: rgba(255, 255, 255, 0.48);
-      }
-
-      .featured-project-meta dd {
-        overflow: hidden;
-        color: rgba(255, 255, 255, 0.58);
-        text-overflow: ellipsis;
-        white-space: nowrap;
-      }
-
-      .featured-project-link {
+      .active-project-link {
         font-family: var(--mono);
         font-size: 0.75rem;
         color: rgba(125, 211, 252, 0.72);
       }
 
-      .featured-project-link:hover,
-      .featured-project-repository:hover {
+      .active-project-name:hover,
+      .active-project-link:hover {
         color: rgba(191, 230, 255, 0.92);
       }
 
@@ -557,7 +542,7 @@
         }
 
         .button:active,
-        .featured-project-mobile-link:active {
+        .active-project-link:active {
           transform: none;
         }
       }
@@ -567,7 +552,7 @@
           min-height: 44px;
         }
 
-        .featured-project-mobile-link {
+        .active-project-link {
           display: inline-flex;
           align-items: center;
           min-height: 44px;
@@ -575,7 +560,7 @@
         }
 
         .button:active,
-        .featured-project-mobile-link:active {
+        .active-project-link:active {
           transform: scale(0.98);
         }
       }
@@ -613,50 +598,38 @@
           border-top: 1px solid rgba(255, 255, 255, 0.07);
         }
 
-        .featured-project-mobile-kicker,
-        .featured-project-mobile-meta,
-        .featured-project-mobile-push {
-          margin: 0;
-          font-family: var(--mono);
-          font-size: 0.6875rem;
-        }
-
-        .featured-project-mobile-kicker {
-          margin-bottom: 0.75rem;
-          letter-spacing: 0.2em;
-          color: rgba(56, 189, 248, 0.7);
-        }
-
-        .featured-project-mobile-repository {
-          display: inline-block;
-          margin-bottom: 0.5rem;
-          font-family: var(--mono);
-          font-size: 0.8125rem;
-          color: rgba(255, 255, 255, 0.76);
-        }
-
-        .featured-project-mobile-description {
-          margin: 0 0 0.875rem;
-          font-size: 0.875rem;
-          font-weight: 300;
-          line-height: 1.5;
-          color: rgba(255, 255, 255, 0.46);
-        }
-
-        .featured-project-mobile-meta {
-          margin-bottom: 0.4375rem;
-          color: rgba(255, 255, 255, 0.52);
-        }
-
-        .featured-project-mobile-push {
+        .featured-project-mobile .featured-project-kicker {
           margin-bottom: 1rem;
-          color: rgba(255, 255, 255, 0.48);
+          letter-spacing: 0.2em;
         }
 
-        .featured-project-mobile-link {
+        .featured-project-mobile .active-project-list {
+          gap: 1rem;
+        }
+
+        .featured-project-mobile .active-project + .active-project {
+          padding-top: 1rem;
+        }
+
+        .featured-project-mobile .active-project-category {
+          margin-bottom: 0.4375rem;
+          font-size: 0.625rem;
+        }
+
+        .featured-project-mobile .active-project-name {
+          margin-bottom: 0.375rem;
+          font-size: 0.8125rem;
+        }
+
+        .featured-project-mobile .active-project-description {
+          margin-bottom: 0.625rem;
+          font-size: 0.875rem;
+          line-height: 1.5;
+        }
+
+        .featured-project-mobile .active-project-link {
           font-family: var(--mono);
           font-size: 0.75rem;
-          color: rgba(125, 211, 252, 0.72);
         }
 
         .brand-row {
@@ -800,31 +773,45 @@
             </a>
           </nav>
 
-          <section class="featured-project-mobile" aria-label="Now building">
+          <section class="featured-project-mobile" aria-label="Active projects">
             <!-- featured-project-mobile:start -->
-            <p class="featured-project-mobile-kicker">NOW BUILDING</p>
-            <a class="featured-project-mobile-repository" href="https://github.com/vetrovk/memoryos" target="_blank" rel="noreferrer">vetrovk/memoryos</a>
-            <p class="featured-project-mobile-description">Local-first engineering memory built for daily work with OpenAI Codex.</p>
-            <p class="featured-project-mobile-meta">Python <span aria-hidden="true">·</span> MIT <span aria-hidden="true">·</span> Beta</p>
-            <p class="featured-project-mobile-push">Last push <span aria-hidden="true">·</span> Aug 26</p>
-            <a class="featured-project-mobile-link" href="https://github.com/vetrovk/memoryos" target="_blank" rel="noreferrer">View on GitHub <span aria-hidden="true">→</span></a>
+            <p class="featured-project-kicker">ACTIVE PROJECTS</p>
+            <div class="active-project-list">
+              <article class="active-project">
+                <p class="active-project-category">B2B AUTOMATION</p>
+                <a class="active-project-name" href="https://t.me/omnifixpro/30" target="_blank" rel="noopener noreferrer">LeadForgeX</a>
+                <p class="active-project-description">Autonomous B2B lead discovery, qualification and decision-maker research.</p>
+                <a class="active-project-link" href="https://t.me/omnifixpro/30" target="_blank" rel="noopener noreferrer">Open project <span aria-hidden="true">→</span></a>
+              </article>
+              <article class="active-project">
+                <p class="active-project-category">WEB SERVICE</p>
+                <a class="active-project-name" href="https://ds311.sourcecraft.site/tochnyi-raskhodnik/" target="_blank" rel="noopener noreferrer">Точный расходник</a>
+                <p class="active-project-description">Find original printer cartridges and consumables by exact printer model.</p>
+                <a class="active-project-link" href="https://ds311.sourcecraft.site/tochnyi-raskhodnik/" target="_blank" rel="noopener noreferrer">Open project <span aria-hidden="true">→</span></a>
+              </article>
+            </div>
             <!-- featured-project-mobile:end -->
           </section>
         </section>
 
         <div class="hero-aside">
-          <aside class="featured-project" aria-label="Now building">
+          <aside class="featured-project" aria-label="Active projects">
             <!-- featured-project:start -->
-            <p class="featured-project-kicker">NOW BUILDING</p>
-            <a class="featured-project-repository" href="https://github.com/vetrovk/memoryos" target="_blank" rel="noreferrer">vetrovk/memoryos</a>
-            <p class="featured-project-description">Local-first engineering memory built for daily work with OpenAI Codex.</p>
-            <dl class="featured-project-meta">
-              <div><dt>Status</dt><dd>Beta</dd></div>
-              <div><dt>Language</dt><dd>Python</dd></div>
-              <div><dt>License</dt><dd>MIT</dd></div>
-              <div><dt>Last push</dt><dd>Aug 26</dd></div>
-            </dl>
-            <a class="featured-project-link" href="https://github.com/vetrovk/memoryos" target="_blank" rel="noreferrer">View on GitHub <span aria-hidden="true">→</span></a>
+            <p class="featured-project-kicker">ACTIVE PROJECTS</p>
+            <div class="active-project-list">
+              <article class="active-project">
+                <p class="active-project-category">B2B AUTOMATION</p>
+                <a class="active-project-name" href="https://t.me/omnifixpro/30" target="_blank" rel="noopener noreferrer">LeadForgeX</a>
+                <p class="active-project-description">Autonomous B2B lead discovery, qualification and decision-maker research.</p>
+                <a class="active-project-link" href="https://t.me/omnifixpro/30" target="_blank" rel="noopener noreferrer">Open project <span aria-hidden="true">→</span></a>
+              </article>
+              <article class="active-project">
+                <p class="active-project-category">WEB SERVICE</p>
+                <a class="active-project-name" href="https://ds311.sourcecraft.site/tochnyi-raskhodnik/" target="_blank" rel="noopener noreferrer">Точный расходник</a>
+                <p class="active-project-description">Find original printer cartridges and consumables by exact printer model.</p>
+                <a class="active-project-link" href="https://ds311.sourcecraft.site/tochnyi-raskhodnik/" target="_blank" rel="noopener noreferrer">Open project <span aria-hidden="true">→</span></a>
+              </article>
+            </div>
             <!-- featured-project:end -->
           </aside>
 
