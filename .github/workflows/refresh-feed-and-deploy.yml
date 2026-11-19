@@ -71,7 +71,27 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git add data/featured-project.json data/live-feed.json data/open-source-stats.json data/site-traffic.json index.html dist/index.html dist/omnifix-github-avatar-round-o.png
+          # Required build outputs must exist; missing files indicate a broken build.
+          required_files=(
+            data/live-feed.json
+            data/open-source-stats.json
+            data/site-traffic.json
+            index.html
+            dist/index.html
+          )
+          for file in "${required_files[@]}"; do
+            if [[ ! -f "$file" ]]; then
+              echo "Required generated file missing: $file" >&2
+              exit 1
+            fi
+          done
+
+          # Active projects are build inputs, not generated outputs.
+          # Stage only existing optional assets, without masking build failures.
+          git add -- "${required_files[@]}"
+          if [[ -f dist/omnifix-github-avatar-round-o.png ]]; then
+            git add -- dist/omnifix-github-avatar-round-o.png
+          fi
 
           if git diff --cached --quiet; then
             echo "No feed or dist changes to commit."
